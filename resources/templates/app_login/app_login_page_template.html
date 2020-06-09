@@ -1,0 +1,53 @@
+{{ template "app_login_header_template.html" . }}
+
+<div class="container h-100">
+    <div class="row h-100 justify-content-center align-items-center">
+        <div class="inset col-10 col-md-8 col-lg-6 rounded border border-secondary pb-3">
+
+            <form class="form-example" action="" method="post">
+
+                <div class="row h-100 justify-content-center align-items-center pt-2 pb-2" style="background-color: #040404e0">
+                    <img src="/app-images/logo-silver.png" style="width: fit-content; max-width: 200px">
+                </div>
+
+                <hr/>
+
+                {{ if .HasError }}
+                    <div>
+                        <p class="text-danger">
+                            {{ .ErrorString }}
+                        </p>
+                    </div>
+                {{ end}}
+
+
+                <div class="form-group">
+                    <input type="text" class="form-control username" id="username" placeholder="Username..." name="username">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control password" id="password" placeholder="Password..." name="password">
+                </div>
+
+                <div class="row h-100 justify-content-center align-items-center pl-3 pr-3">
+                    <button type="submit" class="action-button btn btn-block border border-light"><h5 class="text-muted">Login</h5></button>
+                </div>
+
+                <hr/>
+
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <a href="/forgotUsernameOrPassword" class="text-secondary">Forgot Username / Password</a>
+                    </div>
+                    <div>
+                        <a href="createUser" class="text-waring">Create Account</a>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{{ template "app_login_footer_template.html" . }}
+

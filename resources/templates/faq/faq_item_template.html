@@ -1,0 +1,21 @@
+<div class="card">
+    <div class="card-header" id="faq-item">
+        <h2 class="mb-0">
+            <button class="btn btn-block" type="button" data-toggle="collapse" data-target="#{{ .Id }}" aria-expanded="false" aria-controls="{{ .Id }}">
+                <div class="row">
+                    <div class="col text-center text-black">
+                        {{ .Question }}
+                    </div>
+                </div>
+            </button>
+        </h2>
+    </div>
+
+    <div id="{{ .Id }}" class="collapse" aria-labelledby="faq-item" data-parent="#faq-item">
+        <div class="card-body">
+            <h5 class="text-primary text-center">{{ .Answer }}</h5>
+        </div>
+    </div>
+</div>
+
+

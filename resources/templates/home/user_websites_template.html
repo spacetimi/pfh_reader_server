@@ -1,0 +1,72 @@
+<br/>
+<br/>
+
+
+
+<div class="container">
+    <br/>
+
+    <div class="row">
+        <div class="container-fluid">
+            <button type="button" class="btn btn-block action-button border border-info rounded float-left" data-toggle="modal" data-target="#addNewWebsiteModal" data-whatever="@mdo">
+                <h5 class="text-muted"><img src="/images/plus.png" style="margin-bottom: 4px">&nbsp;&nbsp;Add New Website</h5>
+            </button>
+        </div>
+    </div>
+
+    <br/>
+
+    <div>
+
+        <div class="accordion" id="accordionExample">
+            <div class="container-fluid bg-secondary rounded-top pt-2 pb-2">
+                <h5 class="text-light">&nbsp;My Websites</h5>
+            </div>
+            {{ range .UserWebsiteCards }}
+                {{ template "user_website_card_template.html" . }}
+            {{ end }}
+        </div>
+
+    </div>
+
+    <br/>
+
+
+</div>
+
+ <div class="modal fade" id="addNewWebsiteModal" tabindex="-1" role="dialog" aria-labelledby="addNewWebsiteModalTitle" aria-hidden="true">
+     <div class="modal-dialog modal-dialog-centered" role="document">
+         <div class="modal-content">
+             <div class="modal-header bg-dark text-light">
+                 <h5 class="modal-title" id="addNewWebsiteModalTitle">Add New Website</h5>
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true" class="text-light">&times;</span>
+                 </button>
+             </div>
+
+             <form method="post">
+                 <div class="modal-body">
+                     <div class="form-group">
+                         <div class="input-group mb-3">
+                             <div class="input-group-prepend">
+                                 <span class="input-group-text" id="basic-addon1">Website Name</span>
+                             </div>
+                             <input type="text" id="websiteName" name="websiteName" class="form-control" placeholder="gmail" aria-label="Website Name" aria-describedby="basic-addon1">
+                         </div>
+                         <div class="input-group mb-3">
+                             <div class="input-group-prepend">
+                                 <span class="input-group-text" id="basic-addon1">User Alias</span>
+                             </div>
+                             <input type="text" id="userAlias" name="userAlias" class="form-control" placeholder="john.doe" aria-label="User Alias" aria-describedby="basic-addon1">
+                         </div>
+                     </div>
+                 </div>
+                 <div class="modal-footer">
+                     <button type="button" id="close_button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                     <button type="submit" id="add_new_website_button" formaction="/addNewWebsite" onclick="showLoadingSpinner('add_new_website_button')" class="btn btn-primary">Add</button>
+                 </div>
+             </form>
+         </div>
+     </div>
+ </div>
+

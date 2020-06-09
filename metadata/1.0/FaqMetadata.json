@@ -1,0 +1,12 @@
+{
+    "FaqItems": [
+        {
+            "Question": "Why did the chicken cross the road?",
+            "Answer": "To get to the other side"
+        },
+        {
+            "Question": "Why did the cat cross the road?",
+            "Answer": "It was a copy cat"
+        }
+    ]
+}

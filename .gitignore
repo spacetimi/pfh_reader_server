@@ -1,0 +1,22 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+dump.rdb
+
+# Test binary, built with `go test -c`
+*.test
+
+# tmp files
+tmp/*
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# IntelliJ
+.idea
+
+# Mac Finder files
+.DS_Store

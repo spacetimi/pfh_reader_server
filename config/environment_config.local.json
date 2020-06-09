@@ -1,0 +1,14 @@
+{
+    "AppEnvironment": 0,
+    "Port": 9001,
+    "ApiServerBaseURL": "127.0.0.1",
+
+    "SharedMetadataSourceURL": "local",
+    "AppMetadataSourceURL": "local",
+    "MetadataAutoUpdaterPollSeconds": 10,
+
+    "AdminToolConfig": {
+        "SharedMetadataS3BucketName": "na",
+        "AppMetadataS3BucketName": "na"
+    }
+}

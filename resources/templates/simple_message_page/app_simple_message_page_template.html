@@ -1,0 +1,31 @@
+{{ template "header_template.html" . }}
+
+<div class="container h-100">
+    <div class="row h-100 justify-content-center align-items-center">
+
+        <div class="col-md-3"></div>
+
+        <div class="col-md-6 inset p-4 border border-secondary rounded">
+
+            <div class="container-fluid">
+                <h4 class="text-dark text-center">{{ .MessageHeader }}</h4>
+                <div class="container-fluid text-dark text-center">
+                    <h5 class="text-muted font-weight-bold text-center">{{ .MessageBody }}</h5>
+                </div>
+            </div>
+
+            <hr/>
+            <div class="row h-100 justify-content-center align-items-center pl-3 pr-3">
+                <a href="{{ .BackLinkHref }}">
+                    <button type="button" class="action-button btn btn-lg border-light">{{ .BackLinkHrefName }}</button>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-3"></div>
+
+    </div>
+</div>
+
+{{ template "footer_template.html" . }}
+
