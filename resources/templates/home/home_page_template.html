@@ -1,29 +1,64 @@
 {{ template "home_header_template.html" . }}
 
-<style>
-    .nav-tabs .nav-link:not(.active) {
-        background-color: beige;
-        border-color: gray !important;
-        border-bottom-width: thin !important;
-    }
+<section class="py-4 header">
+    <div class="container py-3">
+        <header class="text-left mb-5 pb-2 text-white">
+            <h6 class="font-weight-bold small text-uppercase">
+                <img src="/app-images/clock-icon2-sm.png" style="width: fit-content; max-width: 120px">
+                &nbsp;
+                &nbsp;
+                Profiling, For Humans
+            </h6>
+        </header>
 
-    .active {
-        background-color: rgba(204,204,206,0.91) !important;
-        border-bottom-color: transparent !important;
-    }
-</style>
 
-<div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <!-- Tabs nav -->
+                <div class="nav flex-column nav-pills nav-pills-custom" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link mb-3 p-3 shadow active" id="v-pills-dashboard-tab" data-toggle="pill" href="#v-pills-dashboard" role="tab" aria-controls="v-pills-dashboard" aria-selected="true">
+                        <span class="font-weight-bold small text-uppercase">Dashboard</span></a>
 
-    <br/>
-    <br/>
-    <br/>
+                    <a class="nav-link mb-3 p-3 shadow" id="v-pills-today-tab" data-toggle="pill" href="#v-pills-today" role="tab" aria-controls="v-pills-today" aria-selected="false">
+                        <span class="font-weight-bold small text-uppercase">Today</span></a>
 
-    <div class="jumbotron">
-    Profiling, For Humans
+                    <a class="nav-link mb-3 p-3 shadow" id="v-pills-week-tab" data-toggle="pill" href="#v-pills-week" role="tab" aria-controls="v-pills-week" aria-selected="false">
+                        <span class="font-weight-bold small text-uppercase">This Week</span></a>
+
+                    <a class="nav-link mb-3 p-3 shadow" id="v-pills-insights-tab" data-toggle="pill" href="#v-pills-insights" role="tab" aria-controls="v-pills-insights" aria-selected="false">
+                        <span class="font-weight-bold small text-uppercase">Insights</span></a>
+                </div>
+            </div>
+
+
+            <div class="col-md-9">
+                <!-- Tabs content -->
+                <div class="tab-content" id="v-pills-tabContent">
+                    <div class="tab-pane fade shadow rounded bg-white show active p-5" id="v-pills-dashboard" role="tabpanel" aria-labelledby="v-pills-dashboard-tab">
+                        <h4 class="font-italic mb-4">Personal information</h4>
+                        <p class="font-italic text-muted mb-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    </div>
+
+                    <div class="tab-pane fade shadow rounded bg-white p-5" id="v-pills-today" role="tabpanel" aria-labelledby="v-pills-today-tab">
+                        <h4 class="font-italic mb-4">Bookings</h4>
+                        <p class="font-italic text-muted mb-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    </div>
+
+                    <div class="tab-pane fade shadow rounded bg-white p-5" id="v-pills-week" role="tabpanel" aria-labelledby="v-pills-week-tab">
+                        <h4 class="font-italic mb-4">Reviews</h4>
+                        <p class="font-italic text-muted mb-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    </div>
+
+                    <div class="tab-pane fade shadow rounded bg-white p-5" id="v-pills-insights" role="tabpanel" aria-labelledby="v-pills-insights-tab">
+                        <h4 class="font-italic mb-4">Confirm booking</h4>
+                        <p class="font-italic text-muted mb-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+</section>
 
-</div>
 
 {{ template "home_footer_template.html" . }}
 

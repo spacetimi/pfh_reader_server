@@ -23,7 +23,7 @@
             height: 100%;
         }
         .bg {
-            /* The image used */
+            background: linear-gradient(to left, #dce35b, #45b649);
             background-image: url("/app-images/bg-black-textured.jpg");
 
             /* Full height */
@@ -47,17 +47,40 @@
             background-color: rgba(230, 240, 230, 1.0);
         }
 
+        .nav-pills-custom .nav-link {
+            color: #aaa;
+            background: #fff;
+            position: relative;
+        }
+
+        .nav-pills-custom .nav-link.active {
+            color: #45b649;
+            background: #fff;
+        }
+
+        /* Add indicator arrow for the active tab */
+        @media (min-width: 992px) {
+            .nav-pills-custom .nav-link::before {
+                content: '';
+                display: block;
+                border-top: 8px solid transparent;
+                border-left: 10px solid #fff;
+                border-bottom: 8px solid transparent;
+                position: absolute;
+                top: 50%;
+                right: -10px;
+                transform: translateY(-50%);
+                opacity: 0;
+            }
+        }
+
+        .nav-pills-custom .nav-link.active::before {
+            opacity: 1;
+        }
+
     </style>
 </head>
 
 <body class="bg h-100">
 
-<div class="pos-f-t">
-    <nav class="navbar navbar-dark bg-white justify-content-center">
-        <img src="/app-images/clock-icon-sm.png" style="width: fit-content; max-width: 120px">
-        &nbsp;
-        &nbsp;
-        Profiling, For Humans
-    </nav>
-</div>
 
