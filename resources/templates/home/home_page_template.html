@@ -18,49 +18,9 @@
     <br/>
     <br/>
     <br/>
-    <div class="row">
 
-        <div class="col-md-1 col-sm-0"></div>
-
-        <div class="col-md-10 col-sm-12">
-
-            <ul class="nav nav-tabs nav-fill" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active border border-dark" id="websites-tab" data-toggle="tab" href="#websites" role="tab" aria-controls="websites" aria-selected="true">
-                        <h5 class="">My Websites</h5>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link border border-dark" id="secrets-tab" data-toggle="tab" href="#secrets" role="tab" aria-controls="secrets" aria-selected="false">
-                        <h5 class="">Secrets</h5>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link border border-dark" id="vault-tab" data-toggle="tab" href="#vault" role="tab" aria-controls="vault" aria-selected="false">
-                        <h5 class="">Vault</h5>
-                    </a>
-                </li>
-            </ul>
-
-            <div class="tab-content border border-dark rounded-bottom border-top-0">
-                <div class="tab-pane active" id="websites" role="tabpanel" aria-labelledby="websites-tab">
-                    {{ template "user_websites_template.html" . }}
-                </div>
-
-                <div class="tab-pane" id="secrets" role="tabpanel" aria-labelledby="secrets-tab">
-                    {{ template "user_secrets_template.html" . }}
-                </div>
-
-
-                <div class="tab-pane" id="vault" role="tabpanel" aria-labelledby="vault-tab">
-                    Vault
-                </div>
-            </div>
-
-        </div>
-
-        <div class="col-md-1 col-sm-0"></div>
-
+    <div class="jumbotron">
+    Profiling, For Humans
     </div>
 
 </div>

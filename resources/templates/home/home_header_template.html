@@ -24,7 +24,7 @@
         }
         .bg {
             /* The image used */
-            background-image: url("/app-images/safe.jpg");
+            background-image: url("/app-images/bg-black-textured.jpg");
 
             /* Full height */
             height: 100%;
@@ -53,31 +53,11 @@
 <body class="bg h-100">
 
 <div class="pos-f-t">
-
-    <nav class="navbar navbar-dark bg-dark">
-        <button class="navbar-toggler" style="background-color: #040404e0" type="button" data-toggle="collapse" data-target="#headerCollapsible" aria-controls="headerCollapsible" aria-expanded="false" aria-label="Toggle navigation">
-            <img src="/app-images/logo-silver.png" style="width: fit-content; max-width: 120px">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <nav class="navbar navbar-dark bg-white justify-content-center">
+        <img src="/app-images/clock-icon-sm.png" style="width: fit-content; max-width: 120px">
+        &nbsp;
+        &nbsp;
+        Profiling, For Humans
     </nav>
-
-    <div class="collapse" id="headerCollapsible">
-        <div class="bg-dark p-4 text-light">
-
-            <hr/>
-            <h5>
-                <a href="/about" target="_blank" class="text-info">About PFH</a>
-            </h5>
-            <h5>
-                <a href="/faq" target="_blank" class="text-info">Frequently Asked Questions</a>
-            </h5>
-
-            <hr/>
-
-            <small class="text-secondary">Logged in as: </small>{{ .Username }}
-            <br/>
-            <a href="/logout" class="text-warning"><u>Log out</u></a>
-        </div>
-    </div>
 </div>
 
