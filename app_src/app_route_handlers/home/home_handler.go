@@ -1,15 +1,17 @@
 package home
 
 import (
+	"github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/day_overview_parser"
+	"net/http"
+
 	"github.com/spacetimi/pfh_reader_server/app_src/app_routes"
 	"github.com/spacetimi/timi_shared_server/code/config"
 	"github.com/spacetimi/timi_shared_server/code/core/controller"
 	"github.com/spacetimi/timi_shared_server/utils/logger"
 	"github.com/spacetimi/timi_shared_server/utils/templated_writer"
-	"net/http"
 )
 
-type HomeHandler struct {			// Implements IRouteHandler
+type HomeHandler struct { // Implements IRouteHandler
 	*templated_writer.TemplatedWriter
 }
 
@@ -32,11 +34,19 @@ func (hh *HomeHandler) Routes() []controller.Route {
 }
 
 func (hh *HomeHandler) HandlerFunc(httpResponseWriter http.ResponseWriter, request *http.Request, args *controller.HandlerFuncArgs) {
+
+	dop := &day_overview_parser.DayOverviewParser{}
+	dod, e := dop.ParseFile("/Users/avi/Library/Containers/com.spacetimi.pfh-daemon/Data/Documents/2020-06-11.dat")
+	if (e != nil) {
+		logger.LogError(e.Error())
+	} else {
+		logger.VarDumpInfo("total time", dod.TotalTimeSeconds)
+	}
+
 	err := hh.TemplatedWriter.Render(httpResponseWriter, "home_page_template.html", nil)
 	if err != nil {
 		logger.LogError("error rendering home page" +
-						"|error=" + err.Error())
+			"|error=" + err.Error())
 		httpResponseWriter.WriteHeader(http.StatusInternalServerError)
 	}
 }
-
