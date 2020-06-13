@@ -1,0 +1,16 @@
+{
+  "CategoryRules": [
+    {
+      "MatchType": 0,
+      "MatchExpression": "facebook",
+      "IgnoreCase": true,
+      "Category": "unproductive"
+    },
+    {
+      "MatchType": 0,
+      "MatchExpression": "slack",
+      "IgnoreCase": true,
+      "Category": "operational_overhead"
+    }
+  ]
+}

@@ -1,13 +1,15 @@
 package day_overview_parser
 
-import "github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/parser_metadata"
+import (
+	"github.com/spacetimi/pfh_reader_server/app_src/app_types"
+)
 
 type DayOverviewData struct {
-	CategoryOverviewsByCategory map[parser_metadata.Category_t]*CategoryOverviewData
+	CategoryOverviewsByCategory map[app_types.Category_t]*CategoryOverviewData
 	TotalTimeSeconds int64
 }
 
-func (dod *DayOverviewData) AddAppUsageSecondsInCategory(category parser_metadata.Category_t, appName string, seconds int64) {
+func (dod *DayOverviewData) AddAppUsageSecondsInCategory(category app_types.Category_t, appName string, seconds int64) {
 	cod, ok := dod.CategoryOverviewsByCategory[category]
 	if !ok {
 		cod = newCategoryOverviewData(category)
@@ -20,7 +22,7 @@ func (dod *DayOverviewData) AddAppUsageSecondsInCategory(category parser_metadat
 
 func NewDayOverviewData() *DayOverviewData {
 	return &DayOverviewData{
-		CategoryOverviewsByCategory: make(map[parser_metadata.Category_t]*CategoryOverviewData),
+		CategoryOverviewsByCategory: make(map[app_types.Category_t]*CategoryOverviewData),
 		TotalTimeSeconds: 0,
 	}
 }
@@ -28,7 +30,7 @@ func NewDayOverviewData() *DayOverviewData {
 ////////////////////////////////////////////////////////////////////////////////
 
 type CategoryOverviewData struct {
-	Category parser_metadata.Category_t
+	Category app_types.Category_t
 	AppUsageOverviewsByApp map[string]*AppUsageOverviewData
 	TotalTimeSeconds int64
 }
@@ -44,7 +46,7 @@ func (cod *CategoryOverviewData) addAppUsageInSeconds(appName string, seconds in
 	cod.TotalTimeSeconds += seconds
 }
 
-func newCategoryOverviewData(category parser_metadata.Category_t) *CategoryOverviewData {
+func newCategoryOverviewData(category app_types.Category_t) *CategoryOverviewData {
 	return &CategoryOverviewData{
 		Category: category,
 		AppUsageOverviewsByApp: make(map[string]*AppUsageOverviewData),

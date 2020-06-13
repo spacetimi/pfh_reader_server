@@ -3,6 +3,7 @@ package day_overview_parser
 import (
 	"bufio"
 	"errors"
+	"github.com/spacetimi/pfh_reader_server/app_src/app_types"
 	"github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/parser_metadata"
 	"github.com/spacetimi/timi_shared_server/utils/logger"
 	"os"
@@ -39,7 +40,7 @@ func (dop *DayOverviewParser) ParseFile(filePath string) (*DayOverviewData, erro
 		}
 
 		// TODO: Resolve category from app-name and app-title-bar if override-category is not set
-		category := parser_metadata.CATEGORY_UNCLASSIFIED
+		category := app_types.CATEGORY_UNCLASSIFIED
 		if parsedLine.HasOverrideCategory {
 			category = parsedLine.OverrideCategory
 		}
@@ -59,7 +60,7 @@ type parsedLine_t struct {
 	AppTitleBar string
 
 	HasOverrideCategory bool
-	OverrideCategory parser_metadata.Category_t
+	OverrideCategory app_types.Category_t
 }
 
 func parseLine(line string) (*parsedLine_t, error) {
@@ -75,11 +76,11 @@ func parseLine(line string) (*parsedLine_t, error) {
 	appName := tokens[1]
 	appTitleBar := tokens[2]
 
-	overrideCategory := parser_metadata.CATEGORY_UNCLASSIFIED
+	overrideCategory := app_types.CATEGORY_UNCLASSIFIED
 	hasOverrideCategory := false
 	if len(tokens) == 4 {
 		hasOverrideCategory = true
-		overrideCategory = parser_metadata.CategoryFromString(tokens[3])
+		overrideCategory = app_types.CategoryFromString(tokens[3])
 	}
 
 	return &parsedLine_t{
