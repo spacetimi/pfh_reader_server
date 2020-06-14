@@ -1,8 +1,9 @@
 package home
 
 import (
-	"github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/day_overview_parser"
 	"net/http"
+
+	"github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/day_overview_parser"
 
 	"github.com/spacetimi/pfh_reader_server/app_src/app_routes"
 	"github.com/spacetimi/timi_shared_server/code/config"
@@ -17,7 +18,7 @@ type HomeHandler struct { // Implements IRouteHandler
 
 func NewHomeHandler() *HomeHandler {
 	hh := &HomeHandler{}
-	hh.TemplatedWriter = templated_writer.NewTemplatedWriter(config.GetAppTemplateFilesPath() + "/home")
+	hh.TemplatedWriter = templated_writer.NewTemplatedWriter(config.GetAppTemplateFilesPath()+"/home", config.GetAppTemplateFilesPath()+"/graphs")
 
 	// Parse templates for every request on LOCAL so that we can iterate over the templates
 	// without having to restart the server every time
@@ -36,8 +37,8 @@ func (hh *HomeHandler) Routes() []controller.Route {
 func (hh *HomeHandler) HandlerFunc(httpResponseWriter http.ResponseWriter, request *http.Request, args *controller.HandlerFuncArgs) {
 
 	dop := &day_overview_parser.DayOverviewParser{}
-	dod, e := dop.ParseFile("/Users/avi/Library/Containers/com.spacetimi.pfh-daemon/Data/Documents/2020-06-11.dat")
-	if (e != nil) {
+	dod, e := dop.ParseFile("/Users/avkrishnan/Library/Containers/com.spacetimi.pfh-daemon/Data/Documents/2020-06-14.dat")
+	if e != nil {
 		logger.LogError(e.Error())
 	} else {
 		logger.VarDumpInfo("total time", dod.TotalTimeSeconds)

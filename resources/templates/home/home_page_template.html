@@ -39,48 +39,9 @@
                             <div class="row">
                                 <div class="col-md-6"></div>
                                 <div class="col-md-6">
-                                    <canvas id="myChart"></canvas>
+                                    {{ template "pie_chart_template.html" . }}
                                 </div>
                             </div>
-                            <script>
-                                var ctx = document.getElementById('myChart').getContext('2d');
-                                data = {
-                                    datasets: [{
-                                        data: [10, 20, 15, 25],
-                                        backgroundColor: [
-                                            'rgba(0, 255, 0, 0.9)',
-                                            'rgba(255, 0, 0, 0.9)',
-                                            'rgba(0, 0, 255, 0.9)',
-                                            'rgba(150, 150, 150, 0.9)'
-                                        ]
-                                    }],
-
-                                    // These labels appear in the legend and in the tooltips when hovering different arcs
-                                    labels: [
-                                        'Productive',
-                                        'Unproductive',
-                                        'Operational Overhead',
-                                        'Misc'
-                                    ]
-                                };
-                                // And for a doughnut chart
-                                var myDoughnutChart = new Chart(ctx, {
-                                    type: 'doughnut',
-                                    data: data,
-                                    options: {
-                                        cutoutPercentage: 50,
-                                        responsive: false,
-                                        legend: {
-                                            display: false,
-                                            position: 'bottom',
-                                            align: 'center',
-                                            labels: {
-                                                fontColor: 'rgb(90, 90, 90)'
-                                            }
-                                        }
-                                    }
-                                });
-                            </script>
                         </div>
                     </div>
 
