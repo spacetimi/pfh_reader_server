@@ -1,0 +1,38 @@
+<canvas id="{{ .GraphTemplateObject.GraphName }}"></canvas>
+<script>
+    var ctx = document.getElementById('{{ .GraphTemplateObject.GraphName }}').getContext('2d');
+    data = {
+        datasets: [{
+            data: [{{ range .GraphTemplateObject.Dataset.Data }}{{.}},{{end}}],
+            backgroundColor: [
+                {{ range .GraphTemplateObject.Dataset.Colors }}
+                'rgba( {{.R}}, {{.G}}, {{.B}}, {{.A}} )',
+                {{ end }}
+            ]
+        }],
+
+        // These labels appear in the legend and in the tooltips when hovering different arcs
+        labels: [
+            {{ range .GraphTemplateObject.Dataset.Legends }}
+            '{{.}}',
+            {{ end }}
+        ]
+    };
+
+    var pieChart = new Chart(ctx, {
+        type: {{ if .IsDoughnut }} 'doughnut' {{ else }} 'pie' {{ end }},
+        data: data,
+        options: {
+            cutoutPercentage: {{ .CutoutPercentage }},
+            responsive: false,
+            legend: {
+                display: {{ if .GraphTemplateObject.ShowLegend }} true {{ else }} false {{ end }},
+                position: '{{ .GraphTemplateObject.LegendPosition }}',
+                align: 'center',
+                labels: {
+                    fontColor: 'rgb(90, 90, 90)'
+                }
+            }
+        }
+    });
+</script>
