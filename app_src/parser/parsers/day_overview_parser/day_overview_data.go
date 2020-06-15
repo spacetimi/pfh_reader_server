@@ -9,6 +9,15 @@ type DayOverviewData struct {
 	TotalTimeSeconds            int64
 }
 
+func (dod *DayOverviewData) GetUsageSecondsInCategory(category app_core.Category_t) int64 {
+	cod, ok := dod.CategoryOverviewsByCategory[category]
+	if !ok {
+		return 0
+	}
+
+	return cod.TotalTimeSeconds
+}
+
 func (dod *DayOverviewData) AddAppUsageSecondsInCategory(category app_core.Category_t, appName string, seconds int64) {
 	cod, ok := dod.CategoryOverviewsByCategory[category]
 	if !ok {

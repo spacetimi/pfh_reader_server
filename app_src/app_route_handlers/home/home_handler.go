@@ -3,6 +3,7 @@ package home
 import (
 	"net/http"
 
+	"github.com/spacetimi/pfh_reader_server/app_src/app_core"
 	"github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/day_overview_parser"
 	"github.com/spacetimi/pfh_reader_server/app_src/templates/graph_templates"
 	"github.com/spacetimi/pfh_reader_server/app_src/templates/home_page_templates"
@@ -44,6 +45,10 @@ func (hh *HomeHandler) HandlerFunc(httpResponseWriter http.ResponseWriter, reque
 		logger.LogError(e.Error())
 	} else {
 		logger.VarDumpInfo("total time", dod.TotalTimeSeconds)
+		logger.VarDumpInfo("productive time", dod.GetUsageSecondsInCategory(app_core.CATEGORY_PRODUCTIVE))
+		logger.VarDumpInfo("unproductive time", dod.GetUsageSecondsInCategory(app_core.CATEGORY_UNPRODUCTIVE))
+		logger.VarDumpInfo("operational-overhead time", dod.GetUsageSecondsInCategory(app_core.CATEGORY_OPERATIONAL_OVERHEAD))
+		logger.VarDumpInfo("unclassified time", dod.GetUsageSecondsInCategory(app_core.CATEGORY_UNCLASSIFIED))
 	}
 
 	r := graph_templates.Color{R: 150, G: 80, B: 80, A: 0.9}

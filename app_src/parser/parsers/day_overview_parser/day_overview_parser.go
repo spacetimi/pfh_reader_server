@@ -9,6 +9,7 @@ import (
 
 	"github.com/spacetimi/pfh_reader_server/app_src/app_core"
 	"github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/parser_metadata"
+	"github.com/spacetimi/pfh_reader_server/app_src/user_preferences"
 	"github.com/spacetimi/timi_shared_server/utils/logger"
 )
 
@@ -40,10 +41,11 @@ func (dop *DayOverviewParser) ParseFile(filePath string) (*DayOverviewData, erro
 			continue
 		}
 
-		// TODO: Resolve category from app-name and app-title-bar if override-category is not set
 		category := app_core.CATEGORY_UNCLASSIFIED
 		if parsedLine.HasOverrideCategory {
 			category = parsedLine.OverrideCategory
+		} else {
+			category = user_preferences.Instance().Data.GetMatchingCategory(parsedLine.AppName, parsedLine.AppTitleBar)
 		}
 		dod.AddAppUsageSecondsInCategory(category, parsedLine.AppName, parser_metadata.DAY_LOG_ENTRIES_INTERVAL_SECONDS)
 	}

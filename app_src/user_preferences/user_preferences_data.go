@@ -25,7 +25,17 @@ const (
 	MATCH_APP_TITLE_BAR
 )
 
-func (cr *CategoryRule) DoesMatch(appName string, appTitleBar string) bool {
+func (usp *UserPreferencesData) GetMatchingCategory(appName string, appTitleBar string) app_core.Category_t {
+	for _, cr := range usp.CategoryRules {
+		if cr.doesMatch(appName, appTitleBar) {
+			return cr.Category
+		}
+	}
+
+	return app_core.CATEGORY_UNCLASSIFIED
+}
+
+func (cr CategoryRule) doesMatch(appName string, appTitleBar string) bool {
 	var s1 string
 	s2 := cr.MatchExpression
 
