@@ -1,6 +1,9 @@
 package app_init
 
 import (
+	"errors"
+
+	"github.com/spacetimi/pfh_reader_server/app_src/user_preferences"
 	"github.com/spacetimi/timi_shared_server/code/core/shared_init"
 )
 
@@ -8,14 +11,21 @@ func GetAppInitializer() shared_init.IAppInitializer {
 	return &appInitializer
 }
 
-type AppInitializer struct {	// Implements IAppInit
+type AppInitializer struct { // Implements IAppInit
 }
+
 var appInitializer AppInitializer
 
 /********** Begin IAppInitializer implementation **********/
 func (appInitializer *AppInitializer) AppInit() error {
-	// Nothing to do
+
+	err := CreateBootstrapData()
+	if err != nil {
+		return errors.New("error creating bootstrap data: " + err.Error())
+	}
+	user_preferences.CreateInstance()
+
 	return nil
 }
-/********** End IAppInitializer implementation **********/
 
+/********** End IAppInitializer implementation **********/

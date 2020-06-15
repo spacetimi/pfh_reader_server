@@ -3,12 +3,13 @@ package day_overview_parser
 import (
 	"bufio"
 	"errors"
-	"github.com/spacetimi/pfh_reader_server/app_src/app_types"
-	"github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/parser_metadata"
-	"github.com/spacetimi/timi_shared_server/utils/logger"
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/spacetimi/pfh_reader_server/app_src/app_core"
+	"github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/parser_metadata"
+	"github.com/spacetimi/timi_shared_server/utils/logger"
 )
 
 type DayOverviewParser struct {
@@ -24,8 +25,8 @@ func (dop *DayOverviewParser) ParseFile(filePath string) (*DayOverviewData, erro
 		err := file.Close()
 		if err != nil {
 			logger.LogError("error closing day-file after parsing" +
-							"|file path=" + filePath +
-							"|error=" + err.Error())
+				"|file path=" + filePath +
+				"|error=" + err.Error())
 		}
 	}()
 
@@ -40,7 +41,7 @@ func (dop *DayOverviewParser) ParseFile(filePath string) (*DayOverviewData, erro
 		}
 
 		// TODO: Resolve category from app-name and app-title-bar if override-category is not set
-		category := app_types.CATEGORY_UNCLASSIFIED
+		category := app_core.CATEGORY_UNCLASSIFIED
 		if parsedLine.HasOverrideCategory {
 			category = parsedLine.OverrideCategory
 		}
@@ -55,12 +56,12 @@ func (dop *DayOverviewParser) ParseFile(filePath string) (*DayOverviewData, erro
 }
 
 type parsedLine_t struct {
-	Timestamp int64
-	AppName string
+	Timestamp   int64
+	AppName     string
 	AppTitleBar string
 
 	HasOverrideCategory bool
-	OverrideCategory app_types.Category_t
+	OverrideCategory    app_core.Category_t
 }
 
 func parseLine(line string) (*parsedLine_t, error) {
@@ -76,18 +77,18 @@ func parseLine(line string) (*parsedLine_t, error) {
 	appName := tokens[1]
 	appTitleBar := tokens[2]
 
-	overrideCategory := app_types.CATEGORY_UNCLASSIFIED
+	overrideCategory := app_core.CATEGORY_UNCLASSIFIED
 	hasOverrideCategory := false
 	if len(tokens) == 4 {
 		hasOverrideCategory = true
-		overrideCategory = app_types.CategoryFromString(tokens[3])
+		overrideCategory = app_core.CategoryFromString(tokens[3])
 	}
 
 	return &parsedLine_t{
-		Timestamp: timestamp,
-		AppName: appName,
-		AppTitleBar: appTitleBar,
+		Timestamp:           timestamp,
+		AppName:             appName,
+		AppTitleBar:         appTitleBar,
 		HasOverrideCategory: hasOverrideCategory,
-		OverrideCategory: overrideCategory,
+		OverrideCategory:    overrideCategory,
 	}, nil
 }

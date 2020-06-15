@@ -1,8 +1,9 @@
 package user_preferences
 
 import (
-	"github.com/spacetimi/pfh_reader_server/app_src/app_types"
 	"strings"
+
+	"github.com/spacetimi/pfh_reader_server/app_src/app_core"
 )
 
 type UserPreferencesData struct {
@@ -11,13 +12,14 @@ type UserPreferencesData struct {
 
 type CategoryRule struct {
 	MatchExpression string
-	MatchType  CategoryRuleMatchType_t
-	IgnoreCase bool
+	MatchType       CategoryRuleMatchType_t
+	IgnoreCase      bool
 
-	Category app_types.Category_t
+	Category app_core.Category_t
 }
 
 type CategoryRuleMatchType_t int
+
 const (
 	MATCH_APP_NAME CategoryRuleMatchType_t = iota
 	MATCH_APP_TITLE_BAR
@@ -28,8 +30,10 @@ func (cr *CategoryRule) DoesMatch(appName string, appTitleBar string) bool {
 	s2 := cr.MatchExpression
 
 	switch cr.MatchType {
-	case MATCH_APP_NAME: s1 = appName
-	case MATCH_APP_TITLE_BAR: s1 = appTitleBar
+	case MATCH_APP_NAME:
+		s1 = appName
+	case MATCH_APP_TITLE_BAR:
+		s1 = appTitleBar
 	default:
 		return false
 	}

@@ -4,13 +4,13 @@
       "MatchType": 0,
       "MatchExpression": "facebook",
       "IgnoreCase": true,
-      "Category": "unproductive"
+      "Category": 2
     },
     {
       "MatchType": 0,
       "MatchExpression": "slack",
       "IgnoreCase": true,
-      "Category": "operational_overhead"
+      "Category": 2
     }
   ]
 }
