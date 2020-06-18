@@ -8,6 +8,54 @@
     },
     {
       "MatchType": 0,
+      "MatchExpression": "iTerm2",
+      "IgnoreCase": false,
+      "Category": 0
+    },
+    {
+      "MatchType": 0,
+      "MatchExpression": "goland",
+      "IgnoreCase": false,
+      "Category": 0
+    },
+    {
+      "MatchType": 0,
+      "MatchExpression": "Electron",
+      "IgnoreCase": false,
+      "Category": 0
+    },
+    {
+      "MatchType": 0,
+      "MatchExpression": "MacVim",
+      "IgnoreCase": false,
+      "Category": 0
+    },
+    {
+      "MatchType": 0,
+      "MatchExpression": "SmartGit",
+      "IgnoreCase": false,
+      "Category": 1
+    },
+    {
+      "MatchType": 0,
+      "MatchExpression": "SmartSVN",
+      "IgnoreCase": false,
+      "Category": 1
+    },
+    {
+      "MatchType": 0,
+      "MatchExpression": "System Preferences",
+      "IgnoreCase": false,
+      "Category": 1
+    },
+    {
+      "MatchType": 0,
+      "MatchExpression": "firefox",
+      "IgnoreCase": false,
+      "Category": 3
+    },
+    {
+      "MatchType": 0,
       "MatchExpression": "slack",
       "IgnoreCase": true,
       "Category": 2
