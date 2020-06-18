@@ -51,15 +51,15 @@ func (hh *HomeHandler) HandlerFunc(httpResponseWriter http.ResponseWriter, reque
 	dataset.AddDataItem(float32(dod.GetUsageSecondsInCategory(app_core.CATEGORY_PRODUCTIVE)), colours.MediumSeaGreen, "Productive")
 	dataset.AddDataItem(float32(dod.GetUsageSecondsInCategory(app_core.CATEGORY_OPERATIONAL_OVERHEAD)), colours.DarkKhaki, "Operational Overhead")
 	dataset.AddDataItem(float32(dod.GetUsageSecondsInCategory(app_core.CATEGORY_UNPRODUCTIVE)), colours.IndianRed, "Unproductive")
-	dataset.AddDataItem(float32(dod.GetUsageSecondsInCategory(app_core.CATEGORY_UNCLASSIFIED)), colours.LightSteelBlue, "Unclassified")
+	dataset.AddDataItem(float32(dod.GetUsageSecondsInCategory(app_core.CATEGORY_UNCLASSIFIED)), colours.LightSteelBlue, "Others")
 
 	pageObject := &home_page_templates.HomePageTemplate{
 		PG: graph_templates.PieGraphTemplateObject{
 			GraphTemplateObject: graph_templates.GraphTemplateObject{
 				GraphName:      "today-category-split-piegraph",
 				Dataset:        *dataset,
-				ShowLegend:     false,
-				LegendPosition: "bottom",
+				ShowLegend:     true,
+				LegendPosition: "left",
 			},
 			IsDoughnut:       true,
 			CutoutPercentage: 50,

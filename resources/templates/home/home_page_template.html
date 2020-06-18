@@ -34,15 +34,8 @@
             <div class="col-md-9">
                 <!-- Tabs content -->
                 <div class="tab-content" id="v-pills-tabContent">
-                    <div class="tab-pane fade shadow rounded bg-white show active p-5" id="v-pills-dashboard" role="tabpanel" aria-labelledby="v-pills-dashboard-tab">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-6"></div>
-                                <div class="col-md-6">
-                                    {{ template "pie_graph_template.html" .PG }}
-                                </div>
-                            </div>
-                        </div>
+                    <div class="tab-pane fade shadow rounded bg-white show active" id="v-pills-dashboard" role="tabpanel" aria-labelledby="v-pills-dashboard-tab">
+                        {{ template "dashboard_template.html" . }}
                     </div>
 
                     <div class="tab-pane fade shadow rounded bg-white p-5" id="v-pills-today" role="tabpanel" aria-labelledby="v-pills-today-tab">

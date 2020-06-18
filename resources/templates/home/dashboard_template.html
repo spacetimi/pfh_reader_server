@@ -1,0 +1,100 @@
+<div class="container">
+
+    <div class="row bg-primary p-3 rounded-top border-info">
+        <div class="col-md-8">
+            <h5 class="text-light font-weight-bold small text-uppercase">
+                Your day so far
+                <br/>
+                <br/>
+                <canvas id="myChart" width="400" height="40"></canvas>
+            </h5>
+        </div>
+        <div class="col-md-4 text-left">
+                <span class="badge badge-dark text-light font-weight-bold text-uppercase p-1">Total ScreenTime: <bold class="text-success">4 hours 32 min</bold></span>
+                <small><span class="badge badge-dark text-light font-weight-bold text-uppercase p-1">Start Time: <bold class="text-success">7 : 30 am</bold></span></small>
+                <small><span class="badge badge-dark text-light font-weight-bold text-uppercase p-1">Time since Start: <bold class="text-success">6 hours 30 min</bold></span></small>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            {{ template "pie_graph_template.html" .PG }}
+        </div>
+        <div class="col-md-4">
+        </div>
+    </div>
+</div>
+
+<script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+            datasets: [{
+                data: [ 30, 30, 30, 30, 30, 30, 30, 30, 30, 0, 30, 0, 0, 5, 30, 30, 30, 10, 5, 17, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30 ],
+                backgroundColor: [
+                    'rgba(255, 255, 255, 1.0)',
+                    'rgba(255, 255, 255, 1.0)',
+                    'rgba(255, 255, 255, 1.0)',
+                    'rgba(255, 255, 255, 1.0)',
+                    'rgba(255, 255, 255, 1.0)',
+                    'rgba(255, 255, 255, 1.0)',
+                    'rgba(255, 255, 255, 1.0)',
+                    'rgba(255, 255, 255, 1.0)',
+                    'rgba(255, 255, 255, 1.0)',
+                    'rgba(255, 255, 255, 1.0)',
+                    'rgba(255, 255, 255, 1.0)',
+                    'rgba(255, 255, 255, 1.0)',
+                    'rgba(255, 255, 255, 1.0)',
+                    'rgba(255, 255, 255, 1.0)',
+                    'rgba(255, 255, 255, 1.0)',
+                    'rgba(255, 255, 255, 1.0)',
+                    'rgba(255, 255, 255, 1.0)',
+                    'rgba(255, 255, 255, 1.0)',
+                    'rgba(255, 255, 255, 1.0)',
+                    'rgba(255, 255, 255, 1.0)',
+                    'rgba(255, 255, 255, 1.0)',
+                    'rgba(255, 255, 255, 1.0)',
+                    'rgba(255, 255, 255, 1.0)',
+                    'rgba(255, 255, 255, 1.0)',
+                    'rgba(255, 255, 255, 1.0)',
+                    'rgba(255, 255, 255, 1.0)',
+                    'rgba(255, 255, 255, 1.0)',
+                    'rgba(255, 255, 255, 1.0)',
+                    'rgba(255, 255, 255, 1.0)',
+                    'rgba(255, 255, 255, 1.0)',
+                    'rgba(255, 255, 255, 1.0)'
+                ]
+            }]
+        },
+        options: {
+            axis: {
+                display: false
+            },
+            scales: {
+                yAxes: [{
+                    gridLines: {
+                        display: false,
+                    },
+                    ticks: {
+                        display: false
+                    }
+                }],
+                xAxes: [{
+                    barPercentage: 1.0,
+                    categoryPercentage: 1.0,
+                    gridLines: {
+                        display: false,
+                    },
+                    ticks: {
+                        display: false
+                    }
+                }],
+            },
+            legend: {
+                display: false
+            }
+        }
+    });
+    </script>
