@@ -5,7 +5,7 @@
         datasets: [{
             data: [{{ range .GraphTemplateObject.Dataset.Data }}{{.}},{{end}}],
             backgroundColor: [
-                {{ range .GraphTemplateObject.Dataset.Colors }}
+                {{ range .GraphTemplateObject.Dataset.Colours }}
                 'rgba( {{.R}}, {{.G}}, {{.B}}, {{.A}} )',
                 {{ end }}
             ]

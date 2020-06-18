@@ -1,5 +1,7 @@
 package graph_templates
 
+import "github.com/spacetimi/pfh_reader_server/app_src/templates/colours"
+
 type GraphTemplateObject struct {
 	GraphName string
 	Dataset
@@ -9,13 +11,16 @@ type GraphTemplateObject struct {
 
 type Dataset struct {
 	Data    []float32
-	Colors  []Color
+	Colours []colours.Colour
 	Legends []string
 }
 
-type Color struct {
-	R int16
-	G int16
-	B int16
-	A float32
+func NewDataset() *Dataset {
+	return &Dataset{}
+}
+
+func (d *Dataset) AddDataItem(dataItem float32, colour colours.Colour, legend string) {
+	d.Data = append(d.Data, dataItem)
+	d.Colours = append(d.Colours, colour)
+	d.Legends = append(d.Legends, legend)
 }
