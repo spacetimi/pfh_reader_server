@@ -10,13 +10,20 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-8">
+    <div class="row p-2">
+        <div class="col-md-6">
+            <small><span class="badge badge-dark text-light font-weight-bold text-uppercase p-1">Start Time: <bold class="text-warning">7 : 30 am</bold></span></small>
+            <small><span class="badge badge-dark text-light font-weight-bold text-uppercase p-1">Total ScreenTime: <bold class="text-warning">4 hours 32 min</bold></span></small>
+            <hr/>
+            <small><span class="badge badge-dark text-light font-weight-bold text-uppercase p-1">ScreenTime Breakdown:</span></small>
             {{ template "pie_graph_template.html" .CategorySplitPieGraph }}
         </div>
-        <div class="col-md-4">
-                <span class="badge badge-dark text-light font-weight-bold text-uppercase p-1">Total ScreenTime: <bold class="text-success">4 hours 32 min</bold></span>
-                <small><span class="badge badge-dark text-light font-weight-bold text-uppercase p-1">Start Time: <bold class="text-success">7 : 30 am</bold></span></small>
+        <div class="col-md-6 pt-2 pb-2 border border-dark rounded">
+                <span class="badge badge-dark text-light font-weight-bold text-uppercase p-1">Top Apps:</span>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
         </div>
     </div>
 </div>
