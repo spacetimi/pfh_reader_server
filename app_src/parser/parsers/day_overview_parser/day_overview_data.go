@@ -9,6 +9,17 @@ type DayOverviewData struct {
 	TotalTimeSeconds            int64
 }
 
+type CategoryOverviewData struct {
+	Category               app_core.Category_t
+	AppUsageOverviewsByApp map[string]*AppUsageOverviewData
+	TotalTimeSeconds       int64
+}
+
+type AppUsageOverviewData struct {
+	AppName          string
+	TotalTimeSeconds int64
+}
+
 func (dod *DayOverviewData) GetUsageSecondsInCategory(category app_core.Category_t) int64 {
 	cod, ok := dod.CategoryOverviewsByCategory[category]
 	if !ok {
@@ -38,12 +49,6 @@ func NewDayOverviewData() *DayOverviewData {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-type CategoryOverviewData struct {
-	Category               app_core.Category_t
-	AppUsageOverviewsByApp map[string]*AppUsageOverviewData
-	TotalTimeSeconds       int64
-}
-
 func (cod *CategoryOverviewData) addAppUsageInSeconds(appName string, seconds int64) {
 	appUsageOverview, ok := cod.AppUsageOverviewsByApp[appName]
 	if !ok {
@@ -64,11 +69,6 @@ func newCategoryOverviewData(category app_core.Category_t) *CategoryOverviewData
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-
-type AppUsageOverviewData struct {
-	AppName          string
-	TotalTimeSeconds int64
-}
 
 func (appud *AppUsageOverviewData) addUsageInSeconds(seconds int64) {
 	appud.TotalTimeSeconds += seconds
