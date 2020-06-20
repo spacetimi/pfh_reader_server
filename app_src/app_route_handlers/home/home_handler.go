@@ -3,10 +3,7 @@ package home
 import (
 	"net/http"
 
-	"github.com/spacetimi/pfh_reader_server/app_src/app_core"
 	"github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/day_overview_parser"
-	"github.com/spacetimi/pfh_reader_server/app_src/templates/colours"
-	"github.com/spacetimi/pfh_reader_server/app_src/templates/graph_templates"
 	"github.com/spacetimi/pfh_reader_server/app_src/templates/home_page_templates"
 
 	"github.com/spacetimi/pfh_reader_server/app_src/app_routes"
@@ -47,31 +44,8 @@ func (hh *HomeHandler) HandlerFunc(httpResponseWriter http.ResponseWriter, reque
 		httpResponseWriter.WriteHeader(http.StatusInternalServerError)
 	}
 
-	dataset := graph_templates.NewDataset()
-	dataset.AddDataItem(float32(dod.GetUsageSecondsInCategory(app_core.CATEGORY_PRODUCTIVE)), colours.MediumSeaGreen)
-	dataset.AddDataItem(float32(dod.GetUsageSecondsInCategory(app_core.CATEGORY_OPERATIONAL_OVERHEAD)), colours.DarkKhaki)
-	dataset.AddDataItem(float32(dod.GetUsageSecondsInCategory(app_core.CATEGORY_UNPRODUCTIVE)), colours.IndianRed)
-	dataset.AddDataItem(float32(dod.GetUsageSecondsInCategory(app_core.CATEGORY_UNCLASSIFIED)), colours.LightSteelBlue)
-
-	legends := []string{
-		"Productive",
-		"Operational Overhead",
-		"Unproductive",
-		"Others",
-	}
-
 	pageObject := &home_page_templates.HomePageTemplate{
-		PG: graph_templates.PieGraphTemplateObject{
-			GraphTemplateObject: graph_templates.GraphTemplateObject{
-				GraphName:      "today-category-split-piegraph",
-				Datasets:       []graph_templates.Dataset{*dataset},
-				Legends:        legends,
-				ShowLegend:     true,
-				LegendPosition: "left",
-			},
-			IsDoughnut:       true,
-			CutoutPercentage: 50,
-		},
+		PG: *(getPieGraphForDashboard(dod)),
 	}
 
 	err := hh.TemplatedWriter.Render(httpResponseWriter, "home_page_template.html", pageObject)
