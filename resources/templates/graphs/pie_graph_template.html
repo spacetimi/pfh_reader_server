@@ -1,4 +1,4 @@
-<canvas id="{{ .GraphTemplateObject.GraphName }}"></canvas>
+<canvas id="{{ .GraphTemplateObject.GraphName }}" {{if .GraphTemplateObject.UseWidthAndHeight }} width="{{ .GraphTemplateObject.Width }}" height="{{ .GraphTemplateObject.Height }}" {{ end}}></canvas>
 <script>
     var ctx = document.getElementById('{{ .GraphTemplateObject.GraphName }}').getContext('2d');
     data = {
@@ -27,7 +27,7 @@
         data: data,
         options: {
             cutoutPercentage: {{ .CutoutPercentage }},
-            responsive: false,
+            responsive: {{ if .GraphTemplateObject.ResponsiveSize }} true {{ else }} false {{ end }},
             legend: {
                 display: {{ if .GraphTemplateObject.ShowLegend }} true {{ else }} false {{ end }},
                 position: '{{ .GraphTemplateObject.LegendPosition }}',

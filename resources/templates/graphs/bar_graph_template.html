@@ -1,0 +1,60 @@
+<canvas id="{{ .GraphTemplateObject.GraphName }}" {{if .GraphTemplateObject.UseWidthAndHeight }} width="{{ .GraphTemplateObject.Width }}" height="{{ .GraphTemplateObject.Height }}" {{ end}}></canvas>
+<script>
+    var ctx = document.getElementById('{{ .GraphTemplateObject.GraphName }}').getContext('2d');
+    data = {
+            datasets: [
+                {{ range .GraphTemplateObject.Datasets }}
+                {
+                    data: [{{ range .Data }}{{.}},{{end}}],
+                    backgroundColor: [
+                        {{ range .Colours }}
+                            'rgba( {{.R}}, {{.G}}, {{.B}}, {{.A}} )',
+                        {{ end }}
+                    ]
+                },
+                {{ end }}],
+
+            // These labels appear in the legend and in the tooltips when hovering different arcs
+            labels: [
+                {{ range .GraphTemplateObject.Legends }}
+                '{{.}}',
+                {{ end }}
+            ]
+        };
+
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: data,
+        options: {
+            responsive: {{ if .GraphTemplateObject.ResponsiveSize }} true {{ else }} false {{ end }},
+            axis: {
+                display: {{ if .ShowAxis }} true {{ else }} false {{ end }}
+            },
+            scales: {
+                yAxes: [{
+                    stacked: {{ if .Stacked }} true {{ else }} false {{ end }},
+                    gridLines: {
+                        display: {{ if .ShowGridlines }} true {{ else }} false {{ end }},
+                    },
+                    ticks: {
+                        display: {{ if .ShowTicks }} true {{ else }} false {{ end }},
+                    }
+                }],
+                xAxes: [{
+                    stacked: {{ if .Stacked }} true {{ else }} false {{ end }},
+                    barPercentage: {{ .BarDisplayPercentage }},
+                    categoryPercentage: {{ .CategoryDisplayPercentage }},
+                    gridLines: {
+                        display: {{ if .ShowGridlines }} true {{ else }} false {{ end }},
+                    },
+                    ticks: {
+                        display: {{ if .ShowTicks }} true {{ else }} false {{ end }},
+                    }
+                }],
+            },
+            legend: {
+                display: {{ if .GraphTemplateObject.ShowLegend }} true {{ else }} false {{ end }}
+            }
+        }
+    });
+    </script>

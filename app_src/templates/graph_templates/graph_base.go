@@ -3,11 +3,17 @@ package graph_templates
 import "github.com/spacetimi/pfh_reader_server/app_src/templates/colours"
 
 type GraphTemplateObject struct {
-	GraphName      string
-	Datasets       []Dataset
+	GraphName string
+	Datasets  []Dataset
+
 	Legends        []string
 	ShowLegend     bool
 	LegendPosition string
+
+	UseWidthAndHeight bool
+	Width             int
+	Height            int
+	ResponsiveSize    bool
 }
 
 type Dataset struct {

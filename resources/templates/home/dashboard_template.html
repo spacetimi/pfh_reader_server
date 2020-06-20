@@ -6,7 +6,7 @@
                 Your day so far
                 <br/>
                 <br/>
-                <canvas id="myChart" width="400" height="40"></canvas>
+                {{ template "bar_graph_template.html" .DailyActivityBarGraph  }}
             </h5>
         </div>
         <div class="col-md-4 text-left">
@@ -18,63 +18,9 @@
 
     <div class="row">
         <div class="col-md-8">
-            {{ template "pie_graph_template.html" .PG }}
+            {{ template "pie_graph_template.html" .CategorySplitPieGraph }}
         </div>
         <div class="col-md-4">
         </div>
     </div>
 </div>
-
-<script>
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
-            datasets: [
-                {
-                    data: [ 30, 30, 30, 30, 30, 30, 30, 30, 30, 0, 30, 0, 0, 5, 30, 30, 30, 10, 5, 17, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30 ],
-                    backgroundColor: [
-                        'rgba(255, 255, 255, 1.0)', 'rgba(255, 255, 255, 1.0)', 'rgba(255, 255, 255, 1.0)', 'rgba(255, 255, 255, 1.0)', 'rgba(255, 255, 255, 1.0)', 'rgba(255, 255, 255, 1.0)', 'rgba(255, 255, 255, 1.0)', 'rgba(255, 255, 255, 1.0)', 'rgba(255, 255, 255, 1.0)', 'rgba(255, 255, 255, 1.0)', 'rgba(255, 255, 255, 1.0)', 'rgba(255, 255, 255, 1.0)', 'rgba(255, 255, 255, 1.0)', 'rgba(255, 255, 255, 1.0)', 'rgba(255, 255, 255, 1.0)', 'rgba(255, 255, 255, 1.0)', 'rgba(255, 255, 255, 1.0)', 'rgba(255, 255, 255, 1.0)', 'rgba(255, 255, 255, 1.0)', 'rgba(255, 255, 255, 1.0)', 'rgba(255, 255, 255, 1.0)', 'rgba(255, 255, 255, 1.0)', 'rgba(255, 255, 255, 1.0)', 'rgba(255, 255, 255, 1.0)', 'rgba(255, 255, 255, 1.0)', 'rgba(255, 255, 255, 1.0)', 'rgba(255, 255, 255, 1.0)', 'rgba(255, 255, 255, 1.0)', 'rgba(255, 255, 255, 1.0)', 'rgba(255, 255, 255, 1.0)', 'rgba(255, 255, 255, 1.0)'
-                    ]
-                },
-                {
-                    data: [ 30, 30, 30, 30, 30, 30, 30, 30, 30, 0, 30, 0, 0, 5, 30, 30, 30, 10, 5, 17, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30 ],
-                    backgroundColor: [
-                        'rgba(180, 180, 180, 1.0)', 'rgba(180, 180, 180, 1.0)', 'rgba(180, 180, 180, 1.0)', 'rgba(180, 180, 180, 1.0)', 'rgba(180, 180, 180, 1.0)', 'rgba(180, 180, 180, 1.0)', 'rgba(180, 180, 180, 1.0)', 'rgba(180, 180, 180, 1.0)', 'rgba(180, 180, 180, 1.0)', 'rgba(180, 180, 180, 1.0)', 'rgba(180, 180, 180, 1.0)', 'rgba(180, 180, 180, 1.0)', 'rgba(180, 180, 180, 1.0)', 'rgba(180, 180, 180, 1.0)', 'rgba(180, 180, 180, 1.0)', 'rgba(180, 180, 180, 1.0)', 'rgba(180, 180, 180, 1.0)', 'rgba(180, 180, 180, 1.0)', 'rgba(180, 180, 180, 1.0)', 'rgba(180, 180, 180, 1.0)', 'rgba(180, 180, 180, 1.0)', 'rgba(180, 180, 180, 1.0)', 'rgba(180, 180, 180, 1.0)', 'rgba(180, 180, 180, 1.0)', 'rgba(180, 180, 180, 1.0)', 'rgba(180, 180, 180, 1.0)', 'rgba(180, 180, 180, 1.0)', 'rgba(180, 180, 180, 1.0)', 'rgba(180, 180, 180, 1.0)', 'rgba(180, 180, 180, 1.0)', 'rgba(180, 180, 180, 1.0)'
-                    ]
-                }
-        ]
-        },
-        options: {
-            axis: {
-                display: false
-            },
-            scales: {
-                yAxes: [{
-                    stacked: true,
-                    gridLines: {
-                        display: false,
-                    },
-                    ticks: {
-                        display: false
-                    }
-                }],
-                xAxes: [{
-                    stacked: true,
-                    barPercentage: 1.0,
-                    categoryPercentage: 1.0,
-                    gridLines: {
-                        display: false,
-                    },
-                    ticks: {
-                        display: false
-                    }
-                }],
-            },
-            legend: {
-                display: false
-            }
-        }
-    });
-    </script>
