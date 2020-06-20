@@ -46,7 +46,7 @@ func (hh *HomeHandler) HandlerFunc(httpResponseWriter http.ResponseWriter, reque
 
 	pageObject := &home_page_templates.HomePageTemplate{
 		CategorySplitPieGraph: *(getDayCategorySplitAsPieGraph(dod)),
-		DailyActivityBarGraph: *(getDayActivityAsBarGraph()),
+		DailyActivityBarGraph: *(getDayActivityAsBarGraph(dod)),
 	}
 
 	err := hh.TemplatedWriter.Render(httpResponseWriter, "home_page_template.html", pageObject)

@@ -1,18 +1,21 @@
 package home
 
 import (
+	"strconv"
+
 	"github.com/spacetimi/pfh_reader_server/app_src/app_core"
 	"github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/day_overview_parser"
+	"github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/parser_metadata"
 	"github.com/spacetimi/pfh_reader_server/app_src/templates/colours"
 	"github.com/spacetimi/pfh_reader_server/app_src/templates/graph_templates"
 )
 
 func getDayCategorySplitAsPieGraph(dod *day_overview_parser.DayOverviewData) *graph_templates.PieGraphTemplateObject {
 	dataset := graph_templates.NewDataset()
-	dataset.AddDataItem(float32(dod.GetUsageSecondsInCategory(app_core.CATEGORY_PRODUCTIVE)), colours.MediumSeaGreen)
-	dataset.AddDataItem(float32(dod.GetUsageSecondsInCategory(app_core.CATEGORY_OPERATIONAL_OVERHEAD)), colours.DarkKhaki)
-	dataset.AddDataItem(float32(dod.GetUsageSecondsInCategory(app_core.CATEGORY_UNPRODUCTIVE)), colours.IndianRed)
-	dataset.AddDataItem(float32(dod.GetUsageSecondsInCategory(app_core.CATEGORY_UNCLASSIFIED)), colours.LightSteelBlue)
+	dataset.AddDataItem(float32(dod.GetUsageSecondsInCategory(app_core.CATEGORY_PRODUCTIVE)), getColourForCategory(app_core.CATEGORY_PRODUCTIVE))
+	dataset.AddDataItem(float32(dod.GetUsageSecondsInCategory(app_core.CATEGORY_OPERATIONAL_OVERHEAD)), getColourForCategory(app_core.CATEGORY_OPERATIONAL_OVERHEAD))
+	dataset.AddDataItem(float32(dod.GetUsageSecondsInCategory(app_core.CATEGORY_UNPRODUCTIVE)), getColourForCategory(app_core.CATEGORY_UNPRODUCTIVE))
+	dataset.AddDataItem(float32(dod.GetUsageSecondsInCategory(app_core.CATEGORY_UNCLASSIFIED)), getColourForCategory(app_core.CATEGORY_UNCLASSIFIED))
 
 	legends := []string{
 		"Productive",
@@ -36,34 +39,47 @@ func getDayCategorySplitAsPieGraph(dod *day_overview_parser.DayOverviewData) *gr
 	}
 }
 
-func getDayActivityAsBarGraph() *graph_templates.BarGraphTemplateObject {
+func getDayActivityAsBarGraph(dod *day_overview_parser.DayOverviewData) *graph_templates.BarGraphTemplateObject {
 
-	datasetProductive := graph_templates.NewDataset()
-	datasetProductive.AddDataItem(10, colours.MediumSeaGreen)
-	datasetProductive.AddDataItem(0, colours.MediumSeaGreen)
-	datasetProductive.AddDataItem(20, colours.MediumSeaGreen)
+	datasets := make([]graph_templates.Dataset, app_core.CATEGORY_UNCLASSIFIED+1)
 
-	datasetUnproductive := graph_templates.NewDataset()
-	datasetUnproductive.AddDataItem(0, colours.IndianRed)
-	datasetUnproductive.AddDataItem(20, colours.IndianRed)
-	datasetUnproductive.AddDataItem(0, colours.IndianRed)
+	for c := app_core.CATEGORY_PRODUCTIVE; c <= app_core.CATEGORY_UNCLASSIFIED; c = c + 1 {
+		activity := dod.GetActivityInPeriodsForCategory(c)
+		dataset := graph_templates.NewDataset()
+		colour := getColourForCategory(c)
+		for _, seconds := range activity {
+			dataset.AddDataItem(float32(int(seconds/60)), colour)
+		}
+		datasets[c] = *dataset
+	}
 
-	legends := []string{
-		"10 - 10:30",
-		"10.30 - 11",
-		"11 - 11:30",
+	legends := make([]string, parser_metadata.NUM_ACTIVITY_PERIODS_PER_DAY)
+	for i := 0; i < parser_metadata.NUM_ACTIVITY_PERIODS_PER_DAY; i = i + 1 {
+		hours, minutes := parser_metadata.ParseActivityPeriodIndex(i)
+
+		hoursString := strconv.Itoa(hours % 12)
+		minutesString := strconv.Itoa(minutes)
+		if minutes <= 9 {
+			minutesString = "0" + minutesString
+		}
+		suffix := "am"
+		if hours > 12 {
+			suffix = "pm"
+		}
+
+		legends[i] = hoursString + ":" + minutesString + " " + suffix
 	}
 
 	return &graph_templates.BarGraphTemplateObject{
 		GraphTemplateObject: graph_templates.GraphTemplateObject{
 			GraphName:         "today-activity-bargraph",
-			Datasets:          []graph_templates.Dataset{*datasetProductive, *datasetUnproductive},
+			Datasets:          datasets,
 			Legends:           legends,
 			ShowLegend:        false,
 			LegendPosition:    "top",
 			UseWidthAndHeight: true,
 			Width:             400,
-			Height:            40,
+			Height:            80,
 			ResponsiveSize:    true,
 		},
 		Stacked:                   true,
@@ -73,4 +89,20 @@ func getDayActivityAsBarGraph() *graph_templates.BarGraphTemplateObject {
 		ShowGridlines:             false,
 		ShowTicks:                 false,
 	}
+}
+
+// TODO: Move this somewhere else. Not just for dashboard
+func getColourForCategory(category app_core.Category_t) colours.Colour {
+	switch category {
+	case app_core.CATEGORY_PRODUCTIVE:
+		return colours.MediumSeaGreen
+	case app_core.CATEGORY_OPERATIONAL_OVERHEAD:
+		return colours.DarkKhaki
+	case app_core.CATEGORY_UNPRODUCTIVE:
+		return colours.IndianRed
+	case app_core.CATEGORY_UNCLASSIFIED:
+		return colours.LightSteelBlue
+	}
+
+	return colours.LightSteelBlue
 }

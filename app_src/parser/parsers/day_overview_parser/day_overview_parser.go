@@ -47,7 +47,7 @@ func (dop *DayOverviewParser) ParseFile(filePath string) (*DayOverviewData, erro
 		} else {
 			category = user_preferences.Instance().Data.GetMatchingCategory(parsedLine.AppName, parsedLine.AppTitleBar)
 		}
-		dod.AddAppUsageSecondsInCategory(category, parsedLine.AppName, parser_metadata.DAY_LOG_ENTRIES_INTERVAL_SECONDS)
+		dod.AddAppUsageSecondsInCategory(category, parsedLine.AppName, parsedLine.Timestamp, parser_metadata.DAY_LOG_ENTRIES_INTERVAL_SECONDS)
 	}
 
 	if err = scanner.Err(); err != nil {
