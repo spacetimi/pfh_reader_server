@@ -56,18 +56,7 @@ func getDayActivityAsBarGraph(dod *day_overview_parser.DayOverviewData) *graph_t
 	legends := make([]string, parser_metadata.NUM_ACTIVITY_PERIODS_PER_DAY)
 	for i := 0; i < parser_metadata.NUM_ACTIVITY_PERIODS_PER_DAY; i = i + 1 {
 		hours, minutes := parser_metadata.ParseActivityPeriodIndex(i)
-
-		hoursString := strconv.Itoa(hours % 12)
-		minutesString := strconv.Itoa(minutes)
-		if minutes <= 9 {
-			minutesString = "0" + minutesString
-		}
-		suffix := "am"
-		if hours > 12 {
-			suffix = "pm"
-		}
-
-		legends[i] = hoursString + ":" + minutesString + " " + suffix
+		legends[i] = formatTime(hours, minutes)
 	}
 
 	return &graph_templates.BarGraphTemplateObject{
@@ -105,4 +94,19 @@ func getColourForCategory(category app_core.Category_t) colours.Colour {
 	}
 
 	return colours.LightSteelBlue
+}
+
+// TODO: Move this somewhere else. Not just for dashboard
+func formatTime(hours int, minutes int) string {
+	hoursString := strconv.Itoa(hours % 12)
+	minutesString := strconv.Itoa(minutes)
+	if minutes <= 9 {
+		minutesString = "0" + minutesString
+	}
+	suffix := "am"
+	if hours > 12 {
+		suffix = "pm"
+	}
+
+	return hoursString + ":" + minutesString + " " + suffix
 }
