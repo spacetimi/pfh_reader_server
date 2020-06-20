@@ -2,18 +2,21 @@
 <script>
     var ctx = document.getElementById('{{ .GraphTemplateObject.GraphName }}').getContext('2d');
     data = {
-        datasets: [{
-            data: [{{ range .GraphTemplateObject.Dataset.Data }}{{.}},{{end}}],
-            backgroundColor: [
-                {{ range .GraphTemplateObject.Dataset.Colours }}
-                'rgba( {{.R}}, {{.G}}, {{.B}}, {{.A}} )',
-                {{ end }}
-            ]
-        }],
+        datasets: [
+            {{ range .GraphTemplateObject.Datasets }}
+            {
+                data: [{{ range .Data }}{{.}},{{end}}],
+                backgroundColor: [
+                    {{ range .Colours }}
+                        'rgba( {{.R}}, {{.G}}, {{.B}}, {{.A}} )',
+                    {{ end }}
+                ]
+            },
+            {{ end }}],
 
         // These labels appear in the legend and in the tooltips when hovering different arcs
         labels: [
-            {{ range .GraphTemplateObject.Dataset.Legends }}
+            {{ range .GraphTemplateObject.Legends }}
             '{{.}}',
             {{ end }}
         ]

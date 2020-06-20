@@ -48,16 +48,24 @@ func (hh *HomeHandler) HandlerFunc(httpResponseWriter http.ResponseWriter, reque
 	}
 
 	dataset := graph_templates.NewDataset()
-	dataset.AddDataItem(float32(dod.GetUsageSecondsInCategory(app_core.CATEGORY_PRODUCTIVE)), colours.MediumSeaGreen, "Productive")
-	dataset.AddDataItem(float32(dod.GetUsageSecondsInCategory(app_core.CATEGORY_OPERATIONAL_OVERHEAD)), colours.DarkKhaki, "Operational Overhead")
-	dataset.AddDataItem(float32(dod.GetUsageSecondsInCategory(app_core.CATEGORY_UNPRODUCTIVE)), colours.IndianRed, "Unproductive")
-	dataset.AddDataItem(float32(dod.GetUsageSecondsInCategory(app_core.CATEGORY_UNCLASSIFIED)), colours.LightSteelBlue, "Others")
+	dataset.AddDataItem(float32(dod.GetUsageSecondsInCategory(app_core.CATEGORY_PRODUCTIVE)), colours.MediumSeaGreen)
+	dataset.AddDataItem(float32(dod.GetUsageSecondsInCategory(app_core.CATEGORY_OPERATIONAL_OVERHEAD)), colours.DarkKhaki)
+	dataset.AddDataItem(float32(dod.GetUsageSecondsInCategory(app_core.CATEGORY_UNPRODUCTIVE)), colours.IndianRed)
+	dataset.AddDataItem(float32(dod.GetUsageSecondsInCategory(app_core.CATEGORY_UNCLASSIFIED)), colours.LightSteelBlue)
+
+	legends := []string{
+		"Productive",
+		"Operational Overhead",
+		"Unproductive",
+		"Others",
+	}
 
 	pageObject := &home_page_templates.HomePageTemplate{
 		PG: graph_templates.PieGraphTemplateObject{
 			GraphTemplateObject: graph_templates.GraphTemplateObject{
 				GraphName:      "today-category-split-piegraph",
-				Dataset:        *dataset,
+				Datasets:       []graph_templates.Dataset{*dataset},
+				Legends:        legends,
 				ShowLegend:     true,
 				LegendPosition: "left",
 			},
