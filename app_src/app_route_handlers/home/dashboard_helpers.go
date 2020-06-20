@@ -68,7 +68,7 @@ func getDayActivityAsBarGraph(dod *day_overview_parser.DayOverviewData) *graph_t
 			LegendPosition:    "top",
 			UseWidthAndHeight: true,
 			Width:             400,
-			Height:            80,
+			Height:            50,
 			ResponsiveSize:    true,
 		},
 		Stacked:                   true,

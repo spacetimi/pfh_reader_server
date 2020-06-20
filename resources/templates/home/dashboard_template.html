@@ -1,18 +1,12 @@
 <div class="container">
 
-    <div class="row bg-primary p-3 rounded-top border-info">
-        <div class="col-md-8">
-            <h5 class="text-light font-weight-bold small text-uppercase">
-                Your day so far
-                <br/>
-                <br/>
-                {{ template "bar_graph_template.html" .DailyActivityBarGraph  }}
-            </h5>
+
+    <div class="row bg-primary border-info rounded-top pt-2">
+        <div class="col-md-4">
+            <h5 class="text-light font-weight-bold small text-uppercase"> Your day so far </h5>
         </div>
-        <div class="col-md-4 text-left">
-                <span class="badge badge-dark text-light font-weight-bold text-uppercase p-1">Total ScreenTime: <bold class="text-success">4 hours 32 min</bold></span>
-                <small><span class="badge badge-dark text-light font-weight-bold text-uppercase p-1">Start Time: <bold class="text-success">7 : 30 am</bold></span></small>
-                <small><span class="badge badge-dark text-light font-weight-bold text-uppercase p-1">Time since Start: <bold class="text-success">6 hours 30 min</bold></span></small>
+        <div class="container">
+            {{ template "bar_graph_template.html" .DailyActivityBarGraph  }}
         </div>
     </div>
 
@@ -21,6 +15,8 @@
             {{ template "pie_graph_template.html" .CategorySplitPieGraph }}
         </div>
         <div class="col-md-4">
+                <span class="badge badge-dark text-light font-weight-bold text-uppercase p-1">Total ScreenTime: <bold class="text-success">4 hours 32 min</bold></span>
+                <small><span class="badge badge-dark text-light font-weight-bold text-uppercase p-1">Start Time: <bold class="text-success">7 : 30 am</bold></span></small>
         </div>
     </div>
 </div>
