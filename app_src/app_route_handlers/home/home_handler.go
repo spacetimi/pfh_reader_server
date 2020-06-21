@@ -3,9 +3,6 @@ package home
 import (
 	"net/http"
 
-	"github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/day_overview_parser"
-	"github.com/spacetimi/pfh_reader_server/app_src/templates/home_page_templates"
-
 	"github.com/spacetimi/pfh_reader_server/app_src/app_routes"
 	"github.com/spacetimi/timi_shared_server/code/config"
 	"github.com/spacetimi/timi_shared_server/code/core/controller"
@@ -37,22 +34,15 @@ func (hh *HomeHandler) Routes() []controller.Route {
 
 func (hh *HomeHandler) HandlerFunc(httpResponseWriter http.ResponseWriter, request *http.Request, args *controller.HandlerFuncArgs) {
 
-	dop := &day_overview_parser.DayOverviewParser{}
-	dod, e := dop.ParseFile("/Users/avi/Library/Containers/com.spacetimi.pfh-daemon/Data/Documents/2020-06-18.dat")
-	if e != nil {
-		logger.LogError(e.Error())
-		httpResponseWriter.WriteHeader(http.StatusInternalServerError)
-	}
+	postArgs := parsePostArgs(args.PostArgs)
 
-	pageObject := &home_page_templates.HomePageTemplate{
-		CategorySplitPieGraph: *(getDayCategorySplitAsPieGraph(dod)),
-		DailyActivityBarGraph: *(getDayActivityAsBarGraph(dod)),
-	}
+	switch postArgs.Tab {
 
-	err := hh.TemplatedWriter.Render(httpResponseWriter, "home_page_template.html", pageObject)
-	if err != nil {
-		logger.LogError("error rendering home page" +
-			"|error=" + err.Error())
+	case HOMEPAGE_TAB_DASHBOARD:
+		hh.showDashboard(httpResponseWriter, request, args, postArgs)
+
+	default:
+		logger.LogError("unknown homepage tab")
 		httpResponseWriter.WriteHeader(http.StatusInternalServerError)
 	}
 }

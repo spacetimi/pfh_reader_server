@@ -1,6 +1,7 @@
 package home
 
 import (
+	"net/http"
 	"strconv"
 
 	"github.com/spacetimi/pfh_reader_server/app_src/app_core"
@@ -8,7 +9,32 @@ import (
 	"github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/parser_metadata"
 	"github.com/spacetimi/pfh_reader_server/app_src/templates/colours"
 	"github.com/spacetimi/pfh_reader_server/app_src/templates/graph_templates"
+	"github.com/spacetimi/pfh_reader_server/app_src/templates/home_page_templates"
+	"github.com/spacetimi/timi_shared_server/code/core/controller"
+	"github.com/spacetimi/timi_shared_server/utils/logger"
 )
+
+func (hh *HomeHandler) showDashboard(httpResponseWriter http.ResponseWriter, request *http.Request, args *controller.HandlerFuncArgs, postArgs *parsedPostArgs) {
+	dop := &day_overview_parser.DayOverviewParser{}
+	dod, e := dop.ParseFile(app_core.GetRawDayDataFilePath(postArgs.CurrentDayIndex))
+	if e != nil {
+		logger.LogError(e.Error())
+		httpResponseWriter.WriteHeader(http.StatusInternalServerError)
+	}
+
+	pageObject := &home_page_templates.HomePageTemplate{
+		CategorySplitPieGraph: *(getDayCategorySplitAsPieGraph(dod)),
+		DailyActivityBarGraph: *(getDayActivityAsBarGraph(dod)),
+	}
+
+	err := hh.TemplatedWriter.Render(httpResponseWriter, "home_page_template.html", pageObject)
+	if err != nil {
+		logger.LogError("error rendering home page" +
+			"|error=" + err.Error())
+		httpResponseWriter.WriteHeader(http.StatusInternalServerError)
+	}
+
+}
 
 func getDayCategorySplitAsPieGraph(dod *day_overview_parser.DayOverviewData) *graph_templates.PieGraphTemplateObject {
 	dataset := graph_templates.NewDataset()
