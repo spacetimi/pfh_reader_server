@@ -92,13 +92,14 @@ func getDayCategorySplitAsPieGraph(dod *day_overview_parser.DayOverviewData) *gr
 
 	return &graph_templates.PieGraphTemplateObject{
 		GraphTemplateObject: graph_templates.GraphTemplateObject{
-			GraphName:         "today-category-split-piegraph",
-			Datasets:          []graph_templates.Dataset{*dataset},
-			Legends:           legends,
-			ShowLegend:        true,
-			LegendPosition:    "left",
-			ResponsiveSize:    false,
-			UseWidthAndHeight: false,
+			GraphName:             "today-category-split-piegraph",
+			Datasets:              []graph_templates.Dataset{*dataset},
+			Legends:               legends,
+			ShowLegend:            true,
+			LegendPosition:        "left",
+			ResponsiveSize:        false,
+			UseWidthAndHeight:     false,
+			FormatTimeFromSeconds: true,
 		},
 		IsDoughnut:       true,
 		CutoutPercentage: 50,
@@ -114,7 +115,7 @@ func getDayActivityAsBarGraph(dod *day_overview_parser.DayOverviewData) *graph_t
 		dataset := graph_templates.NewDataset()
 		colour := getColourForCategory(c)
 		for _, seconds := range activity {
-			dataset.AddDataItem(float32(int(seconds/60)), colour)
+			dataset.AddDataItem(float32(seconds), colour)
 		}
 		datasets[c] = *dataset
 	}
@@ -127,15 +128,16 @@ func getDayActivityAsBarGraph(dod *day_overview_parser.DayOverviewData) *graph_t
 
 	return &graph_templates.BarGraphTemplateObject{
 		GraphTemplateObject: graph_templates.GraphTemplateObject{
-			GraphName:         "today-activity-bargraph",
-			Datasets:          datasets,
-			Legends:           legends,
-			ShowLegend:        false,
-			LegendPosition:    "top",
-			UseWidthAndHeight: true,
-			Width:             400,
-			Height:            50,
-			ResponsiveSize:    true,
+			GraphName:             "today-activity-bargraph",
+			Datasets:              datasets,
+			Legends:               legends,
+			ShowLegend:            false,
+			LegendPosition:        "top",
+			UseWidthAndHeight:     true,
+			Width:                 400,
+			Height:                50,
+			ResponsiveSize:        true,
+			FormatTimeFromSeconds: true,
 		},
 		Stacked:                   true,
 		BarDisplayPercentage:      1.0,

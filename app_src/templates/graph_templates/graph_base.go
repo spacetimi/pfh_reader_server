@@ -14,6 +14,8 @@ type GraphTemplateObject struct {
 	Width             int
 	Height            int
 	ResponsiveSize    bool
+
+	FormatTimeFromSeconds bool
 }
 
 type Dataset struct {

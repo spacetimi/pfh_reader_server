@@ -54,7 +54,29 @@
             },
             legend: {
                 display: {{ if .GraphTemplateObject.ShowLegend }} true {{ else }} false {{ end }}
-            }
+            },
+            {{ if .GraphTemplateObject.FormatTimeFromSeconds }}
+            tooltips: {
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        seconds = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]
+
+                        hours = Math.trunc(seconds / 3600);
+                        minutes = Math.trunc((seconds % 3600) / 60);
+                        label = "";
+
+                        if (hours > 0) {
+                            label = hours + "h ";
+                        }
+                        if (minutes > 0) {
+                            label += minutes + "m";
+                        }
+
+                        return label;
+                    }
+                }
+            },
+            {{ end }}
         }
     });
     </script>
