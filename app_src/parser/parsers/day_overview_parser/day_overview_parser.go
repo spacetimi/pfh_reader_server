@@ -40,6 +40,9 @@ func (dop *DayOverviewParser) ParseFile(filePath string) (*DayOverviewData, erro
 		if parse_err != nil {
 			continue
 		}
+		if parsedLine.AppName == "locked" {
+			continue
+		}
 
 		category := app_core.CATEGORY_UNCLASSIFIED
 		if parsedLine.HasOverrideCategory {
