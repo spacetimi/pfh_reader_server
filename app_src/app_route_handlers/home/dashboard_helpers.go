@@ -3,27 +3,62 @@ package home
 import (
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/spacetimi/pfh_reader_server/app_src/app_core"
 	"github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/day_overview_parser"
 	"github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/parser_metadata"
-	"github.com/spacetimi/pfh_reader_server/app_src/templates/colours"
 	"github.com/spacetimi/pfh_reader_server/app_src/templates/graph_templates"
 	"github.com/spacetimi/timi_shared_server/code/core/controller"
+	"github.com/spacetimi/timi_shared_server/utils/file_utils"
 	"github.com/spacetimi/timi_shared_server/utils/logger"
 )
 
 func (hh *HomeHandler) showDashboard(httpResponseWriter http.ResponseWriter, request *http.Request, args *controller.HandlerFuncArgs, postArgs *parsedPostArgs) {
-	dop := &day_overview_parser.DayOverviewParser{}
-	dod, e := dop.ParseFile(app_core.GetRawDayDataFilePath(postArgs.CurrentDayIndex))
-	if e != nil {
-		logger.LogError(e.Error())
-		httpResponseWriter.WriteHeader(http.StatusInternalServerError)
-	}
 
-	pageObject := &HomePageObject{
-		CategorySplitPieGraph: *(getDayCategorySplitAsPieGraph(dod)),
-		DailyActivityBarGraph: *(getDayActivityAsBarGraph(dod)),
+	var pageObject *HomePageObject
+
+	dataFilePath := app_core.GetRawDayDataFilePath(postArgs.CurrentDayIndex)
+
+	if !file_utils.DoesFileOrDirectoryExist(dataFilePath) {
+		pageObject = &HomePageObject{
+			DashboardData: DashboardData{
+				CurrentDayString:  getCurrentDayStringFromDayIndex(postArgs.CurrentDayIndex),
+				IsToday:           postArgs.CurrentDayIndex == 0,
+				ShowPrevDayButton: -(postArgs.CurrentDayIndex) < app_core.MAX_DAYS_TO_KEEP_RAW_DAY_DATA_FILES,
+				ShowNextDayButton: postArgs.CurrentDayIndex != 0,
+				PrevDayIndex:      postArgs.CurrentDayIndex - 1,
+				NextDayIndex:      postArgs.CurrentDayIndex + 1,
+
+				HasError:    true,
+				ErrorString: "No data for " + getCurrentDayStringFromDayIndex(postArgs.CurrentDayIndex),
+			},
+		}
+
+	} else {
+		dop := &day_overview_parser.DayOverviewParser{}
+		dod, e := dop.ParseFile(dataFilePath)
+		if e != nil {
+			logger.LogError(e.Error())
+			httpResponseWriter.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		pageObject = &HomePageObject{
+			DashboardData: DashboardData{
+				CurrentDayString:  getCurrentDayStringFromDayIndex(postArgs.CurrentDayIndex),
+				IsToday:           postArgs.CurrentDayIndex == 0,
+				ShowPrevDayButton: -(postArgs.CurrentDayIndex) < app_core.MAX_DAYS_TO_KEEP_RAW_DAY_DATA_FILES,
+				ShowNextDayButton: postArgs.CurrentDayIndex != 0,
+				PrevDayIndex:      postArgs.CurrentDayIndex - 1,
+				NextDayIndex:      postArgs.CurrentDayIndex + 1,
+
+				HasError:    false,
+				ErrorString: "",
+
+				CategorySplitPieGraph: *(getDayCategorySplitAsPieGraph(dod)),
+				DailyActivityBarGraph: *(getDayActivityAsBarGraph(dod)),
+			},
+		}
 	}
 
 	err := hh.TemplatedWriter.Render(httpResponseWriter, "home_page_template.html", pageObject)
@@ -105,33 +140,16 @@ func getDayActivityAsBarGraph(dod *day_overview_parser.DayOverviewData) *graph_t
 	}
 }
 
-// TODO: Move this somewhere else. Not just for dashboard
-func getColourForCategory(category app_core.Category_t) colours.Colour {
-	switch category {
-	case app_core.CATEGORY_PRODUCTIVE:
-		return colours.MediumSeaGreen
-	case app_core.CATEGORY_OPERATIONAL_OVERHEAD:
-		return colours.DarkKhaki
-	case app_core.CATEGORY_UNPRODUCTIVE:
-		return colours.IndianRed
-	case app_core.CATEGORY_UNCLASSIFIED:
-		return colours.LightSteelBlue
+func getCurrentDayStringFromDayIndex(dayIndex int) string {
+	if dayIndex > 0 {
+		logger.LogError("invalid day index|day index=" + strconv.Itoa(dayIndex))
+		return "invalid"
 	}
 
-	return colours.LightSteelBlue
-}
-
-// TODO: Move this somewhere else. Not just for dashboard
-func formatTime(hours int, minutes int) string {
-	hoursString := strconv.Itoa(hours % 12)
-	minutesString := strconv.Itoa(minutes)
-	if minutes <= 9 {
-		minutesString = "0" + minutesString
-	}
-	suffix := "am"
-	if hours > 12 {
-		suffix = "pm"
+	if dayIndex == 0 {
+		return "Today"
 	}
 
-	return hoursString + ":" + minutesString + " " + suffix
+	t := time.Now().AddDate(0, 0, dayIndex)
+	return t.Month().String() + " " + strconv.Itoa(t.Day())
 }

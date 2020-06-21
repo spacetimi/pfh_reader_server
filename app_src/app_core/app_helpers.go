@@ -2,8 +2,7 @@ package app_core
 
 import (
 	"strconv"
-
-	"github.com/spacetimi/timi_shared_server/utils/time_utils"
+	"time"
 )
 
 /**
@@ -12,9 +11,11 @@ day-index of -1 is yesterday, and so on
 day-index with positive values is undefined
 */
 func GetRawDayDataFilePath(dayIndex int) string {
-	year := time_utils.GetLocalYear()
-	month := time_utils.GetLocalMonth()
-	day := time_utils.GetLocalDayOfMonth()
+	t := time.Now().AddDate(0, 0, dayIndex)
+
+	year := t.Year()
+	month := int(t.Month())
+	day := t.Day()
 
 	yearString := strconv.Itoa(year)
 	monthString := strconv.Itoa(month)

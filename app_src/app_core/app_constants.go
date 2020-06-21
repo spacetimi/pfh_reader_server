@@ -10,6 +10,8 @@ const USER_PREFERENCES_FILE_NAME = "UserPreferencesData.json"
 
 var PFH_DAEMON_DATA_PATH string
 
+const MAX_DAYS_TO_KEEP_RAW_DAY_DATA_FILES = 7
+
 /** Package init **/
 func init() {
 	usr, err := user.Current()

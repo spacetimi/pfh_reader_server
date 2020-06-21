@@ -5,46 +5,74 @@
 
         <div class="col-md-6">
 
-            <div class="btn-group d-flex" role="group" aria-label="Basic example">
+            <div class="d-flex justify-content-center">
 
-                    <a href="#">
-                        <img src="/app-images/left-arrow-normal.png">
-                    </a>
+                <div>
+                    <form method="POST">
+                        {{ if .ShowPrevDayButton }}
+                        <input type="hidden" name="day-index" value="{{ .PrevDayIndex }}">
+                        <input type="image" src="/app-images/left-arrow-normal.png" alt="Previous Day">
+                        {{ else }}
+                        <img src="/app-images/left-arrow-disabled.png">
+                        {{ end }}
+                    </form>
+                </div>
 
-                    <span class="badge badge-light text-dark font-weight-bold text-uppercase p-3 w-100 ml-2 mr-2">Today <bold class="text-success">(Jun 21)</bold></span>
+                <div class="w-100 m-2 bg-light text-center rounded ">
+                    <small class="text-dark font-weight-bold text-uppercase">{{ .CurrentDayString }}</small>
+                </div>
 
-                    <a href="#">
-                        <img src="/app-images/right-arrow-normal.png">
-                    </a>
+                <div>
+                    <form method="POST">
+                        {{ if .ShowNextDayButton }}
+                        <input type="hidden" name="day-index" value="{{ .NextDayIndex }}">
+                        <input type="image" src="/app-images/right-arrow-normal.png" alt="Next Day">
+                        {{ else }}
+                        <img src="/app-images/right-arrow-disabled.png">
+                        {{ end }}
+                    </form>
+                </div>
 
             </div>
+
         </div>
 
         <div class="col-md-3"></div>
     </div>
-    <div class="row bg-primary pt-2">
-        <div class="col-md-4">
-            <small><span class="badge badge-dark text-light font-weight-bold text-uppercase p-1">Activity Timeline:</span></small>
-        </div>
-        <div class="container">
-            {{ template "bar_graph_template.html" .DailyActivityBarGraph  }}
-        </div>
-    </div>
 
-    <div class="row p-2">
-        <div class="col-md-6">
-            <small><span class="badge badge-dark text-light font-weight-bold text-uppercase p-1">Start Time: <bold class="text-warning">7 : 30 am</bold></span></small>
-            <small><span class="badge badge-dark text-light font-weight-bold text-uppercase p-1">Total ScreenTime: <bold class="text-warning">4 hours 32 min</bold></span></small>
-            <hr/>
-            <small><span class="badge badge-dark text-light font-weight-bold text-uppercase p-1">ScreenTime Breakdown:</span></small>
-            {{ template "pie_graph_template.html" .CategorySplitPieGraph }}
+    {{ if .HasError }}
+
+            <div class="jumbotron bg-light text-center text-danger font-weight-bold text-uppercase">
+                {{ .ErrorString }}
+            </div>
+
+    {{ else }}
+
+        <div class="row bg-primary pt-2">
+            <div class="col-md-4">
+                <small><span class="badge badge-dark text-light font-weight-bold text-uppercase p-1">Activity Timeline:</span></small>
+            </div>
+            <div class="container">
+                {{ template "bar_graph_template.html" .DailyActivityBarGraph  }}
+            </div>
         </div>
-        <div class="col-md-6 pt-2 pb-2 border border-dark rounded">
-                <small><span class="badge badge-dark text-light font-weight-bold text-uppercase p-1">Top Apps:</span></small>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
+
+        <div class="row p-2">
+            <div class="col-md-6">
+                <small><span class="badge badge-dark text-light font-weight-bold text-uppercase p-1">Start Time: <bold class="text-warning">7 : 30 am</bold></span></small>
+                <small><span class="badge badge-dark text-light font-weight-bold text-uppercase p-1">Total ScreenTime: <bold class="text-warning">4 hours 32 min</bold></span></small>
+                <hr/>
+                <small><span class="badge badge-dark text-light font-weight-bold text-uppercase p-1">ScreenTime Breakdown:</span></small>
+                {{ template "pie_graph_template.html" .CategorySplitPieGraph }}
+            </div>
+            <div class="col-md-6 pt-2 pb-2 border border-dark rounded">
+                    <small><span class="badge badge-dark text-light font-weight-bold text-uppercase p-1">Top Apps:</span></small>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+            </div>
         </div>
-    </div>
+
+    {{ end }}
 </div>

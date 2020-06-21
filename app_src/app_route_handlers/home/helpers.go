@@ -3,6 +3,8 @@ package home
 import (
 	"strconv"
 
+	"github.com/spacetimi/pfh_reader_server/app_src/app_core"
+	"github.com/spacetimi/pfh_reader_server/app_src/templates/colours"
 	"github.com/spacetimi/timi_shared_server/utils/logger"
 )
 
@@ -86,4 +88,33 @@ func parsePostArgs(postArgs map[string]string) *parsedPostArgs {
 	}
 
 	return parsed
+}
+
+func getColourForCategory(category app_core.Category_t) colours.Colour {
+	switch category {
+	case app_core.CATEGORY_PRODUCTIVE:
+		return colours.MediumSeaGreen
+	case app_core.CATEGORY_OPERATIONAL_OVERHEAD:
+		return colours.DarkKhaki
+	case app_core.CATEGORY_UNPRODUCTIVE:
+		return colours.IndianRed
+	case app_core.CATEGORY_UNCLASSIFIED:
+		return colours.LightSteelBlue
+	}
+
+	return colours.LightSteelBlue
+}
+
+func formatTime(hours int, minutes int) string {
+	hoursString := strconv.Itoa(hours % 12)
+	minutesString := strconv.Itoa(minutes)
+	if minutes <= 9 {
+		minutesString = "0" + minutesString
+	}
+	suffix := "am"
+	if hours > 12 {
+		suffix = "pm"
+	}
+
+	return hoursString + ":" + minutesString + " " + suffix
 }
