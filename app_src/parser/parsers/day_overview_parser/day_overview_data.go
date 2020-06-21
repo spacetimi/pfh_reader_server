@@ -71,6 +71,24 @@ func (dod *DayOverviewData) GetActivityInPeriodsForCategory(category app_core.Ca
 	return dod.ActivityOverview.getActivityInPeriodsForCategory(category)
 }
 
+func (dod *DayOverviewData) GetAppsUsageSeconds() map[string]int64 {
+	result := make(map[string]int64)
+
+	for _, cod := range dod.CategoryOverviewsByCategory {
+		for appName, appUsage := range cod.AppUsageOverviewsByApp {
+
+			seconds, ok := result[appName]
+			if !ok {
+				result[appName] = 0
+				seconds = 0
+			}
+			result[appName] = seconds + appUsage.TotalTimeSeconds
+		}
+	}
+
+	return result
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 
 func (cod *CategoryOverviewData) addAppUsageInSeconds(appName string, seconds int64) {

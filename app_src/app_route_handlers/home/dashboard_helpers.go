@@ -2,6 +2,7 @@ package home
 
 import (
 	"net/http"
+	"sort"
 	"strconv"
 	"time"
 
@@ -13,6 +14,8 @@ import (
 	"github.com/spacetimi/timi_shared_server/utils/file_utils"
 	"github.com/spacetimi/timi_shared_server/utils/logger"
 )
+
+const kMAX_TOP_APPS_TO_SHOW = 5
 
 func (hh *HomeHandler) showDashboard(httpResponseWriter http.ResponseWriter, request *http.Request, args *controller.HandlerFuncArgs, postArgs *parsedPostArgs) {
 
@@ -46,6 +49,30 @@ func (hh *HomeHandler) showDashboard(httpResponseWriter http.ResponseWriter, req
 		}
 		totalHours, totalMinutes := getHoursMinutesFromSeconds(int(dod.TotalTimeSeconds))
 
+		appsUsage := dod.GetAppsUsageSeconds()
+		appUsageDatas := make([]AppUsageData, 0)
+		for appName, seconds := range appsUsage {
+			hours, minutes := getHoursMinutesFromSeconds(int(seconds))
+			timeToShow := ""
+			if hours > 0 {
+				timeToShow = strconv.Itoa(hours) + " hours "
+			}
+			if minutes > 0 {
+				timeToShow = timeToShow + strconv.Itoa(minutes) + " min"
+			}
+			appUsageDatas = append(appUsageDatas, AppUsageData{
+				AppName:    appName,
+				Seconds:    seconds,
+				TimeToShow: timeToShow,
+			})
+		}
+		sort.Slice(appUsageDatas, func(i, j int) bool {
+			return appUsageDatas[i].Seconds > appUsageDatas[j].Seconds
+		})
+		if len(appUsageDatas) > kMAX_TOP_APPS_TO_SHOW {
+			appUsageDatas = appUsageDatas[0:kMAX_TOP_APPS_TO_SHOW]
+		}
+
 		pageObject = &HomePageObject{
 			DashboardData: DashboardData{
 				CurrentDayString:  getCurrentDayStringFromDayIndex(postArgs.CurrentDayIndex),
@@ -63,6 +90,8 @@ func (hh *HomeHandler) showDashboard(httpResponseWriter http.ResponseWriter, req
 
 				CategorySplitPieGraph: *(getDayCategorySplitAsPieGraph(dod)),
 				DailyActivityBarGraph: *(getDayActivityAsBarGraph(dod)),
+
+				TopApps: appUsageDatas,
 			},
 		}
 	}

@@ -66,10 +66,18 @@
             </div>
             <div class="col-md-6 pt-2 pb-2 border border-dark rounded">
                     <small><span class="badge badge-dark text-light font-weight-bold text-uppercase p-1">Top Apps:</span></small>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
+
+                    <ul class="list-group pt-2">
+                        {{ range .TopApps }}
+                        <li class="list-group-item p-1 bg-light">
+                            <div class="d-flex justify-content-between">
+                                <small class="font-weight-bold">{{ .AppName }}</small>
+                                <span class="badge badge-secondary badge-pill"><small>{{ .TimeToShow }}</small></span>
+                            </div>
+                        </li>
+                        {{ end }}
+                    </ul>
+
             </div>
         </div>
 

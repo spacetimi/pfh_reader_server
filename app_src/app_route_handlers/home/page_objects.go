@@ -22,4 +22,12 @@ type DashboardData struct {
 
 	CategorySplitPieGraph graph_templates.PieGraphTemplateObject
 	DailyActivityBarGraph graph_templates.BarGraphTemplateObject
+
+	TopApps []AppUsageData
+}
+
+type AppUsageData struct {
+	AppName    string
+	Seconds    int64
+	TimeToShow string
 }
