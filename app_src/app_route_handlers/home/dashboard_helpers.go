@@ -9,7 +9,6 @@ import (
 	"github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/parser_metadata"
 	"github.com/spacetimi/pfh_reader_server/app_src/templates/colours"
 	"github.com/spacetimi/pfh_reader_server/app_src/templates/graph_templates"
-	"github.com/spacetimi/pfh_reader_server/app_src/templates/home_page_templates"
 	"github.com/spacetimi/timi_shared_server/code/core/controller"
 	"github.com/spacetimi/timi_shared_server/utils/logger"
 )
@@ -22,7 +21,7 @@ func (hh *HomeHandler) showDashboard(httpResponseWriter http.ResponseWriter, req
 		httpResponseWriter.WriteHeader(http.StatusInternalServerError)
 	}
 
-	pageObject := &home_page_templates.HomePageTemplate{
+	pageObject := &HomePageObject{
 		CategorySplitPieGraph: *(getDayCategorySplitAsPieGraph(dod)),
 		DailyActivityBarGraph: *(getDayActivityAsBarGraph(dod)),
 	}
