@@ -36,6 +36,7 @@ func (hh *HomeHandler) showDashboard(httpResponseWriter http.ResponseWriter, req
 		}
 
 	} else {
+
 		dop := &day_overview_parser.DayOverviewParser{}
 		dod, e := dop.ParseFile(dataFilePath)
 		if e != nil {
@@ -43,6 +44,8 @@ func (hh *HomeHandler) showDashboard(httpResponseWriter http.ResponseWriter, req
 			httpResponseWriter.WriteHeader(http.StatusInternalServerError)
 			return
 		}
+		totalHours, totalMinutes := getHoursMinutesFromSeconds(int(dod.TotalTimeSeconds))
+
 		pageObject = &HomePageObject{
 			DashboardData: DashboardData{
 				CurrentDayString:  getCurrentDayStringFromDayIndex(postArgs.CurrentDayIndex),
@@ -54,6 +57,9 @@ func (hh *HomeHandler) showDashboard(httpResponseWriter http.ResponseWriter, req
 
 				HasError:    false,
 				ErrorString: "",
+
+				TotalScreenTimeHours:   totalHours,
+				TotalScreenTimeMinutes: totalMinutes,
 
 				CategorySplitPieGraph: *(getDayCategorySplitAsPieGraph(dod)),
 				DailyActivityBarGraph: *(getDayActivityAsBarGraph(dod)),

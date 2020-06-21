@@ -118,3 +118,10 @@ func formatTime(hours int, minutes int) string {
 
 	return hoursString + ":" + minutesString + " " + suffix
 }
+
+func getHoursMinutesFromSeconds(seconds int) (int, int) {
+	hours := seconds / 3600
+	minutes := (seconds % 3600) / 60
+
+	return hours, minutes
+}

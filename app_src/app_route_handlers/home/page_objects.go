@@ -17,6 +17,9 @@ type DashboardData struct {
 	PrevDayIndex      int
 	NextDayIndex      int
 
+	TotalScreenTimeHours   int
+	TotalScreenTimeMinutes int
+
 	CategorySplitPieGraph graph_templates.PieGraphTemplateObject
 	DailyActivityBarGraph graph_templates.BarGraphTemplateObject
 }
