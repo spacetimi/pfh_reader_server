@@ -11,15 +11,17 @@ const (
 	CATEGORY_UNCLASSIFIED
 )
 
-func CategoryFromString(s string) Category_t {
+func CategoryFromString(s string) (Category_t, bool) {
 	switch strings.ToLower(s) {
 	case "productive":
-		return CATEGORY_PRODUCTIVE
-	case "operational_overhead":
-		return CATEGORY_OPERATIONAL_OVERHEAD
+		return CATEGORY_PRODUCTIVE, true
+	case "operational-overhead":
+		return CATEGORY_OPERATIONAL_OVERHEAD, true
 	case "unproductive":
-		return CATEGORY_UNPRODUCTIVE
+		return CATEGORY_UNPRODUCTIVE, true
+	case "unclassified":
+		return CATEGORY_UNCLASSIFIED, true
 	default:
-		return CATEGORY_UNCLASSIFIED
+		return -1, false
 	}
 }

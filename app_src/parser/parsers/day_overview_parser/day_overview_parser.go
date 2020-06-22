@@ -85,8 +85,7 @@ func parseLine(line string) (*parsedLine_t, error) {
 	overrideCategory := app_core.CATEGORY_UNCLASSIFIED
 	hasOverrideCategory := false
 	if len(tokens) == 4 {
-		hasOverrideCategory = true
-		overrideCategory = app_core.CategoryFromString(tokens[3])
+		overrideCategory, hasOverrideCategory = app_core.CategoryFromString(tokens[3])
 	}
 
 	return &parsedLine_t{
