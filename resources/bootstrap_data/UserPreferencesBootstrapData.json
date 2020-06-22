@@ -32,6 +32,12 @@
     },
     {
       "MatchType": 0,
+      "MatchExpression": "Xcode",
+      "IgnoreCase": false,
+      "Category": 0
+    },
+    {
+      "MatchType": 0,
       "MatchExpression": "SmartGit",
       "IgnoreCase": false,
       "Category": 1
