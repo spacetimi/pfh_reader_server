@@ -18,5 +18,8 @@ tmp/*
 # IntelliJ
 .idea
 
+# VSCode
+.vscode
+
 # Mac Finder files
 .DS_Store
