@@ -28,6 +28,6 @@ func GetRawDayDataFilePath(dayIndex int) string {
 		dayString = "0" + dayString
 	}
 
-	fileName := yearString + "-" + monthString + "-" + dayString + ".dat"
+	fileName := "day-" + yearString + "-" + monthString + "-" + dayString + ".dat"
 	return PFH_DAEMON_DATA_PATH + "/" + fileName
 }
