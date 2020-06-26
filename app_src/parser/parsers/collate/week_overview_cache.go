@@ -14,17 +14,16 @@ import (
 
 var _weekOverviewCacheInstance *WeekOverviewCache
 
-func init() {
-	_weekOverviewCacheInstance = &WeekOverviewCache{
-		WeekOverviews: make(map[common.WeekIdentifier]*week_overview_parser.WeekOverviewData),
-	}
-}
-
 type WeekOverviewCache struct {
 	WeekOverviews map[common.WeekIdentifier]*week_overview_parser.WeekOverviewData
 }
 
 func WeekOverviewCacheInstance() *WeekOverviewCache {
+	if _weekOverviewCacheInstance == nil {
+		_weekOverviewCacheInstance = &WeekOverviewCache{
+			WeekOverviews: make(map[common.WeekIdentifier]*week_overview_parser.WeekOverviewData),
+		}
+	}
 	return _weekOverviewCacheInstance
 }
 
@@ -71,4 +70,5 @@ func (woc *WeekOverviewCache) Apply() {
 			continue
 		}
 	}
+	_weekOverviewCacheInstance = nil
 }
