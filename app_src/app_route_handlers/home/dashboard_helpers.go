@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/spacetimi/pfh_reader_server/app_src/app_core"
+	"github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/common"
 	"github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/day_overview_parser"
 	"github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/parser_metadata"
 	"github.com/spacetimi/pfh_reader_server/app_src/templates/graph_templates"
@@ -21,7 +22,7 @@ func (hh *HomeHandler) showDashboard(httpResponseWriter http.ResponseWriter, req
 
 	var pageObject *HomePageObject
 
-	dataFilePath := app_core.GetRawDayDataFilePath(postArgs.CurrentDayIndex)
+	dataFilePath := common.GetRawDayDataFilePath(postArgs.CurrentDayIndex)
 
 	if !file_utils.DoesFileOrDirectoryExist(dataFilePath) {
 		pageObject = &HomePageObject{

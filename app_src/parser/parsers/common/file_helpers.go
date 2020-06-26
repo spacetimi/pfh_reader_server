@@ -1,8 +1,10 @@
-package app_core
+package common
 
 import (
 	"strconv"
 	"time"
+
+	"github.com/spacetimi/pfh_reader_server/app_src/app_core"
 )
 
 /**
@@ -29,5 +31,5 @@ func GetRawDayDataFilePath(dayIndex int) string {
 	}
 
 	fileName := "day-" + yearString + "-" + monthString + "-" + dayString + ".dat"
-	return PFH_DAEMON_DATA_PATH + "/" + fileName
+	return app_core.PFH_DAEMON_DATA_PATH + "/" + fileName
 }
