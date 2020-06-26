@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/spacetimi/pfh_reader_server/app_src/app_routes"
+	"github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/collate"
 	"github.com/spacetimi/timi_shared_server/code/config"
 	"github.com/spacetimi/timi_shared_server/code/core/controller"
 	"github.com/spacetimi/timi_shared_server/utils/logger"
@@ -35,6 +36,11 @@ func (hh *HomeHandler) Routes() []controller.Route {
 func (hh *HomeHandler) HandlerFunc(httpResponseWriter http.ResponseWriter, request *http.Request, args *controller.HandlerFuncArgs) {
 
 	postArgs := parsePostArgs(args.PostArgs)
+
+	if postArgs.Tab == HOMEPAGE_TAB_DASHBOARD ||
+		postArgs.Tab == HOMEPAGE_TAB_WEEK {
+		collate.CollateDaysToWeeks()
+	}
 
 	switch postArgs.Tab {
 
