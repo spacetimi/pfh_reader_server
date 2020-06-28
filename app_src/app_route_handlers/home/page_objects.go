@@ -36,6 +36,9 @@ type WeekviewData struct {
 	PrevWeekIndex      int
 	NextWeekIndex      int
 
+	TotalScreenTimeHours   int
+	TotalScreenTimeMinutes int
+
 	AverageActivityBarGraph graph_templates.BarGraphTemplateObject
 	WeekdayActivities       []WeekdayActivityData
 }

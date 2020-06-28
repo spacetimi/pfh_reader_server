@@ -65,6 +65,21 @@ func (wod *WeekOverviewData) GetOrCreateSummaryForDay(year int, month int, day i
 	return ws
 }
 
+func (wod *WeekOverviewData) GetTotalScreenTimeSeconds() int64 {
+	totalSeconds := int64(0)
+
+	for _, weekdaySummary := range wod.WeekdaySummariesByDay {
+		for c := app_core.CATEGORY_PRODUCTIVE; c < app_core.CATEGORY_UNCLASSIFIED; c = c + 1 {
+			seconds, ok := weekdaySummary.SecondsByCategory[c]
+			if ok {
+				totalSeconds = totalSeconds + seconds
+			}
+		}
+	}
+
+	return totalSeconds
+}
+
 func (wod *WeekOverviewData) GetAverageActivityPeriods() *common.ActivityOverviewData {
 
 	averageActivityOverview := common.NewActivityOverviewData()

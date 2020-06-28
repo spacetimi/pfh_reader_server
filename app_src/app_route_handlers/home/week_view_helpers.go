@@ -57,6 +57,8 @@ func (hh *HomeHandler) getWeekviewPageObject(postArgs *parsedPostArgs) *Weekview
 	}
 
 	averageActivity := wod.GetAverageActivityPeriods()
+	totalScreentimeSeconds := wod.GetTotalScreenTimeSeconds()
+	totalScreentimeHours, totalScreentimeMinutes := getHoursMinutesFromSeconds(int(totalScreentimeSeconds))
 
 	weekviewPageObject = &WeekviewData{
 		ErrorablePage: ErrorablePage{
@@ -69,6 +71,9 @@ func (hh *HomeHandler) getWeekviewPageObject(postArgs *parsedPostArgs) *Weekview
 		NextWeekIndex:      nextWeekIndex,
 		ShowNextWeekButton: canShowNextWeekButton,
 		ShowPrevWeekButton: canShowPrevWeekButton,
+
+		TotalScreenTimeHours:   totalScreentimeHours,
+		TotalScreenTimeMinutes: totalScreentimeMinutes,
 
 		AverageActivityBarGraph: *(getActivityOverviewAsBarGraph(averageActivity, "week-average-activity-bargraph")),
 		WeekdayActivities:       getWeekdayActivities(wod),
