@@ -60,7 +60,6 @@ func (hh *HomeHandler) getWeekviewPageObject(postArgs *parsedPostArgs) *Weekview
 		return weekviewPageObject
 	}
 
-	averageActivity := wod.GetAverageActivityPeriods()
 	totalScreentimeSeconds := wod.GetTotalScreenTimeSeconds()
 	totalScreentimeHours, totalScreentimeMinutes := getHoursMinutesFromSeconds(int(totalScreentimeSeconds))
 
@@ -82,9 +81,9 @@ func (hh *HomeHandler) getWeekviewPageObject(postArgs *parsedPostArgs) *Weekview
 		TotalScreenTimeHours:   totalScreentimeHours,
 		TotalScreenTimeMinutes: totalScreentimeMinutes,
 
-		CategorySplitPieGraph:   *(getWeekCategorySplitAsPieGraph(wod)),
-		AverageActivityBarGraph: *(getActivityOverviewAsBarGraph(averageActivity, "week-average-activity-bargraph")),
-		WeekdayActivities:       getWeekdayActivities(wod),
+		CategorySplitPieGraph:     *(getWeekCategorySplitAsPieGraph(wod)),
+		WeekdayActivitiesBarGraph: *(getWeekdayActivitiesAsBarGraph(wod)),
+		WeekdayActivities:         getWeekdayActivities(wod),
 
 		TopApps: appUsageDatas,
 	}
@@ -120,6 +119,47 @@ func getWeekCategorySplitAsPieGraph(wod *week_overview_parser.WeekOverviewData) 
 		},
 		IsDoughnut:       true,
 		CutoutPercentage: 50,
+	}
+}
+
+func getWeekdayActivitiesAsBarGraph(wod *week_overview_parser.WeekOverviewData) *graph_templates.BarGraphTemplateObject {
+
+	datasets := make([]graph_templates.Dataset, app_core.CATEGORY_UNCLASSIFIED+1)
+
+	for c := app_core.CATEGORY_PRODUCTIVE; c <= app_core.CATEGORY_UNCLASSIFIED; c = c + 1 {
+		dataset := graph_templates.NewDataset()
+		colour := getColourForCategory(c)
+		for day := week_overview_parser.Monday; day <= week_overview_parser.Sunday; day = day + 1 {
+			seconds := wod.GetSecondsInCategoryForDay(day, c)
+			dataset.AddDataItem(float32(seconds), colour)
+		}
+		datasets[c] = *dataset
+	}
+
+	legends := make([]string, 7)
+	for day := week_overview_parser.Monday; day <= week_overview_parser.Sunday; day = day + 1 {
+		legends[day] = day.String()
+	}
+
+	return &graph_templates.BarGraphTemplateObject{
+		GraphTemplateObject: graph_templates.GraphTemplateObject{
+			GraphName:             "week-activity-overview-bargraph",
+			Datasets:              datasets,
+			Legends:               legends,
+			ShowLegend:            false,
+			LegendPosition:        "top",
+			UseWidthAndHeight:     true,
+			Width:                 400,
+			Height:                50,
+			ResponsiveSize:        true,
+			FormatTimeFromSeconds: true,
+		},
+		Stacked:                   true,
+		BarDisplayPercentage:      0.9,
+		CategoryDisplayPercentage: 0.9,
+		ShowAxis:                  true,
+		ShowGridlines:             false,
+		ShowTicks:                 false,
 	}
 }
 

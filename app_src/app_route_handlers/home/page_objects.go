@@ -41,8 +41,8 @@ type WeekviewData struct {
 
 	CategorySplitPieGraph graph_templates.PieGraphTemplateObject
 
-	AverageActivityBarGraph graph_templates.BarGraphTemplateObject
-	WeekdayActivities       []WeekdayActivityData
+	WeekdayActivitiesBarGraph graph_templates.BarGraphTemplateObject
+	WeekdayActivities         []WeekdayActivityData
 
 	TopApps []AppUsageData
 }
