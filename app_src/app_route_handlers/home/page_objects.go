@@ -37,6 +37,14 @@ type WeekviewData struct {
 	NextWeekIndex      int
 
 	AverageActivityBarGraph graph_templates.BarGraphTemplateObject
+	WeekdayActivities       []WeekdayActivityData
+}
+
+type WeekdayActivityData struct {
+	WeekdayIndex int
+
+	WeekdayName      string
+	ActivityBarGraph graph_templates.BarGraphTemplateObject
 }
 
 type ErrorablePage struct {

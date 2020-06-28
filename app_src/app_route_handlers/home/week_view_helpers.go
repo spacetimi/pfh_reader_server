@@ -1,6 +1,7 @@
 package home
 
 import (
+	"sort"
 	"strconv"
 	"time"
 
@@ -70,9 +71,29 @@ func (hh *HomeHandler) getWeekviewPageObject(postArgs *parsedPostArgs) *Weekview
 		ShowPrevWeekButton: canShowPrevWeekButton,
 
 		AverageActivityBarGraph: *(getActivityOverviewAsBarGraph(averageActivity, "week-average-activity-bargraph")),
+		WeekdayActivities:       getWeekdayActivities(wod),
 	}
 
 	return weekviewPageObject
+}
+
+func getWeekdayActivities(wod *week_overview_parser.WeekOverviewData) []WeekdayActivityData {
+	var weekdayActivities []WeekdayActivityData
+
+	for _, weekdaySummary := range wod.WeekdaySummariesByDay {
+		weekdayActivity := WeekdayActivityData{
+			WeekdayIndex:     int(weekdaySummary.DayOfWeek),
+			WeekdayName:      weekdaySummary.DayOfWeek.String(),
+			ActivityBarGraph: *(getActivityOverviewAsBarGraph(weekdaySummary.ActivityOverview, weekdaySummary.DayOfWeek.String()+"-activity-bargraph")),
+		}
+		weekdayActivities = append(weekdayActivities, weekdayActivity)
+	}
+
+	sort.Slice(weekdayActivities, func(i, j int) bool {
+		return weekdayActivities[i].WeekdayIndex < weekdayActivities[j].WeekdayIndex
+	})
+
+	return weekdayActivities
 }
 
 /*
