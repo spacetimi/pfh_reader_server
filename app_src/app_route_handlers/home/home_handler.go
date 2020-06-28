@@ -44,6 +44,8 @@ func (hh *HomeHandler) HandlerFunc(httpResponseWriter http.ResponseWriter, reque
 	weekviewPageObject := hh.getWeekviewPageObject(postArgs)
 
 	pageObject := HomePageObject{
+		CurrentTab: postArgs.Tab.String(),
+
 		DashboardData: *dashboardPageObject,
 		WeekviewData:  *weekviewPageObject,
 	}

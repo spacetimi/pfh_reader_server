@@ -11,6 +11,7 @@
                     <form method="POST">
                         {{ if .ShowPrevDayButton }}
                         <input type="hidden" name="day-index" value="{{ .PrevDayIndex }}">
+                        <input type="hidden" name="tab" value="dashboard">
                         <input type="image" src="/app-images/left-arrow-normal.png" alt="Previous Day">
                         {{ else }}
                         <img src="/app-images/left-arrow-disabled.png">
@@ -26,6 +27,7 @@
                     <form method="POST">
                         {{ if .ShowNextDayButton }}
                         <input type="hidden" name="day-index" value="{{ .NextDayIndex }}">
+                        <input type="hidden" name="tab" value="dashboard">
                         <input type="image" src="/app-images/right-arrow-normal.png" alt="Next Day">
                         {{ else }}
                         <img src="/app-images/right-arrow-disabled.png">

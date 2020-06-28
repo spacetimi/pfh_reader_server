@@ -10,6 +10,7 @@
                     <form method="POST">
                         {{ if .ShowPrevWeekButton }}
                         <input type="hidden" name="week-index" value="{{ .PrevWeekIndex }}">
+                        <input type="hidden" name="tab" value="week">
                         <input type="image" src="/app-images/left-arrow-normal.png" alt="Previous Week">
                         {{ else }}
                         <img src="/app-images/left-arrow-disabled.png">
@@ -25,6 +26,7 @@
                     <form method="POST">
                         {{ if .ShowNextWeekButton }}
                         <input type="hidden" name="week-index" value="{{ .NextWeekIndex }}">
+                        <input type="hidden" name="tab" value="week">
                         <input type="image" src="/app-images/right-arrow-normal.png" alt="Next Week">
                         {{ else }}
                         <img src="/app-images/right-arrow-disabled.png">

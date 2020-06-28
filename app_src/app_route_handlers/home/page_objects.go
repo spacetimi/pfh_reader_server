@@ -3,6 +3,8 @@ package home
 import "github.com/spacetimi/pfh_reader_server/app_src/templates/graph_templates"
 
 type HomePageObject struct {
+	CurrentTab string
+
 	DashboardData
 	WeekviewData
 }

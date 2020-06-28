@@ -16,16 +16,16 @@
             <div class="col-md-3">
                 <!-- Tabs nav -->
                 <div class="nav flex-column nav-pills nav-pills-custom" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    <a class="nav-link mb-3 p-3 shadow active" id="v-pills-dashboard-tab" data-toggle="pill" href="#v-pills-dashboard" role="tab" aria-controls="v-pills-dashboard" aria-selected="true">
+                    <a class='nav-link mb-3 p-3 shadow {{ if eq .CurrentTab "dashboard" }} active {{ end }}' id="v-pills-dashboard-tab" data-toggle="pill" href="#v-pills-dashboard" role="tab" aria-controls="v-pills-dashboard" aria-selected="true">
                         <span class="font-weight-bold small text-uppercase">Dashboard</span></a>
 
-                    <a class="nav-link mb-3 p-3 shadow" id="v-pills-week-tab" data-toggle="pill" href="#v-pills-week" role="tab" aria-controls="v-pills-week" aria-selected="false">
+                    <a class='nav-link mb-3 p-3 shadow {{ if eq .CurrentTab "week" }} active {{ end }}' id="v-pills-week-tab" data-toggle="pill" href="#v-pills-week" role="tab" aria-controls="v-pills-week" aria-selected="false">
                         <span class="font-weight-bold small text-uppercase">Week</span></a>
 
-                    <a class="nav-link mb-3 p-3 shadow" id="v-pills-insights-tab" data-toggle="pill" href="#v-pills-insights" role="tab" aria-controls="v-pills-insights" aria-selected="false">
+                    <a class='nav-link mb-3 p-3 shadow {{ if eq .CurrentTab "insights" }} active {{ end }}' id="v-pills-insights-tab" data-toggle="pill" href="#v-pills-insights" role="tab" aria-controls="v-pills-insights" aria-selected="false">
                         <span class="font-weight-bold small text-uppercase">Insights</span></a>
 
-                    <a class="nav-link mb-3 p-3 shadow" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+                    <a class='nav-link mb-3 p-3 shadow {{ if eq .CurrentTab "settings" }} active {{ end }}' id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">
                         <span class="font-weight-bold small text-uppercase">Settings</span></a>
                 </div>
             </div>
@@ -34,20 +34,20 @@
             <div class="col-md-9">
                 <!-- Tabs content -->
                 <div class="tab-content" id="v-pills-tabContent">
-                    <div class="tab-pane fade shadow rounded bg-white show active" id="v-pills-dashboard" role="tabpanel" aria-labelledby="v-pills-dashboard-tab">
+                    <div class='tab-pane fade shadow rounded bg-white {{ if eq .CurrentTab "dashboard" }} show active {{ end }}' id="v-pills-dashboard" role="tabpanel" aria-labelledby="v-pills-dashboard-tab">
                         {{ template "dashboard_template.html" .DashboardData }}
                     </div>
 
-                    <div class="tab-pane fade shadow rounded bg-white" id="v-pills-week" role="tabpanel" aria-labelledby="v-pills-week-tab">
+                    <div class='tab-pane fade shadow rounded bg-white {{ if eq .CurrentTab "week" }} show active {{ end }}' id="v-pills-week" role="tabpanel" aria-labelledby="v-pills-week-tab">
                         {{ template "weekview_template.html" .WeekviewData }}
                     </div>
 
-                    <div class="tab-pane fade shadow rounded bg-white p-5" id="v-pills-insights" role="tabpanel" aria-labelledby="v-pills-insights-tab">
+                    <div class='tab-pane fade shadow rounded bg-white p-5 {{ if eq .CurrentTab "insights" }} show active {{ end }}' id="v-pills-insights" role="tabpanel" aria-labelledby="v-pills-insights-tab">
                         <h4 class="font-italic mb-4">Confirm booking</h4>
                         <p class="font-italic text-muted mb-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                     </div>
 
-                    <div class="tab-pane fade shadow rounded bg-white p-5" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+                    <div class='tab-pane fade shadow rounded bg-white p-5 {{ if eq .CurrentTab "settings" }} show active {{ end }}' id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
                         <h4 class="font-italic mb-4">Confirm booking</h4>
                         <p class="font-italic text-muted mb-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                     </div>
