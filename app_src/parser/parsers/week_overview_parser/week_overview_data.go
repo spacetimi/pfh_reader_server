@@ -69,11 +69,24 @@ func (wod *WeekOverviewData) GetTotalScreenTimeSeconds() int64 {
 	totalSeconds := int64(0)
 
 	for _, weekdaySummary := range wod.WeekdaySummariesByDay {
-		for c := app_core.CATEGORY_PRODUCTIVE; c < app_core.CATEGORY_UNCLASSIFIED; c = c + 1 {
+		for c := app_core.CATEGORY_PRODUCTIVE; c <= app_core.CATEGORY_UNCLASSIFIED; c = c + 1 {
 			seconds, ok := weekdaySummary.SecondsByCategory[c]
 			if ok {
 				totalSeconds = totalSeconds + seconds
 			}
+		}
+	}
+
+	return totalSeconds
+}
+
+func (wod *WeekOverviewData) GetSecondsInCategory(category app_core.Category_t) int64 {
+	totalSeconds := int64(0)
+
+	for _, weekdaySummary := range wod.WeekdaySummariesByDay {
+		seconds, ok := weekdaySummary.SecondsByCategory[category]
+		if ok {
+			totalSeconds = totalSeconds + seconds
 		}
 	}
 

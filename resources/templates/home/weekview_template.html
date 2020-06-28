@@ -90,11 +90,12 @@
             <br/>
         </div>
 
-        <br/>
-
         <div class="row p-2">
             <div class="col-md-6">
                 <small><span class="badge badge-dark text-light font-weight-bold text-uppercase p-1">Total ScreenTime: <bold class="text-warning">{{ .TotalScreenTimeHours }} hours {{ .TotalScreenTimeMinutes }} min</bold></span></small>
+                <hr/>
+                <small><span class="badge badge-dark text-light font-weight-bold text-uppercase p-1">ScreenTime Breakdown:</span></small>
+                {{ template "pie_graph_template.html" .CategorySplitPieGraph }}
             </div>
             <hr/>
         </div>

@@ -5,8 +5,10 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/spacetimi/pfh_reader_server/app_src/app_core"
 	"github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/common"
 	"github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/week_overview_parser"
+	"github.com/spacetimi/pfh_reader_server/app_src/templates/graph_templates"
 	"github.com/spacetimi/timi_shared_server/utils/file_utils"
 	"github.com/spacetimi/timi_shared_server/utils/logger"
 )
@@ -75,11 +77,43 @@ func (hh *HomeHandler) getWeekviewPageObject(postArgs *parsedPostArgs) *Weekview
 		TotalScreenTimeHours:   totalScreentimeHours,
 		TotalScreenTimeMinutes: totalScreentimeMinutes,
 
+		CategorySplitPieGraph:   *(getWeekCategorySplitAsPieGraph(wod)),
 		AverageActivityBarGraph: *(getActivityOverviewAsBarGraph(averageActivity, "week-average-activity-bargraph")),
 		WeekdayActivities:       getWeekdayActivities(wod),
 	}
 
 	return weekviewPageObject
+}
+
+func getWeekCategorySplitAsPieGraph(wod *week_overview_parser.WeekOverviewData) *graph_templates.PieGraphTemplateObject {
+	dataset := graph_templates.NewDataset()
+
+	dataset.AddDataItem(float32(wod.GetSecondsInCategory(app_core.CATEGORY_PRODUCTIVE)), getColourForCategory(app_core.CATEGORY_PRODUCTIVE))
+	dataset.AddDataItem(float32(wod.GetSecondsInCategory(app_core.CATEGORY_OPERATIONAL_OVERHEAD)), getColourForCategory(app_core.CATEGORY_OPERATIONAL_OVERHEAD))
+	dataset.AddDataItem(float32(wod.GetSecondsInCategory(app_core.CATEGORY_UNPRODUCTIVE)), getColourForCategory(app_core.CATEGORY_UNPRODUCTIVE))
+	dataset.AddDataItem(float32(wod.GetSecondsInCategory(app_core.CATEGORY_UNCLASSIFIED)), getColourForCategory(app_core.CATEGORY_UNCLASSIFIED))
+
+	legends := []string{
+		"Productive",
+		"Operational Overhead",
+		"Unproductive",
+		"Others",
+	}
+
+	return &graph_templates.PieGraphTemplateObject{
+		GraphTemplateObject: graph_templates.GraphTemplateObject{
+			GraphName:             "week-category-split-piegraph",
+			Datasets:              []graph_templates.Dataset{*dataset},
+			Legends:               legends,
+			ShowLegend:            true,
+			LegendPosition:        "left",
+			ResponsiveSize:        false,
+			UseWidthAndHeight:     false,
+			FormatTimeFromSeconds: true,
+		},
+		IsDoughnut:       true,
+		CutoutPercentage: 50,
+	}
 }
 
 func getWeekdayActivities(wod *week_overview_parser.WeekOverviewData) []WeekdayActivityData {

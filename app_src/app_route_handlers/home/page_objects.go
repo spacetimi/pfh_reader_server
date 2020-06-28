@@ -39,6 +39,8 @@ type WeekviewData struct {
 	TotalScreenTimeHours   int
 	TotalScreenTimeMinutes int
 
+	CategorySplitPieGraph graph_templates.PieGraphTemplateObject
+
 	AverageActivityBarGraph graph_templates.BarGraphTemplateObject
 	WeekdayActivities       []WeekdayActivityData
 }
