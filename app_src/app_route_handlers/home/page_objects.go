@@ -50,6 +50,9 @@ type WeekviewData struct {
 type WeekdayActivityData struct {
 	WeekdayIndex int
 
+	ScreentimeHours   int
+	ScreentimeMinutes int
+
 	WeekdayName      string
 	ActivityBarGraph graph_templates.BarGraphTemplateObject
 }

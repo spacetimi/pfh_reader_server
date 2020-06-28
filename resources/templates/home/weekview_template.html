@@ -79,7 +79,7 @@
                 {{ range .WeekdayActivities }}
                     <div class="row bg-secondary pt-2">
                         <div class="col-md-4">
-                            <small><span class="badge badge-dark text-light font-weight-bold text-uppercase p-1">{{ .WeekdayName }}</span></small>
+                            <small><span class="badge badge-dark text-light font-weight-bold text-uppercase p-1">{{ .WeekdayName }}: <bold class="text-warning">{{ .ScreentimeHours }} hours {{ .ScreentimeMinutes }} min</bold></span></small>
                         </div>
                         <div class="container">
                             {{ template "bar_graph_template.html" .ActivityBarGraph  }}

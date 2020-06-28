@@ -127,9 +127,16 @@ func getWeekdayActivities(wod *week_overview_parser.WeekOverviewData) []WeekdayA
 	var weekdayActivities []WeekdayActivityData
 
 	for _, weekdaySummary := range wod.WeekdaySummariesByDay {
+		screentimeSeconds := weekdaySummary.GetTotalScreentimeSeconds()
+		hours, minutes := getHoursMinutesFromSeconds(int(screentimeSeconds))
+
 		weekdayActivity := WeekdayActivityData{
-			WeekdayIndex:     int(weekdaySummary.DayOfWeek),
-			WeekdayName:      weekdaySummary.DayOfWeek.String(),
+			WeekdayIndex: int(weekdaySummary.DayOfWeek),
+			WeekdayName:  weekdaySummary.DayOfWeek.String(),
+
+			ScreentimeHours:   hours,
+			ScreentimeMinutes: minutes,
+
 			ActivityBarGraph: *(getActivityOverviewAsBarGraph(weekdaySummary.ActivityOverview, weekdaySummary.DayOfWeek.String()+"-activity-bargraph")),
 		}
 		weekdayActivities = append(weekdayActivities, weekdayActivity)

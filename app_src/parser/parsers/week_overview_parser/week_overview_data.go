@@ -135,6 +135,16 @@ func (wod *WeekOverviewData) GetAverageActivityPeriods() *common.ActivityOvervie
 	return averageActivityOverview
 }
 
+func (wsd *WeekdaySummaryData) GetTotalScreentimeSeconds() int64 {
+	totalSeconds := int64(0)
+
+	for _, seconds := range wsd.SecondsByCategory {
+		totalSeconds = totalSeconds + seconds
+	}
+
+	return totalSeconds
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 
 func (dow DayOfWeek) String() string {
