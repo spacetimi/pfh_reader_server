@@ -1,0 +1,40 @@
+<div class="container">
+    <div class="row bg-dark rounded-top pt-2 pb-2">
+
+        <div class="col-md-3"></div>
+
+        <div class="col-md-6">
+            <div class="d-flex justify-content-center">
+
+                <div>
+                    <form method="POST">
+                        {{ if .ShowPrevWeekButton }}
+                        <input type="hidden" name="week-index" value="{{ .PrevWeekIndex }}">
+                        <input type="image" src="/app-images/left-arrow-normal.png" alt="Previous Week">
+                        {{ else }}
+                        <img src="/app-images/left-arrow-disabled.png">
+                        {{ end }}
+                    </form>
+                </div>
+
+                <div class="w-100 m-2 bg-light text-center rounded ">
+                    <small class="text-dark font-weight-bold text-uppercase">{{ .CurrentWeekString }}</small>
+                </div>
+
+                <div>
+                    <form method="POST">
+                        {{ if .ShowNextWeekButton }}
+                        <input type="hidden" name="week-index" value="{{ .NextWeekIndex }}">
+                        <input type="image" src="/app-images/right-arrow-normal.png" alt="Next Week">
+                        {{ else }}
+                        <img src="/app-images/right-arrow-disabled.png">
+                        {{ end }}
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-3"></div>
+    </div>
+</div>

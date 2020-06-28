@@ -4,11 +4,11 @@ import "github.com/spacetimi/pfh_reader_server/app_src/templates/graph_templates
 
 type HomePageObject struct {
 	DashboardData
+	WeekviewData
 }
 
 type DashboardData struct {
-	HasError    bool
-	ErrorString string
+	ErrorablePage
 
 	CurrentDayString  string
 	IsToday           bool
@@ -24,6 +24,22 @@ type DashboardData struct {
 	DailyActivityBarGraph graph_templates.BarGraphTemplateObject
 
 	TopApps []AppUsageData
+}
+
+type WeekviewData struct {
+	ErrorablePage
+
+	CurrentWeekString  string
+	IsCurrentWeek      bool
+	ShowPrevWeekButton bool
+	ShowNextWeekButton bool
+	PrevWeekIndex      int
+	NextWeekIndex      int
+}
+
+type ErrorablePage struct {
+	HasError    bool
+	ErrorString string
 }
 
 type AppUsageData struct {

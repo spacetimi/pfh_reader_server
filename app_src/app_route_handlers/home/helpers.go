@@ -54,10 +54,12 @@ func (tab HomePageTab_t) String() string {
 
 const kPostArgNameCurrentTab = "tab"
 const kPostArgNameCurrentDayIndex = "day-index"
+const kPostArgNameCurrentWeekIndex = "week-index"
 
 type parsedPostArgs struct {
-	Tab             HomePageTab_t
-	CurrentDayIndex int // 0 is today, -1 is yesterday, and so on
+	Tab              HomePageTab_t
+	CurrentDayIndex  int // 0 is today, -1 is yesterday, and so on
+	CurrentWeekIndex int // 0 is today, -1 is previous week, and so on
 }
 
 func parsePostArgs(postArgs map[string]string) *parsedPostArgs {
@@ -84,6 +86,18 @@ func parsePostArgs(postArgs map[string]string) *parsedPostArgs {
 				"|error=" + err.Error())
 		} else {
 			parsed.CurrentDayIndex = int(dayIndex)
+		}
+	}
+
+	weekIndexString, ok := postArgs[kPostArgNameCurrentWeekIndex]
+	if ok {
+		weekIndex, err := strconv.ParseInt(weekIndexString, 10, 32)
+		if err != nil {
+			logger.LogError("error parsing week index from post args" +
+				"|week index string=" + weekIndexString +
+				"|error=" + err.Error())
+		} else {
+			parsed.CurrentWeekIndex = int(weekIndex)
 		}
 	}
 

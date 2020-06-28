@@ -31,8 +31,10 @@ func (hh *HomeHandler) getDashboardPageObject(postArgs *parsedPostArgs) *Dashboa
 			PrevDayIndex:      postArgs.CurrentDayIndex - 1,
 			NextDayIndex:      postArgs.CurrentDayIndex + 1,
 
-			HasError:    true,
-			ErrorString: "No data for " + getCurrentDayStringFromDayIndex(postArgs.CurrentDayIndex),
+			ErrorablePage: ErrorablePage{
+				HasError:    true,
+				ErrorString: "No data for " + getCurrentDayStringFromDayIndex(postArgs.CurrentDayIndex),
+			},
 		}
 
 		return dashboardPageObject
@@ -49,8 +51,10 @@ func (hh *HomeHandler) getDashboardPageObject(postArgs *parsedPostArgs) *Dashboa
 			PrevDayIndex:      postArgs.CurrentDayIndex - 1,
 			NextDayIndex:      postArgs.CurrentDayIndex + 1,
 
-			HasError:    true,
-			ErrorString: "Error parsing data for " + getCurrentDayStringFromDayIndex(postArgs.CurrentDayIndex),
+			ErrorablePage: ErrorablePage{
+				HasError:    true,
+				ErrorString: "Error parsing data for " + getCurrentDayStringFromDayIndex(postArgs.CurrentDayIndex),
+			},
 		}
 
 		return dashboardPageObject
@@ -90,8 +94,10 @@ func (hh *HomeHandler) getDashboardPageObject(postArgs *parsedPostArgs) *Dashboa
 		PrevDayIndex:      postArgs.CurrentDayIndex - 1,
 		NextDayIndex:      postArgs.CurrentDayIndex + 1,
 
-		HasError:    false,
-		ErrorString: "",
+		ErrorablePage: ErrorablePage{
+			HasError:    false,
+			ErrorString: "",
+		},
 
 		TotalScreenTimeHours:   totalHours,
 		TotalScreenTimeMinutes: totalMinutes,

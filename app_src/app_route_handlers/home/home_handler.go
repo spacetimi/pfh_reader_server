@@ -41,9 +41,11 @@ func (hh *HomeHandler) HandlerFunc(httpResponseWriter http.ResponseWriter, reque
 	collate.CollateDaysToWeeks()
 
 	dashboardPageObject := hh.getDashboardPageObject(postArgs)
+	weekviewPageObject := hh.getWeekviewPageObject(postArgs)
 
 	pageObject := HomePageObject{
 		DashboardData: *dashboardPageObject,
+		WeekviewData:  *weekviewPageObject,
 	}
 
 	err := hh.TemplatedWriter.Render(httpResponseWriter, "home_page_template.html", pageObject)
