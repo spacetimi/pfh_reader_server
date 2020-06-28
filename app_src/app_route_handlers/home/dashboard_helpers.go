@@ -25,7 +25,6 @@ func (hh *HomeHandler) getDashboardPageObject(postArgs *parsedPostArgs) *Dashboa
 	if !file_utils.DoesFileOrDirectoryExist(dataFilePath) {
 		dashboardPageObject = &DashboardData{
 			CurrentDayString:  getCurrentDayStringFromDayIndex(postArgs.CurrentDayIndex),
-			IsToday:           postArgs.CurrentDayIndex == 0,
 			ShowPrevDayButton: -(postArgs.CurrentDayIndex) < app_core.MAX_DAYS_TO_KEEP_RAW_DAY_DATA_FILES,
 			ShowNextDayButton: postArgs.CurrentDayIndex != 0,
 			PrevDayIndex:      postArgs.CurrentDayIndex - 1,
@@ -45,7 +44,6 @@ func (hh *HomeHandler) getDashboardPageObject(postArgs *parsedPostArgs) *Dashboa
 	if e != nil {
 		dashboardPageObject = &DashboardData{
 			CurrentDayString:  getCurrentDayStringFromDayIndex(postArgs.CurrentDayIndex),
-			IsToday:           postArgs.CurrentDayIndex == 0,
 			ShowPrevDayButton: -(postArgs.CurrentDayIndex) < app_core.MAX_DAYS_TO_KEEP_RAW_DAY_DATA_FILES,
 			ShowNextDayButton: postArgs.CurrentDayIndex != 0,
 			PrevDayIndex:      postArgs.CurrentDayIndex - 1,
@@ -88,7 +86,6 @@ func (hh *HomeHandler) getDashboardPageObject(postArgs *parsedPostArgs) *Dashboa
 
 	dashboardPageObject = &DashboardData{
 		CurrentDayString:  getCurrentDayStringFromDayIndex(postArgs.CurrentDayIndex),
-		IsToday:           postArgs.CurrentDayIndex == 0,
 		ShowPrevDayButton: -(postArgs.CurrentDayIndex) < app_core.MAX_DAYS_TO_KEEP_RAW_DAY_DATA_FILES,
 		ShowNextDayButton: postArgs.CurrentDayIndex != 0,
 		PrevDayIndex:      postArgs.CurrentDayIndex - 1,

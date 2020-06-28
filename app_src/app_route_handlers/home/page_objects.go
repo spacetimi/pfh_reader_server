@@ -13,7 +13,6 @@ type DashboardData struct {
 	ErrorablePage
 
 	CurrentDayString  string
-	IsToday           bool
 	ShowPrevDayButton bool
 	ShowNextDayButton bool
 	PrevDayIndex      int
@@ -32,7 +31,6 @@ type WeekviewData struct {
 	ErrorablePage
 
 	CurrentWeekString  string
-	IsCurrentWeek      bool
 	ShowPrevWeekButton bool
 	ShowNextWeekButton bool
 	PrevWeekIndex      int
