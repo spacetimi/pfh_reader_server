@@ -14,6 +14,7 @@ type ActivityOverviewData struct {
 }
 
 type ActivityPeriodData struct {
+	PeriodIndex       int
 	SecondsInCategory map[app_core.Category_t]int64
 }
 
@@ -24,14 +25,15 @@ func NewActivityOverviewData() *ActivityOverviewData {
 	aod := &ActivityOverviewData{}
 
 	for i := 0; i < len(aod.ActivityPeriods); i = i + 1 {
-		aod.ActivityPeriods[i] = NewActivityPeriodData()
+		aod.ActivityPeriods[i] = NewActivityPeriodData(i)
 	}
 
 	return aod
 }
 
-func NewActivityPeriodData() *ActivityPeriodData {
+func NewActivityPeriodData(periodIndex int) *ActivityPeriodData {
 	apd := &ActivityPeriodData{
+		PeriodIndex:       periodIndex,
 		SecondsInCategory: make(map[app_core.Category_t]int64),
 	}
 

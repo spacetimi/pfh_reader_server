@@ -4,7 +4,10 @@ import (
 	"strconv"
 
 	"github.com/spacetimi/pfh_reader_server/app_src/app_core"
+	"github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/common"
+	"github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/parser_metadata"
 	"github.com/spacetimi/pfh_reader_server/app_src/templates/colours"
+	"github.com/spacetimi/pfh_reader_server/app_src/templates/graph_templates"
 	"github.com/spacetimi/timi_shared_server/utils/logger"
 )
 
@@ -138,4 +141,46 @@ func getHoursMinutesFromSeconds(seconds int) (int, int) {
 	minutes := (seconds % 3600) / 60
 
 	return hours, minutes
+}
+
+func getActivityOverviewAsBarGraph(activityOverviewData *common.ActivityOverviewData, graphName string) *graph_templates.BarGraphTemplateObject {
+
+	datasets := make([]graph_templates.Dataset, app_core.CATEGORY_UNCLASSIFIED+1)
+
+	for c := app_core.CATEGORY_PRODUCTIVE; c <= app_core.CATEGORY_UNCLASSIFIED; c = c + 1 {
+		activity := activityOverviewData.GetActivityInPeriodsForCategory(c)
+		dataset := graph_templates.NewDataset()
+		colour := getColourForCategory(c)
+		for _, seconds := range activity {
+			dataset.AddDataItem(float32(seconds), colour)
+		}
+		datasets[c] = *dataset
+	}
+
+	legends := make([]string, parser_metadata.NUM_ACTIVITY_PERIODS_PER_DAY)
+	for i := 0; i < parser_metadata.NUM_ACTIVITY_PERIODS_PER_DAY; i = i + 1 {
+		hours, minutes := parser_metadata.ParseActivityPeriodIndex(i)
+		legends[i] = formatTime(hours, minutes)
+	}
+
+	return &graph_templates.BarGraphTemplateObject{
+		GraphTemplateObject: graph_templates.GraphTemplateObject{
+			GraphName:             graphName,
+			Datasets:              datasets,
+			Legends:               legends,
+			ShowLegend:            false,
+			LegendPosition:        "top",
+			UseWidthAndHeight:     true,
+			Width:                 400,
+			Height:                50,
+			ResponsiveSize:        true,
+			FormatTimeFromSeconds: true,
+		},
+		Stacked:                   true,
+		BarDisplayPercentage:      1.0,
+		CategoryDisplayPercentage: 1.0,
+		ShowAxis:                  false,
+		ShowGridlines:             false,
+		ShowTicks:                 false,
+	}
 }

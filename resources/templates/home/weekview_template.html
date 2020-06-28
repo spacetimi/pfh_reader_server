@@ -39,4 +39,23 @@
 
         <div class="col-md-3"></div>
     </div>
+
+    {{ if .HasError }}
+
+            <div class="jumbotron bg-light text-center text-danger font-weight-bold text-uppercase">
+                {{ .ErrorString }}
+            </div>
+
+    {{ else }}
+
+        <div class="row bg-white pt-2">
+            <div class="col-md-4">
+                <small><span class="badge badge-dark text-light font-weight-bold text-uppercase p-1">Average Activity Timeline:</span></small>
+            </div>
+            <div class="container">
+                {{ template "bar_graph_template.html" .AverageActivityBarGraph  }}
+            </div>
+        </div>
+
+    {{ end }}
 </div>

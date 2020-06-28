@@ -5,6 +5,8 @@ import (
 
 	"github.com/spacetimi/pfh_reader_server/app_src/app_core"
 	"github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/common"
+	"github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/parser_metadata"
+	"github.com/spacetimi/timi_shared_server/utils/time_utils"
 )
 
 type DayOfWeek int
@@ -61,6 +63,32 @@ func (wod *WeekOverviewData) GetOrCreateSummaryForDay(year int, month int, day i
 	wod.WeekdaySummariesByDay[dow] = ws
 
 	return ws
+}
+
+func (wod *WeekOverviewData) GetAverageActivityPeriods() *common.ActivityOverviewData {
+
+	averageActivityOverview := common.NewActivityOverviewData()
+
+	for _, weekdaySummary := range wod.WeekdaySummariesByDay {
+		for _, activityPeriod := range weekdaySummary.ActivityOverview.ActivityPeriods {
+			timestamp := time_utils.BeginningOfDay(time.Now()).Unix() + int64(activityPeriod.PeriodIndex*parser_metadata.ACTIVITY_PERIOD_LENGTH_SECONDS)
+
+			averageActivityOverview.AddActivity(app_core.CATEGORY_PRODUCTIVE, timestamp, activityPeriod.GetSecondsInCategory(app_core.CATEGORY_PRODUCTIVE))
+			averageActivityOverview.AddActivity(app_core.CATEGORY_OPERATIONAL_OVERHEAD, timestamp, activityPeriod.GetSecondsInCategory(app_core.CATEGORY_OPERATIONAL_OVERHEAD))
+			averageActivityOverview.AddActivity(app_core.CATEGORY_UNPRODUCTIVE, timestamp, activityPeriod.GetSecondsInCategory(app_core.CATEGORY_UNPRODUCTIVE))
+			averageActivityOverview.AddActivity(app_core.CATEGORY_UNCLASSIFIED, timestamp, activityPeriod.GetSecondsInCategory(app_core.CATEGORY_UNCLASSIFIED))
+		}
+	}
+
+	numDaysWithData := int64(len(wod.WeekdaySummariesByDay))
+
+	for _, activityPeriod := range averageActivityOverview.ActivityPeriods {
+		for cat := app_core.CATEGORY_PRODUCTIVE; cat <= app_core.CATEGORY_UNCLASSIFIED; cat = cat + 1 {
+			activityPeriod.SecondsInCategory[cat] = activityPeriod.GetSecondsInCategory(cat) / numDaysWithData
+		}
+	}
+
+	return averageActivityOverview
 }
 
 ////////////////////////////////////////////////////////////////////////////////

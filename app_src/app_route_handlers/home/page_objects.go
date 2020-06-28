@@ -35,6 +35,8 @@ type WeekviewData struct {
 	ShowNextWeekButton bool
 	PrevWeekIndex      int
 	NextWeekIndex      int
+
+	AverageActivityBarGraph graph_templates.BarGraphTemplateObject
 }
 
 type ErrorablePage struct {

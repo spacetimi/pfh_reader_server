@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/common"
+	"github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/week_overview_parser"
 	"github.com/spacetimi/timi_shared_server/utils/file_utils"
 	"github.com/spacetimi/timi_shared_server/utils/logger"
 )
@@ -26,7 +27,7 @@ func (hh *HomeHandler) getWeekviewPageObject(postArgs *parsedPostArgs) *Weekview
 		weekviewPageObject = &WeekviewData{
 			ErrorablePage: ErrorablePage{
 				HasError:    true,
-				ErrorString: "No data for week #placeholder#",
+				ErrorString: "No data for " + currentWeekString,
 			},
 			CurrentWeekString:  currentWeekString,
 			PrevWeekIndex:      prevWeekIndex,
@@ -36,6 +37,25 @@ func (hh *HomeHandler) getWeekviewPageObject(postArgs *parsedPostArgs) *Weekview
 		}
 		return weekviewPageObject
 	}
+
+	wop := &week_overview_parser.WeekOverviewParser{}
+	wod, err := wop.ParseFile(dataFilePath)
+	if err != nil {
+		weekviewPageObject = &WeekviewData{
+			ErrorablePage: ErrorablePage{
+				HasError:    true,
+				ErrorString: "Error parsing data for " + currentWeekString,
+			},
+			CurrentWeekString:  currentWeekString,
+			PrevWeekIndex:      prevWeekIndex,
+			NextWeekIndex:      nextWeekIndex,
+			ShowNextWeekButton: canShowNextWeekButton,
+			ShowPrevWeekButton: canShowPrevWeekButton,
+		}
+		return weekviewPageObject
+	}
+
+	averageActivity := wod.GetAverageActivityPeriods()
 
 	weekviewPageObject = &WeekviewData{
 		ErrorablePage: ErrorablePage{
@@ -48,6 +68,8 @@ func (hh *HomeHandler) getWeekviewPageObject(postArgs *parsedPostArgs) *Weekview
 		NextWeekIndex:      nextWeekIndex,
 		ShowNextWeekButton: canShowNextWeekButton,
 		ShowPrevWeekButton: canShowPrevWeekButton,
+
+		AverageActivityBarGraph: *(getActivityOverviewAsBarGraph(averageActivity, "week-average-activity-bargraph")),
 	}
 
 	return weekviewPageObject
