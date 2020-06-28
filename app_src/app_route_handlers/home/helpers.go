@@ -1,6 +1,7 @@
 package home
 
 import (
+	"sort"
 	"strconv"
 
 	"github.com/spacetimi/pfh_reader_server/app_src/app_core"
@@ -183,4 +184,31 @@ func getActivityOverviewAsBarGraph(activityOverviewData *common.ActivityOverview
 		ShowGridlines:             false,
 		ShowTicks:                 false,
 	}
+}
+
+func getAppsUsageDatas(appUsageSecondsByAppName map[string]int64, maxAppsToShow int) []AppUsageData {
+	appUsageDatas := make([]AppUsageData, 0)
+	for appName, seconds := range appUsageSecondsByAppName {
+		hours, minutes := getHoursMinutesFromSeconds(int(seconds))
+		timeToShow := ""
+		if hours > 0 {
+			timeToShow = strconv.Itoa(hours) + " hours "
+		}
+		if minutes > 0 {
+			timeToShow = timeToShow + strconv.Itoa(minutes) + " min"
+		}
+		appUsageDatas = append(appUsageDatas, AppUsageData{
+			AppName:    appName,
+			Seconds:    seconds,
+			TimeToShow: timeToShow,
+		})
+	}
+	sort.Slice(appUsageDatas, func(i, j int) bool {
+		return appUsageDatas[i].Seconds > appUsageDatas[j].Seconds
+	})
+	if len(appUsageDatas) > maxAppsToShow {
+		appUsageDatas = appUsageDatas[0:maxAppsToShow]
+	}
+
+	return appUsageDatas
 }

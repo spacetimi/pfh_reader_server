@@ -43,6 +43,8 @@ type WeekviewData struct {
 
 	AverageActivityBarGraph graph_templates.BarGraphTemplateObject
 	WeekdayActivities       []WeekdayActivityData
+
+	TopApps []AppUsageData
 }
 
 type WeekdayActivityData struct {

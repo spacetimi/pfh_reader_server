@@ -13,6 +13,8 @@ import (
 	"github.com/spacetimi/timi_shared_server/utils/logger"
 )
 
+const kMAX_TOP_APPS_TO_SHOW_PER_WEEK = 10
+
 func (hh *HomeHandler) getWeekviewPageObject(postArgs *parsedPostArgs) *WeekviewData {
 
 	var weekviewPageObject *WeekviewData
@@ -62,6 +64,9 @@ func (hh *HomeHandler) getWeekviewPageObject(postArgs *parsedPostArgs) *Weekview
 	totalScreentimeSeconds := wod.GetTotalScreenTimeSeconds()
 	totalScreentimeHours, totalScreentimeMinutes := getHoursMinutesFromSeconds(int(totalScreentimeSeconds))
 
+	appsUsage := wod.GetAppsUsageSeconds()
+	appUsageDatas := getAppsUsageDatas(appsUsage, kMAX_TOP_APPS_TO_SHOW_PER_WEEK)
+
 	weekviewPageObject = &WeekviewData{
 		ErrorablePage: ErrorablePage{
 			HasError:    false,
@@ -80,6 +85,8 @@ func (hh *HomeHandler) getWeekviewPageObject(postArgs *parsedPostArgs) *Weekview
 		CategorySplitPieGraph:   *(getWeekCategorySplitAsPieGraph(wod)),
 		AverageActivityBarGraph: *(getActivityOverviewAsBarGraph(averageActivity, "week-average-activity-bargraph")),
 		WeekdayActivities:       getWeekdayActivities(wod),
+
+		TopApps: appUsageDatas,
 	}
 
 	return weekviewPageObject

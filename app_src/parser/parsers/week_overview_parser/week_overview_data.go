@@ -93,6 +93,22 @@ func (wod *WeekOverviewData) GetSecondsInCategory(category app_core.Category_t) 
 	return totalSeconds
 }
 
+func (wod *WeekOverviewData) GetAppsUsageSeconds() map[string]int64 {
+	result := make(map[string]int64)
+
+	for _, weekdaySummary := range wod.WeekdaySummariesByDay {
+		for appName, seconds := range weekdaySummary.SecondsByAppName {
+			appUsage, ok := result[appName]
+			if !ok {
+				appUsage = 0
+			}
+			result[appName] = appUsage + seconds
+		}
+	}
+
+	return result
+}
+
 func (wod *WeekOverviewData) GetAverageActivityPeriods() *common.ActivityOverviewData {
 
 	averageActivityOverview := common.NewActivityOverviewData()
