@@ -37,18 +37,19 @@ func (hh *HomeHandler) HandlerFunc(httpResponseWriter http.ResponseWriter, reque
 
 	postArgs := parsePostArgs(args.PostArgs)
 
-	if postArgs.Tab == HOMEPAGE_TAB_DASHBOARD ||
-		postArgs.Tab == HOMEPAGE_TAB_WEEK {
-		collate.CollateDaysToWeeks()
+	/* Try to collate data on every request so we can keep up */
+	collate.CollateDaysToWeeks()
+
+	dashboardPageObject := hh.getDashboardPageObject(postArgs)
+
+	pageObject := HomePageObject{
+		DashboardData: *dashboardPageObject,
 	}
 
-	switch postArgs.Tab {
-
-	case HOMEPAGE_TAB_DASHBOARD:
-		hh.showDashboard(httpResponseWriter, request, args, postArgs)
-
-	default:
-		logger.LogError("unknown homepage tab")
+	err := hh.TemplatedWriter.Render(httpResponseWriter, "home_page_template.html", pageObject)
+	if err != nil {
+		logger.LogError("error rendering home page" +
+			"|error=" + err.Error())
 		httpResponseWriter.WriteHeader(http.StatusInternalServerError)
 	}
 }

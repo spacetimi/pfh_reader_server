@@ -1,7 +1,6 @@
 package home
 
 import (
-	"net/http"
 	"sort"
 	"strconv"
 	"time"
@@ -11,99 +10,99 @@ import (
 	"github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/day_overview_parser"
 	"github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/parser_metadata"
 	"github.com/spacetimi/pfh_reader_server/app_src/templates/graph_templates"
-	"github.com/spacetimi/timi_shared_server/code/core/controller"
 	"github.com/spacetimi/timi_shared_server/utils/file_utils"
 	"github.com/spacetimi/timi_shared_server/utils/logger"
 )
 
 const kMAX_TOP_APPS_TO_SHOW = 5
 
-func (hh *HomeHandler) showDashboard(httpResponseWriter http.ResponseWriter, request *http.Request, args *controller.HandlerFuncArgs, postArgs *parsedPostArgs) {
+func (hh *HomeHandler) getDashboardPageObject(postArgs *parsedPostArgs) *DashboardData {
 
-	var pageObject *HomePageObject
+	var dashboardPageObject *DashboardData
 
 	dataFilePath := common.GetRawDayDataFilePath(postArgs.CurrentDayIndex)
 
 	if !file_utils.DoesFileOrDirectoryExist(dataFilePath) {
-		pageObject = &HomePageObject{
-			DashboardData: DashboardData{
-				CurrentDayString:  getCurrentDayStringFromDayIndex(postArgs.CurrentDayIndex),
-				IsToday:           postArgs.CurrentDayIndex == 0,
-				ShowPrevDayButton: -(postArgs.CurrentDayIndex) < app_core.MAX_DAYS_TO_KEEP_RAW_DAY_DATA_FILES,
-				ShowNextDayButton: postArgs.CurrentDayIndex != 0,
-				PrevDayIndex:      postArgs.CurrentDayIndex - 1,
-				NextDayIndex:      postArgs.CurrentDayIndex + 1,
+		dashboardPageObject = &DashboardData{
+			CurrentDayString:  getCurrentDayStringFromDayIndex(postArgs.CurrentDayIndex),
+			IsToday:           postArgs.CurrentDayIndex == 0,
+			ShowPrevDayButton: -(postArgs.CurrentDayIndex) < app_core.MAX_DAYS_TO_KEEP_RAW_DAY_DATA_FILES,
+			ShowNextDayButton: postArgs.CurrentDayIndex != 0,
+			PrevDayIndex:      postArgs.CurrentDayIndex - 1,
+			NextDayIndex:      postArgs.CurrentDayIndex + 1,
 
-				HasError:    true,
-				ErrorString: "No data for " + getCurrentDayStringFromDayIndex(postArgs.CurrentDayIndex),
-			},
+			HasError:    true,
+			ErrorString: "No data for " + getCurrentDayStringFromDayIndex(postArgs.CurrentDayIndex),
 		}
 
-	} else {
+		return dashboardPageObject
+	}
 
-		dop := &day_overview_parser.DayOverviewParser{}
-		dod, e := dop.ParseFile(dataFilePath)
-		if e != nil {
-			logger.LogError(e.Error())
-			httpResponseWriter.WriteHeader(http.StatusInternalServerError)
-			return
-		}
-		totalHours, totalMinutes := getHoursMinutesFromSeconds(int(dod.TotalTimeSeconds))
+	dop := &day_overview_parser.DayOverviewParser{}
+	dod, e := dop.ParseFile(dataFilePath)
+	if e != nil {
+		dashboardPageObject = &DashboardData{
+			CurrentDayString:  getCurrentDayStringFromDayIndex(postArgs.CurrentDayIndex),
+			IsToday:           postArgs.CurrentDayIndex == 0,
+			ShowPrevDayButton: -(postArgs.CurrentDayIndex) < app_core.MAX_DAYS_TO_KEEP_RAW_DAY_DATA_FILES,
+			ShowNextDayButton: postArgs.CurrentDayIndex != 0,
+			PrevDayIndex:      postArgs.CurrentDayIndex - 1,
+			NextDayIndex:      postArgs.CurrentDayIndex + 1,
 
-		appsUsage := dod.GetAppsUsageSeconds()
-		appUsageDatas := make([]AppUsageData, 0)
-		for appName, seconds := range appsUsage {
-			hours, minutes := getHoursMinutesFromSeconds(int(seconds))
-			timeToShow := ""
-			if hours > 0 {
-				timeToShow = strconv.Itoa(hours) + " hours "
-			}
-			if minutes > 0 {
-				timeToShow = timeToShow + strconv.Itoa(minutes) + " min"
-			}
-			appUsageDatas = append(appUsageDatas, AppUsageData{
-				AppName:    appName,
-				Seconds:    seconds,
-				TimeToShow: timeToShow,
-			})
+			HasError:    true,
+			ErrorString: "Error parsing data for " + getCurrentDayStringFromDayIndex(postArgs.CurrentDayIndex),
 		}
-		sort.Slice(appUsageDatas, func(i, j int) bool {
-			return appUsageDatas[i].Seconds > appUsageDatas[j].Seconds
+
+		return dashboardPageObject
+	}
+
+	totalHours, totalMinutes := getHoursMinutesFromSeconds(int(dod.TotalTimeSeconds))
+
+	appsUsage := dod.GetAppsUsageSeconds()
+	appUsageDatas := make([]AppUsageData, 0)
+	for appName, seconds := range appsUsage {
+		hours, minutes := getHoursMinutesFromSeconds(int(seconds))
+		timeToShow := ""
+		if hours > 0 {
+			timeToShow = strconv.Itoa(hours) + " hours "
+		}
+		if minutes > 0 {
+			timeToShow = timeToShow + strconv.Itoa(minutes) + " min"
+		}
+		appUsageDatas = append(appUsageDatas, AppUsageData{
+			AppName:    appName,
+			Seconds:    seconds,
+			TimeToShow: timeToShow,
 		})
-		if len(appUsageDatas) > kMAX_TOP_APPS_TO_SHOW {
-			appUsageDatas = appUsageDatas[0:kMAX_TOP_APPS_TO_SHOW]
-		}
-
-		pageObject = &HomePageObject{
-			DashboardData: DashboardData{
-				CurrentDayString:  getCurrentDayStringFromDayIndex(postArgs.CurrentDayIndex),
-				IsToday:           postArgs.CurrentDayIndex == 0,
-				ShowPrevDayButton: -(postArgs.CurrentDayIndex) < app_core.MAX_DAYS_TO_KEEP_RAW_DAY_DATA_FILES,
-				ShowNextDayButton: postArgs.CurrentDayIndex != 0,
-				PrevDayIndex:      postArgs.CurrentDayIndex - 1,
-				NextDayIndex:      postArgs.CurrentDayIndex + 1,
-
-				HasError:    false,
-				ErrorString: "",
-
-				TotalScreenTimeHours:   totalHours,
-				TotalScreenTimeMinutes: totalMinutes,
-
-				CategorySplitPieGraph: *(getDayCategorySplitAsPieGraph(dod)),
-				DailyActivityBarGraph: *(getDayActivityAsBarGraph(dod)),
-
-				TopApps: appUsageDatas,
-			},
-		}
+	}
+	sort.Slice(appUsageDatas, func(i, j int) bool {
+		return appUsageDatas[i].Seconds > appUsageDatas[j].Seconds
+	})
+	if len(appUsageDatas) > kMAX_TOP_APPS_TO_SHOW {
+		appUsageDatas = appUsageDatas[0:kMAX_TOP_APPS_TO_SHOW]
 	}
 
-	err := hh.TemplatedWriter.Render(httpResponseWriter, "home_page_template.html", pageObject)
-	if err != nil {
-		logger.LogError("error rendering home page" +
-			"|error=" + err.Error())
-		httpResponseWriter.WriteHeader(http.StatusInternalServerError)
+	dashboardPageObject = &DashboardData{
+		CurrentDayString:  getCurrentDayStringFromDayIndex(postArgs.CurrentDayIndex),
+		IsToday:           postArgs.CurrentDayIndex == 0,
+		ShowPrevDayButton: -(postArgs.CurrentDayIndex) < app_core.MAX_DAYS_TO_KEEP_RAW_DAY_DATA_FILES,
+		ShowNextDayButton: postArgs.CurrentDayIndex != 0,
+		PrevDayIndex:      postArgs.CurrentDayIndex - 1,
+		NextDayIndex:      postArgs.CurrentDayIndex + 1,
+
+		HasError:    false,
+		ErrorString: "",
+
+		TotalScreenTimeHours:   totalHours,
+		TotalScreenTimeMinutes: totalMinutes,
+
+		CategorySplitPieGraph: *(getDayCategorySplitAsPieGraph(dod)),
+		DailyActivityBarGraph: *(getDayActivityAsBarGraph(dod)),
+
+		TopApps: appUsageDatas,
 	}
 
+	return dashboardPageObject
 }
 
 func getDayCategorySplitAsPieGraph(dod *day_overview_parser.DayOverviewData) *graph_templates.PieGraphTemplateObject {
