@@ -1,6 +1,8 @@
 package user_preferences
 
 import (
+	"sort"
+
 	"github.com/spacetimi/pfh_reader_server/app_src/app_core"
 	"github.com/spacetimi/timi_shared_server/utils/file_utils"
 	"github.com/spacetimi/timi_shared_server/utils/logger"
@@ -36,6 +38,11 @@ func CreateInstance() {
 			"|file path=" + userPreferencesDataPath +
 			"|error=" + err.Error())
 	}
+
+	// Sort the category rules so that app-title-bar-rules are checked before app-name-rules
+	sort.Slice(newInstance.Data.CategoryRules, func(i, j int) bool {
+		return newInstance.Data.CategoryRules[i].MatchType > newInstance.Data.CategoryRules[j].MatchType
+	})
 
 	_instance = newInstance
 }
