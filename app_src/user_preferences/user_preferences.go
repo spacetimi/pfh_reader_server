@@ -12,7 +12,8 @@ import (
 )
 
 type UserPreferences struct {
-	Data *UserPreferencesData
+	DataModTime int64
+	Data        *UserPreferencesData
 }
 
 var _instance *UserPreferences
@@ -38,6 +39,13 @@ func CreateInstance() {
 	err := file_utils.ReadJsonFileIntoJsonObject(userPreferencesDataPath, &newInstance.Data)
 	if err != nil {
 		logger.LogFatal("error reading user-preferences file" +
+			"|file path=" + userPreferencesDataPath +
+			"|error=" + err.Error())
+	}
+
+	newInstance.DataModTime, err = file_utils.GetFileModTimeUnix(userPreferencesDataPath)
+	if err != nil {
+		logger.LogFatal("error getting user-preferences file mod time" +
 			"|file path=" + userPreferencesDataPath +
 			"|error=" + err.Error())
 	}

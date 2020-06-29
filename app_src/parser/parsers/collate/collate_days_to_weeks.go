@@ -9,6 +9,7 @@ import (
 	"github.com/spacetimi/pfh_reader_server/app_src/app_core"
 	"github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/common"
 	"github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/day_overview_parser"
+	"github.com/spacetimi/pfh_reader_server/app_src/user_preferences"
 	"github.com/spacetimi/timi_shared_server/utils/file_utils"
 	"github.com/spacetimi/timi_shared_server/utils/logger"
 )
@@ -55,7 +56,12 @@ func processDayDataFile(fileName string) error {
 		return errors.New("error getting file mtime for day data file at: " + dayDataFilePath)
 	}
 
-	if dayDataFileModTime <= weekdaySummary.LastUpdatedTime {
+	/*
+	 If the day-data-file OR the user-preferences-data-file have been modified
+	 after we collated this day into a week, reprocess it
+	*/
+	if dayDataFileModTime <= weekdaySummary.LastUpdatedTime &&
+		user_preferences.Instance().DataModTime <= weekdaySummary.LastUpdatedTime {
 		return nil
 	}
 
