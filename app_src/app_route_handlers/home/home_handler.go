@@ -42,12 +42,14 @@ func (hh *HomeHandler) HandlerFunc(httpResponseWriter http.ResponseWriter, reque
 
 	dashboardPageObject := hh.getDashboardPageObject(postArgs)
 	weekviewPageObject := hh.getWeekviewPageObject(postArgs)
+	settingsPageObject := hh.getSettingsPageObject()
 
 	pageObject := HomePageObject{
 		CurrentTab: postArgs.Tab.String(),
 
 		DashboardData: *dashboardPageObject,
 		WeekviewData:  *weekviewPageObject,
+		SettingsData:  *settingsPageObject,
 	}
 
 	err := hh.TemplatedWriter.Render(httpResponseWriter, "home_page_template.html", pageObject)

@@ -1,12 +1,17 @@
 package home
 
-import "github.com/spacetimi/pfh_reader_server/app_src/templates/graph_templates"
+import (
+	"github.com/spacetimi/pfh_reader_server/app_src/app_core"
+	"github.com/spacetimi/pfh_reader_server/app_src/templates/graph_templates"
+	"github.com/spacetimi/pfh_reader_server/app_src/user_preferences"
+)
 
 type HomePageObject struct {
 	CurrentTab string
 
 	DashboardData
 	WeekviewData
+	SettingsData
 }
 
 type DashboardData struct {
@@ -55,6 +60,17 @@ type WeekdayActivityData struct {
 
 	WeekdayName      string
 	ActivityBarGraph graph_templates.BarGraphTemplateObject
+}
+
+type SettingsData struct {
+	MatchRules []SettingsMatchRule
+}
+
+type SettingsMatchRule struct {
+	MatchType       user_preferences.CategoryRuleMatchType_t
+	MatchExpression string
+	Category        app_core.Category_t
+	ShouldMatchCase bool
 }
 
 type ErrorablePage struct {

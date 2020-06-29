@@ -64,7 +64,7 @@
       "MatchType": 0,
       "MatchExpression": "slack",
       "IgnoreCase": true,
-      "Category": 2
+      "Category": 1
     }
   ]
 }
