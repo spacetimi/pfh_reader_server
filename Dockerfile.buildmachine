@@ -1,15 +1,13 @@
 FROM spacetimi/spacetimi-docker-parent
 
-# NOTE: Build context is expected to be one level higher than your app's code folder. Please call docker build from there
-
 # Copy app source
-ADD ./pfh_reader_server /go/src/github.com/spacetimi/pfh_reader_server
-
-# Copy shared source
-ADD ./timi_shared_server /go/src/github.com/spacetimi/timi_shared_server
+ADD . /go/src/github.com/spacetimi/pfh_reader_server
 
 # Override any localhost URLs to host.docker.internal so we can use services running on host machine
 RUN sed -i -e 's/localhost/host.docker.internal/g' /go/src/github.com/spacetimi/pfh_reader_server/config/environment_config.local.json
+
+# Fetch shared source
+RUN git clone https://github.com/spacetimi/timi_shared_server /go/src/github.com/spacetimi/timi_shared_server
 
 # Build and install the server binary
 RUN go install github.com/spacetimi/pfh_reader_server/main
