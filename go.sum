@@ -107,6 +107,8 @@ github.com/sirupsen/logrus v1.4.1/go.mod h1:ni0Sbl8bgC9z8RoU9G6nDWqqs/fq4eDPysMB
 github.com/sirupsen/logrus v1.4.2/go.mod h1:tLMulIdttU9McNUspp0xgXVQah82FyeX6MwdIuYE2rE=
 github.com/spacetimi/timi_shared_server v0.0.0-20200609165435-45c6193891da h1:SBmiSVcYl85hmfW7D+Qs/W5iqGjT6gqTijscGq0/gos=
 github.com/spacetimi/timi_shared_server v0.0.0-20200609165435-45c6193891da/go.mod h1:S+/S1PfYSl25z6vjRlt1D5tIAgLEHd6Q3TGSmpH3vXk=
+github.com/spacetimi/timi_shared_server v1.0.0 h1:o3JN1rkAIrc2JDDAVXCZl4fn1QzWIbqI21OmXxsO6+E=
+github.com/spacetimi/timi_shared_server v1.0.0/go.mod h1:S+/S1PfYSl25z6vjRlt1D5tIAgLEHd6Q3TGSmpH3vXk=
 github.com/spf13/cobra v0.0.3/go.mod h1:1l0Ry5zgKvJasoi3XT1TypsSe7PqH0Sj9dhYf7v3XqQ=
 github.com/spf13/pflag v1.0.3/go.mod h1:DYY7MBk1bdzusC3SYhjObp+wFpr4gzcvqqNjLnInEg4=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
