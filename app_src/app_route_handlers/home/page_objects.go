@@ -3,7 +3,6 @@ package home
 import (
 	"github.com/spacetimi/pfh_reader_server/app_src/app_core"
 	"github.com/spacetimi/pfh_reader_server/app_src/templates/graph_templates"
-	"github.com/spacetimi/pfh_reader_server/app_src/user_preferences"
 )
 
 type HomePageObject struct {
@@ -63,11 +62,11 @@ type WeekdayActivityData struct {
 }
 
 type SettingsData struct {
-	MatchRules []SettingsMatchRule
+	AppNameMatchRules     []SettingsMatchRule
+	AppTitleBarMatchRules []SettingsMatchRule
 }
 
 type SettingsMatchRule struct {
-	MatchType       user_preferences.CategoryRuleMatchType_t
 	MatchExpression string
 	Category        app_core.Category_t
 	ShouldMatchCase bool

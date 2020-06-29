@@ -1,0 +1,37 @@
+ <div class="row text-secondary font-weight-bold small">
+
+    <div class="col-md-3">
+        <span class="badge badge-warning text-dark font-weight-bold p-1">{{ .MatchExpression }}</span>
+    </div>
+
+    <div class="col-md-4">
+        <small class="text-uppercase">mark as</small>
+        {{ if eq .Category 0 }}
+        <span class="badge badge-success text-light font-weight-bold text-uppercase p-1">Productive</span>
+        {{ end }}
+        {{ if eq .Category 1 }}
+        <span class="badge badge-warning text-light font-weight-bold text-uppercase p-1">Operational Overhead</span>
+        {{ end }}
+        {{ if eq .Category 2 }}
+        <span class="badge badge-danger text-light font-weight-bold text-uppercase p-1">Unproductive</span>
+        {{ end }}
+        {{ if eq .Category 3 }}
+        <span class="badge badge-secondary text-light font-weight-bold text-uppercase p-1">Others</span>
+        {{ end }}
+    </div>
+    <div class="col-md-2 text-right">
+        <small class="text-uppercase">
+            <input type="checkbox" {{ if .ShouldMatchCase }}checked{{ end }}>&nbsp;<label>Match Case</label>
+        </small>
+    </div>
+    <div class="col-md-3 text-right">
+        <small>
+            <button class="btn btn-outline-danger btn-sm font-weight-bold text-uppercase">
+                <small>
+                    Delete Rule
+                </small>
+            </button>
+        </small>
+    </div>
+
+</div>
