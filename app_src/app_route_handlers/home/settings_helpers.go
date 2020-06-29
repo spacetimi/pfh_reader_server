@@ -10,6 +10,8 @@ func (hh *HomeHandler) getSettingsPageObject() *SettingsData {
 
 	for _, categoryRule := range user_preferences.Instance().Data.CategoryRules {
 		matchRule := SettingsMatchRule{
+			RuleId: categoryRule.RuleId,
+
 			MatchExpression: categoryRule.MatchExpression,
 			Category:        categoryRule.Category,
 			ShouldMatchCase: !categoryRule.IgnoreCase,

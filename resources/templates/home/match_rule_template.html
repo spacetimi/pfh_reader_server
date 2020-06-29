@@ -26,7 +26,7 @@
     </div>
     <div class="col-md-3 text-right">
         <small>
-            <button class="btn btn-outline-danger btn-sm font-weight-bold text-uppercase">
+            <button class="btn btn-outline-danger btn-sm font-weight-bold text-uppercase" data-toggle="modal" data-target="#deleteRuleModal{{.RuleId}}">
                 <small>
                     Delete Rule
                 </small>
@@ -35,3 +35,44 @@
     </div>
 
 </div>
+
+
+<!-- Delete Rule Modal -->
+<div class="modal fade" id="deleteRuleModal{{.RuleId}}" tabindex="-1" role="dialog" aria-labelledby="deleteRuleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h6 class="modal-title text-uppercase font-weight-bold" id="deleteRuleModalLabel">Delete This Rule?</h6>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body font-weight-bold small">
+            <div class="d-flex justify-content-center">
+                <small class="text-uppercase">Mark</small>&nbsp;
+                <span class="badge badge-warning text-dark font-weight-bold p-1">{{ .MatchExpression }}</span>&nbsp;
+                <small class="text-uppercase">As</small>&nbsp;
+                {{ if eq .Category 0 }}
+                <span class="badge badge-success text-light font-weight-bold text-uppercase p-1">Productive</span>
+                {{ end }}
+                {{ if eq .Category 1 }}
+                <span class="badge badge-warning text-light font-weight-bold text-uppercase p-1">Operational Overhead</span>
+                {{ end }}
+                {{ if eq .Category 2 }}
+                <span class="badge badge-danger text-light font-weight-bold text-uppercase p-1">Unproductive</span>
+                {{ end }}
+                {{ if eq .Category 3 }}
+                <span class="badge badge-secondary text-light font-weight-bold text-uppercase p-1">Others</span>
+                {{ end }}
+            </div>
+        </div>
+
+        <div class="modal-footer text-uppercase font-weight-bold">
+            <button type="button" class="btn btn-outline-dark btn-sm text-uppercase small" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-outline-danger btn-sm text-uppercase small">Yes, Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>

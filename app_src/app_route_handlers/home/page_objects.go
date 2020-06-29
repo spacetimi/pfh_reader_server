@@ -67,6 +67,8 @@ type SettingsData struct {
 }
 
 type SettingsMatchRule struct {
+	RuleId int
+
 	MatchExpression string
 	Category        app_core.Category_t
 	ShouldMatchCase bool

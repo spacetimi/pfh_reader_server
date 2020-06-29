@@ -1,66 +1,77 @@
 {
   "CategoryRules": [
     {
+      "RuleId": 0,
       "MatchType": 1,
       "MatchExpression": "facebook",
       "IgnoreCase": true,
       "Category": 2
     },
     {
+      "RuleId": 1,
       "MatchType": 0,
       "MatchExpression": "iTerm2",
       "IgnoreCase": false,
       "Category": 0
     },
     {
+      "RuleId": 2,
       "MatchType": 0,
       "MatchExpression": "goland",
       "IgnoreCase": false,
       "Category": 0
     },
     {
+      "RuleId": 3,
       "MatchType": 0,
       "MatchExpression": "Electron",
       "IgnoreCase": false,
       "Category": 0
     },
     {
+      "RuleId": 4,
       "MatchType": 0,
       "MatchExpression": "MacVim",
       "IgnoreCase": false,
       "Category": 0
     },
     {
+      "RuleId": 5,
       "MatchType": 0,
       "MatchExpression": "Xcode",
       "IgnoreCase": false,
       "Category": 0
     },
     {
+      "RuleId": 6,
       "MatchType": 0,
       "MatchExpression": "SmartGit",
       "IgnoreCase": false,
       "Category": 1
     },
     {
+      "RuleId": 7,
       "MatchType": 0,
       "MatchExpression": "SmartSVN",
       "IgnoreCase": false,
       "Category": 1
     },
     {
+      "RuleId": 8,
       "MatchType": 0,
       "MatchExpression": "System Preferences",
       "IgnoreCase": false,
       "Category": 1
     },
     {
+      "RuleId": 9,
       "MatchType": 0,
       "MatchExpression": "firefox",
       "IgnoreCase": false,
       "Category": 3
     },
     {
+      "RuleId": 10,
       "MatchType": 0,
       "MatchExpression": "slack",
       "IgnoreCase": true,

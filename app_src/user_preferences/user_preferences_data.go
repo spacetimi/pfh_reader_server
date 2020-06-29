@@ -11,6 +11,8 @@ type UserPreferencesData struct {
 }
 
 type CategoryRule struct {
+	RuleId int
+
 	MatchExpression string
 	MatchType       CategoryRuleMatchType_t
 	IgnoreCase      bool
