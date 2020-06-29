@@ -1,6 +1,12 @@
 package home
 
-import "github.com/spacetimi/pfh_reader_server/app_src/user_preferences"
+import (
+	"strconv"
+
+	"github.com/spacetimi/pfh_reader_server/app_src/user_preferences"
+	"github.com/spacetimi/timi_shared_server/utils/logger"
+	"github.com/spacetimi/timi_shared_server/utils/slice_utils"
+)
 
 func (hh *HomeHandler) getSettingsPageObject() *SettingsData {
 
@@ -29,4 +35,33 @@ func (hh *HomeHandler) getSettingsPageObject() *SettingsData {
 		AppTitleBarMatchRules: appTitleBarMatchRules,
 	}
 	return pageObject
+}
+
+func (hh *HomeHandler) deleteRule(ruleId int) {
+	preferencesData := user_preferences.Instance().Data
+	if preferencesData == nil {
+		logger.LogError("no user preferences data loaded")
+		return
+	}
+
+	indexInSlice := slice_utils.FindIndexInSlice(len(preferencesData.CategoryRules),
+		func(index int) bool {
+			return preferencesData.CategoryRules[index].RuleId == ruleId
+		})
+
+	if indexInSlice < 0 {
+		logger.LogError("unable to find rule to delete" +
+			"|rule id to delete=" + strconv.Itoa(ruleId))
+		return
+	}
+
+	preferencesData.CategoryRules = append(preferencesData.CategoryRules[:indexInSlice],
+		preferencesData.CategoryRules[indexInSlice+1:]...)
+
+	err := user_preferences.Instance().SaveChanges()
+	if err != nil {
+		logger.LogError("error saving user preferences changes while deleting rule" +
+			"|rule id to delete=" + strconv.Itoa(ruleId) +
+			"|error=" + err.Error())
+	}
 }

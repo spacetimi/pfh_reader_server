@@ -59,17 +59,21 @@ func (tab HomePageTab_t) String() string {
 const kPostArgNameCurrentTab = "tab"
 const kPostArgNameCurrentDayIndex = "day-index"
 const kPostArgNameCurrentWeekIndex = "week-index"
+const kPostArgNameRuleIdToDelete = "rule-id-to-delete"
 
 type parsedPostArgs struct {
 	Tab              HomePageTab_t
 	CurrentDayIndex  int // 0 is today, -1 is yesterday, and so on
 	CurrentWeekIndex int // 0 is today, -1 is previous week, and so on
+	RuleIdToDelete   int // -1 is unset
 }
 
 func parsePostArgs(postArgs map[string]string) *parsedPostArgs {
 	parsed := &parsedPostArgs{
-		Tab:             HOMEPAGE_TAB_DASHBOARD,
-		CurrentDayIndex: 0,
+		Tab:              HOMEPAGE_TAB_DASHBOARD,
+		CurrentDayIndex:  0,
+		CurrentWeekIndex: 0,
+		RuleIdToDelete:   -1,
 	}
 
 	if postArgs == nil || len(postArgs) == 0 {
@@ -102,6 +106,18 @@ func parsePostArgs(postArgs map[string]string) *parsedPostArgs {
 				"|error=" + err.Error())
 		} else {
 			parsed.CurrentWeekIndex = int(weekIndex)
+		}
+	}
+
+	ruleIdToDeleteString, ok := postArgs[kPostArgNameRuleIdToDelete]
+	if ok {
+		ruleIdToDelete, err := strconv.ParseInt(ruleIdToDeleteString, 10, 32)
+		if err != nil {
+			logger.LogError("error parsing rule id to delete" +
+				"|rule id to delete string=" + ruleIdToDeleteString +
+				"|error=" + err.Error())
+		} else {
+			parsed.RuleIdToDelete = int(ruleIdToDelete)
 		}
 	}
 

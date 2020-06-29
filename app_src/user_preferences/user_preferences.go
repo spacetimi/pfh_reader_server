@@ -1,6 +1,9 @@
 package user_preferences
 
 import (
+	"encoding/json"
+	"errors"
+	"io/ioutil"
 	"sort"
 
 	"github.com/spacetimi/pfh_reader_server/app_src/app_core"
@@ -45,4 +48,18 @@ func CreateInstance() {
 	})
 
 	_instance = newInstance
+}
+
+func (up *UserPreferences) SaveChanges() error {
+	userPreferencesDataPath := app_core.PFH_DAEMON_DATA_PATH + "/" + app_core.USER_PREFERENCES_FILE_NAME
+	toJson, err := json.MarshalIndent(up.Data, "", "  ")
+	if err != nil {
+		return errors.New("error serializing user preferences data to json: " + err.Error())
+	}
+	err = ioutil.WriteFile(userPreferencesDataPath, toJson, 0644)
+	if err != nil {
+		return errors.New("error saving user preferences data file: " + err.Error())
+	}
+
+	return nil
 }

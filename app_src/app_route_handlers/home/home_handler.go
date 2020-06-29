@@ -37,6 +37,10 @@ func (hh *HomeHandler) HandlerFunc(httpResponseWriter http.ResponseWriter, reque
 
 	postArgs := parsePostArgs(args.PostArgs)
 
+	if postArgs.RuleIdToDelete >= 0 {
+		hh.deleteRule(postArgs.RuleIdToDelete)
+	}
+
 	/* Try to collate data on every request so we can keep up */
 	collate.CollateDaysToWeeks()
 

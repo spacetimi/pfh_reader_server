@@ -49,30 +49,37 @@
           </button>
         </div>
 
-        <div class="modal-body font-weight-bold small">
-            <div class="d-flex justify-content-center">
-                <small class="text-uppercase">Mark</small>&nbsp;
-                <span class="badge badge-warning text-dark font-weight-bold p-1">{{ .MatchExpression }}</span>&nbsp;
-                <small class="text-uppercase">As</small>&nbsp;
-                {{ if eq .Category 0 }}
-                <span class="badge badge-success text-light font-weight-bold text-uppercase p-1">Productive</span>
-                {{ end }}
-                {{ if eq .Category 1 }}
-                <span class="badge badge-warning text-light font-weight-bold text-uppercase p-1">Operational Overhead</span>
-                {{ end }}
-                {{ if eq .Category 2 }}
-                <span class="badge badge-danger text-light font-weight-bold text-uppercase p-1">Unproductive</span>
-                {{ end }}
-                {{ if eq .Category 3 }}
-                <span class="badge badge-secondary text-light font-weight-bold text-uppercase p-1">Others</span>
-                {{ end }}
-            </div>
-        </div>
+        <form method="POST" action="/">
 
-        <div class="modal-footer text-uppercase font-weight-bold">
-            <button type="button" class="btn btn-outline-dark btn-sm text-uppercase small" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-outline-danger btn-sm text-uppercase small">Yes, Delete</button>
-        </div>
+            <div class="modal-body font-weight-bold small">
+                <div class="d-flex justify-content-center">
+                    <small class="text-uppercase">Mark</small>&nbsp;
+                    <span class="badge badge-warning text-dark font-weight-bold p-1">{{ .MatchExpression }}</span>&nbsp;
+                    <small class="text-uppercase">As</small>&nbsp;
+                    {{ if eq .Category 0 }}
+                    <span class="badge badge-success text-light font-weight-bold text-uppercase p-1">Productive</span>
+                    {{ end }}
+                    {{ if eq .Category 1 }}
+                    <span class="badge badge-warning text-light font-weight-bold text-uppercase p-1">Operational Overhead</span>
+                    {{ end }}
+                    {{ if eq .Category 2 }}
+                    <span class="badge badge-danger text-light font-weight-bold text-uppercase p-1">Unproductive</span>
+                    {{ end }}
+                    {{ if eq .Category 3 }}
+                    <span class="badge badge-secondary text-light font-weight-bold text-uppercase p-1">Others</span>
+                    {{ end }}
+                </div>
+            </div>
+
+            <div class="modal-footer text-uppercase font-weight-bold">
+                <button type="button" class="btn btn-outline-dark btn-sm text-uppercase small" data-dismiss="modal">Close</button>
+                <input type="hidden" name="tab" value="settings">
+                <input type="hidden" name="rule-id-to-delete" value="{{ .RuleId }}">
+                <button type="submit" id="delete_rule" formaction="/" class="btn btn-outline-danger btn-sm text-uppercase small">Yes, Delete</button>
+            </div>
+
+        </form>
+
       </div>
     </div>
   </div>
