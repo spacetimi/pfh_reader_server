@@ -20,9 +20,9 @@
 
                 {{ range .MatchRules }}
                     <li class="list-group-item p-1 pl-2 pr-2">
-                        <div class="row text-secondary font-weight-bold text-uppercase small">
+                        <div class="row text-secondary font-weight-bold small">
                             <div class="col-md-2">
-                                <small>If</small>
+                                <small class="text-uppercase">If</small>
                                 {{ if eq .MatchType 0 }}
                                 <span class="badge badge-dark text-success font-weight-bold text-uppercase p-1">App Name</span>
                                 {{ else }}
@@ -30,11 +30,11 @@
                                 {{ end }}
                             </div>
                             <div class="col-md-4">
-                                <small>matches</small>
-                                <span class="badge badge-warning text-dark font-weight-bold text-uppercase p-1">{{ .MatchExpression }}</span>
+                                <small class="text-uppercase">matches</small>
+                                <span class="badge badge-warning text-dark font-weight-bold p-1">{{ .MatchExpression }}</span>
                             </div>
                             <div class="col-md-4">
-                                <small>mark as</small>
+                                <small class="text-uppercase">mark as</small>
                                 {{ if eq .Category 0 }}
                                 <span class="badge badge-success text-light font-weight-bold text-uppercase p-1">Productive</span>
                                 {{ end }}
@@ -49,7 +49,7 @@
                                 {{ end }}
                             </div>
                             <div class="col-md-2 text-right">
-                                <small>
+                                <small class="text-uppercase">
                                     <input type="checkbox" {{ if .ShouldMatchCase }}checked{{ end }}>&nbsp;<label>Match Case</label>
                                 </small>
                             </div>
