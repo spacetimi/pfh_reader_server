@@ -3,6 +3,7 @@ package home
 import (
 	"strconv"
 
+	"github.com/spacetimi/pfh_reader_server/app_src/app_core"
 	"github.com/spacetimi/pfh_reader_server/app_src/user_preferences"
 	"github.com/spacetimi/timi_shared_server/utils/logger"
 	"github.com/spacetimi/timi_shared_server/utils/slice_utils"
@@ -62,6 +63,39 @@ func (hh *HomeHandler) deleteRule(ruleId int) {
 	if err != nil {
 		logger.LogError("error saving user preferences changes while deleting rule" +
 			"|rule id to delete=" + strconv.Itoa(ruleId) +
+			"|error=" + err.Error())
+	}
+}
+
+func (hh *HomeHandler) addRule(matchType user_preferences.CategoryRuleMatchType_t,
+	matchExpression string, matchCase bool, category app_core.Category_t) {
+
+	preferencesData := user_preferences.Instance().Data
+	if preferencesData == nil {
+		logger.LogError("no user preferences data loaded")
+		return
+	}
+
+	highestRuleId := 0
+	for _, rule := range preferencesData.CategoryRules {
+		if rule.RuleId > highestRuleId {
+			highestRuleId = rule.RuleId
+		}
+	}
+
+	newRule := user_preferences.CategoryRule{
+		RuleId:          highestRuleId + 1,
+		MatchType:       matchType,
+		MatchExpression: matchExpression,
+		IgnoreCase:      !matchCase,
+		Category:        category,
+	}
+
+	preferencesData.CategoryRules = append(preferencesData.CategoryRules, newRule)
+
+	err := user_preferences.Instance().SaveChanges()
+	if err != nil {
+		logger.LogError("error saving user preferences changes while adding new rule" +
 			"|error=" + err.Error())
 	}
 }

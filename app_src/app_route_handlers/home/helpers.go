@@ -9,6 +9,7 @@ import (
 	"github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/parser_metadata"
 	"github.com/spacetimi/pfh_reader_server/app_src/templates/colours"
 	"github.com/spacetimi/pfh_reader_server/app_src/templates/graph_templates"
+	"github.com/spacetimi/pfh_reader_server/app_src/user_preferences"
 	"github.com/spacetimi/timi_shared_server/utils/logger"
 )
 
@@ -61,11 +62,25 @@ const kPostArgNameCurrentDayIndex = "day-index"
 const kPostArgNameCurrentWeekIndex = "week-index"
 const kPostArgNameRuleIdToDelete = "rule-id-to-delete"
 
+const kPostArgNameAddRuleMatchType = "add_rule_match_type"
+const kPostArgNameAddRuleMatchExpression = "add_rule_match_expression"
+const kPostArgNameAddRuleMatchCase = "add_rule_match_case"
+const kPostArgNameAddRuleMatchCategory = "add_rule_match_category"
+
 type parsedPostArgs struct {
 	Tab              HomePageTab_t
 	CurrentDayIndex  int // 0 is today, -1 is yesterday, and so on
 	CurrentWeekIndex int // 0 is today, -1 is previous week, and so on
-	RuleIdToDelete   int // -1 is unset
+
+	RuleIdToDelete int // -1 is unset
+	AddRuleArgs    *postArgsForAddRule
+}
+
+type postArgsForAddRule struct {
+	MatchType       user_preferences.CategoryRuleMatchType_t
+	MatchExpression string
+	Category        app_core.Category_t
+	ShouldMatchCase bool
 }
 
 func parsePostArgs(postArgs map[string]string) *parsedPostArgs {
@@ -74,6 +89,7 @@ func parsePostArgs(postArgs map[string]string) *parsedPostArgs {
 		CurrentDayIndex:  0,
 		CurrentWeekIndex: 0,
 		RuleIdToDelete:   -1,
+		AddRuleArgs:      nil,
 	}
 
 	if postArgs == nil || len(postArgs) == 0 {
@@ -121,7 +137,65 @@ func parsePostArgs(postArgs map[string]string) *parsedPostArgs {
 		}
 	}
 
+	parsed.AddRuleArgs = parsePostArgsForAddRule(postArgs)
+
 	return parsed
+}
+
+func parsePostArgsForAddRule(postArgs map[string]string) *postArgsForAddRule {
+
+	matchTypeString, ok := postArgs[kPostArgNameAddRuleMatchType]
+	if !ok {
+		return nil
+	}
+	var matchType user_preferences.CategoryRuleMatchType_t
+	switch matchTypeString {
+	case "app-name":
+		matchType = user_preferences.MATCH_APP_NAME
+	case "app-title-bar":
+		matchType = user_preferences.MATCH_APP_TITLE_BAR
+	default:
+		logger.LogError("unknown match type for new rule" +
+			"|match type string=" + matchTypeString)
+		return nil
+	}
+
+	matchExpression, ok := postArgs[kPostArgNameAddRuleMatchExpression]
+	if !ok {
+		return nil
+	}
+
+	var matchCase bool
+	matchCaseString, ok := postArgs[kPostArgNameAddRuleMatchCase]
+	if !ok {
+		matchCaseString = "off"
+	}
+	switch matchCaseString {
+	case "on":
+		matchCase = true
+	case "off":
+		matchCase = false
+	default:
+		matchCase = false
+	}
+
+	matchCategoryString, ok := postArgs[kPostArgNameAddRuleMatchCategory]
+	if !ok {
+		return nil
+	}
+	matchCategory, ok := app_core.CategoryFromString(matchCategoryString)
+	if !ok {
+		logger.LogError("error parsing category for new rule" +
+			"|category string=" + matchCategoryString)
+		return nil
+	}
+
+	return &postArgsForAddRule{
+		MatchType:       user_preferences.CategoryRuleMatchType_t(matchType),
+		MatchExpression: matchExpression,
+		ShouldMatchCase: matchCase,
+		Category:        matchCategory,
+	}
 }
 
 func getColourForCategory(category app_core.Category_t) colours.Colour {

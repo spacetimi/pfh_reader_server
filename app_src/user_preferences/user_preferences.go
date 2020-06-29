@@ -63,3 +63,10 @@ func (up *UserPreferences) SaveChanges() error {
 
 	return nil
 }
+
+func Reload() {
+	if _instance != nil {
+		_instance = nil
+	}
+	CreateInstance()
+}
