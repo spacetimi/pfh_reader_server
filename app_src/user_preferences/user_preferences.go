@@ -19,31 +19,27 @@ type UserPreferences struct {
 var _instance *UserPreferences
 
 func Instance() *UserPreferences {
-	if _instance == nil {
+	if _instance == nil ||
+		MustCreateBootstrapData() {
 		CreateInstance()
 	}
 	return _instance
 }
 
 func CreateInstance() {
-	if _instance != nil {
-		logger.LogWarning("user-preferences instance already exists. overwriting")
-	}
 
 	newInstance := &UserPreferences{}
-	userPreferencesDataPath := app_core.PFH_DAEMON_DATA_PATH + "/" + app_core.USER_PREFERENCES_FILE_NAME
+	userPreferencesDataPath := getUserPreferencesDataFilePath()
 
-	if !file_utils.DoesFileOrDirectoryExist(userPreferencesDataPath) {
-		err := CreateBootstrapData(userPreferencesDataPath)
-		if err != nil {
-			logger.LogError("error creating bootstrap data" +
-				"|file path=" + userPreferencesDataPath +
-				"|error=" + err.Error())
-			return
-		}
+	err := CheckAndCreateBootstrapData()
+	if err != nil {
+		logger.LogError("error creating bootstrap data" +
+			"|file path=" + userPreferencesDataPath +
+			"|error=" + err.Error())
+		return
 	}
 
-	err := file_utils.ReadJsonFileIntoJsonObject(userPreferencesDataPath, &newInstance.Data)
+	err = file_utils.ReadJsonFileIntoJsonObject(userPreferencesDataPath, &newInstance.Data)
 	if err != nil {
 		logger.LogError("error reading user-preferences file" +
 			"|file path=" + userPreferencesDataPath +
@@ -86,4 +82,8 @@ func Reload() {
 		_instance = nil
 	}
 	CreateInstance()
+}
+
+func getUserPreferencesDataFilePath() string {
+	return app_core.PFH_DAEMON_DATA_PATH + "/" + app_core.USER_PREFERENCES_FILE_NAME
 }

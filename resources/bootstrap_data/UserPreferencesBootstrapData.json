@@ -2,79 +2,86 @@
   "CategoryRules": [
     {
       "RuleId": 0,
-      "MatchType": 1,
       "MatchExpression": "facebook",
+      "MatchType": 1,
+      "IgnoreCase": true,
+      "Category": 2
+    },
+    {
+      "RuleId": 11,
+      "MatchExpression": "youtube",
+      "MatchType": 1,
       "IgnoreCase": true,
       "Category": 2
     },
     {
       "RuleId": 1,
-      "MatchType": 0,
       "MatchExpression": "iTerm2",
+      "MatchType": 0,
       "IgnoreCase": false,
       "Category": 0
     },
     {
       "RuleId": 2,
-      "MatchType": 0,
       "MatchExpression": "goland",
+      "MatchType": 0,
       "IgnoreCase": false,
       "Category": 0
     },
     {
       "RuleId": 3,
-      "MatchType": 0,
       "MatchExpression": "Electron",
+      "MatchType": 0,
       "IgnoreCase": false,
       "Category": 0
-    },
-    {
-      "RuleId": 4,
-      "MatchType": 0,
-      "MatchExpression": "MacVim",
-      "IgnoreCase": false,
-      "Category": 0
-    },
-    {
-      "RuleId": 5,
-      "MatchType": 0,
-      "MatchExpression": "Xcode",
-      "IgnoreCase": false,
-      "Category": 0
-    },
-    {
-      "RuleId": 6,
-      "MatchType": 0,
-      "MatchExpression": "SmartGit",
-      "IgnoreCase": false,
-      "Category": 1
     },
     {
       "RuleId": 7,
-      "MatchType": 0,
       "MatchExpression": "SmartSVN",
+      "MatchType": 0,
       "IgnoreCase": false,
       "Category": 1
     },
     {
       "RuleId": 8,
-      "MatchType": 0,
       "MatchExpression": "System Preferences",
+      "MatchType": 0,
       "IgnoreCase": false,
       "Category": 1
     },
     {
-      "RuleId": 9,
+      "RuleId": 10,
+      "MatchExpression": "Slack",
       "MatchType": 0,
-      "MatchExpression": "firefox",
       "IgnoreCase": false,
-      "Category": 3
+      "Category": 1
     },
     {
-      "RuleId": 10,
+      "RuleId": 4,
+      "MatchExpression": "MacVim",
       "MatchType": 0,
-      "MatchExpression": "slack",
-      "IgnoreCase": true,
+      "IgnoreCase": false,
+      "Category": 0
+    },
+    {
+      "RuleId": 5,
+      "MatchExpression": "Xcode",
+      "MatchType": 0,
+      "IgnoreCase": false,
+      "Category": 0
+    },
+    {
+      "RuleId": 6,
+      "MatchExpression": "SmartGit",
+      "MatchType": 0,
+      "IgnoreCase": false,
+      "Category": 1
+    },
+    {
+      "RuleId": 12,
+      "MatchExpression": "zoom.us",
+      "MatchType": 0,
+      "IgnoreCase": false,
       "Category": 1
     }
   ]

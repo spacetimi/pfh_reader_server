@@ -10,15 +10,17 @@ import (
 
 const kBootstrapFileName = "UserPreferencesBootstrapData.json"
 
-func CreateBootstrapData(targetFilePath string) error {
+func CheckAndCreateBootstrapData() error {
 
-	if file_utils.DoesFileOrDirectoryExist(targetFilePath) {
-		return nil
-	}
+	bootstrapFilePath := getBootstrapFilepath()
+	targetFilePath := getUserPreferencesDataFilePath()
 
-	bootstrapFilePath := config.GetAppResourcesPath() + "/bootstrap_data/" + kBootstrapFileName
 	if !file_utils.DoesFileOrDirectoryExist(bootstrapFilePath) {
 		return errors.New("no bootstrap file present in path: " + bootstrapFilePath)
+	}
+
+	if !MustCreateBootstrapData() {
+		return nil
 	}
 
 	err := file_utils.CopyFile(bootstrapFilePath, targetFilePath)
@@ -33,4 +35,35 @@ func CreateBootstrapData(targetFilePath string) error {
 	logger.LogInfo("successfully copied bootstrap data")
 
 	return nil
+}
+
+/*
+ Do we need to copy over bootstrap data?
+ Check if:
+     1. the target file is missing
+     2. or it is out of data (which could happen if there is a newer release of pfh-reader which has an updated bootstrap file)
+*/
+func MustCreateBootstrapData() bool {
+	bootstrapFilepath := getBootstrapFilepath()
+	targetFilepath := getUserPreferencesDataFilePath()
+
+	if !file_utils.DoesFileOrDirectoryExist(targetFilepath) {
+		return true
+	}
+
+	targetFileModTime, err := file_utils.GetFileModTimeUnix(targetFilepath)
+	if err != nil {
+		return true
+	}
+
+	bootstrapFileModTime, err := file_utils.GetFileModTimeUnix(bootstrapFilepath)
+	if err != nil {
+		return true
+	}
+
+	return bootstrapFileModTime > targetFileModTime
+}
+
+func getBootstrapFilepath() string {
+	return config.GetAppResourcesPath() + "/bootstrap_data/" + kBootstrapFileName
 }
