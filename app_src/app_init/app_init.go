@@ -18,6 +18,11 @@ type AppInitializer struct { // Implements IAppInit
 var appInitializer AppInitializer
 
 /********** Begin IAppInitializer implementation **********/
+
+func (appInitializer *AppInitializer) AppName() string {
+	return "pfh_reader_server"
+}
+
 func (appInitializer *AppInitializer) AppInit() error {
 
 	err := CreateBootstrapData()

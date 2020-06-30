@@ -12,7 +12,7 @@ ADD ./timi_shared_server /go/src/github.com/spacetimi/timi_shared_server
 RUN sed -i -e 's/localhost/host.docker.internal/g' /go/src/github.com/spacetimi/pfh_reader_server/config/environment_config.local.json
 
 # Build and install the server binary
-RUN go install github.com/spacetimi/pfh_reader_server/main
+RUN cd /go/src/github.com/spacetimi/pfh_reader_server && go install /go/src/github.com/spacetimi/pfh_reader_server/main/main.go
 
 ENTRYPOINT /go/bin/main
 EXPOSE 9001
