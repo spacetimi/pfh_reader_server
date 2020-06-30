@@ -1,4 +1,13 @@
 <div class="container">
+
+    {{ if .HasError }}
+
+    <div class="jumbotron bg-light text-center text-danger font-weight-bold text-uppercase">
+        {{ .ErrorString }}
+    </div>
+
+    {{ else }}
+
     <div class="row bg-light rounded-top pt-2 pb-2">
         <div class="col-md-3"></div>
         <div class="col-md-6">
@@ -99,4 +108,7 @@
 
       </div>
     </div>
+
+    {{ end }}
+
   </div>

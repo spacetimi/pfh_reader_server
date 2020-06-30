@@ -1,9 +1,8 @@
-package app_init
+package user_preferences
 
 import (
 	"errors"
 
-	"github.com/spacetimi/pfh_reader_server/app_src/app_core"
 	"github.com/spacetimi/timi_shared_server/code/config"
 	"github.com/spacetimi/timi_shared_server/utils/file_utils"
 	"github.com/spacetimi/timi_shared_server/utils/logger"
@@ -11,9 +10,8 @@ import (
 
 const kBootstrapFileName = "UserPreferencesBootstrapData.json"
 
-func CreateBootstrapData() error {
+func CreateBootstrapData(targetFilePath string) error {
 
-	targetFilePath := app_core.PFH_DAEMON_DATA_PATH + "/" + app_core.USER_PREFERENCES_FILE_NAME
 	if file_utils.DoesFileOrDirectoryExist(targetFilePath) {
 		return nil
 	}

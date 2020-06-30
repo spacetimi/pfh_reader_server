@@ -18,6 +18,10 @@ import (
 
 func CollateDaysToWeeks() error {
 
+	if user_preferences.Instance() == nil {
+		return errors.New("error getting user preferences")
+	}
+
 	dayDataFileNames, err := common.GetRawDayDataFileNamesInDataFolder()
 	if err != nil {
 		return errors.New("error getting day data file names: " + err.Error())

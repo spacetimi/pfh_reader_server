@@ -17,6 +17,11 @@ type DayOverviewParser struct {
 }
 
 func (dop *DayOverviewParser) ParseFile(filePath string) (*DayOverviewData, error) {
+
+	if user_preferences.Instance() == nil {
+		return nil, errors.New("error getting user preferences")
+	}
+
 	file, err := os.Open(filePath)
 	if err != nil {
 		return nil, errors.New("error opening file: " + err.Error())

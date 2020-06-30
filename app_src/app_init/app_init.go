@@ -1,10 +1,7 @@
 package app_init
 
 import (
-	"errors"
-
 	"github.com/spacetimi/pfh_reader_server/app_src/parser/parsers/collate"
-	"github.com/spacetimi/pfh_reader_server/app_src/user_preferences"
 	"github.com/spacetimi/timi_shared_server/code/core/shared_init"
 )
 
@@ -24,12 +21,6 @@ func (appInitializer *AppInitializer) AppName() string {
 }
 
 func (appInitializer *AppInitializer) AppInit() error {
-
-	err := CreateBootstrapData()
-	if err != nil {
-		return errors.New("error creating bootstrap data: " + err.Error())
-	}
-	user_preferences.CreateInstance()
 
 	collate.CollateDaysToWeeks()
 

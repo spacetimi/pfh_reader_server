@@ -62,6 +62,8 @@ type WeekdayActivityData struct {
 }
 
 type SettingsData struct {
+	ErrorablePage
+
 	AppNameMatchRules     []SettingsMatchRule
 	AppTitleBarMatchRules []SettingsMatchRule
 }

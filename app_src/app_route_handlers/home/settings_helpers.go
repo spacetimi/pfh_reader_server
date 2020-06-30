@@ -1,6 +1,7 @@
 package home
 
 import (
+	"errors"
 	"strconv"
 
 	"github.com/spacetimi/pfh_reader_server/app_src/app_core"
@@ -14,6 +15,15 @@ func (hh *HomeHandler) getSettingsPageObject() *SettingsData {
 	var pageObject *SettingsData
 	var appNameMatchRules []SettingsMatchRule
 	var appTitleBarMatchRules []SettingsMatchRule
+
+	if user_preferences.Instance() == nil {
+		return &SettingsData{
+			ErrorablePage: ErrorablePage{
+				HasError:    true,
+				ErrorString: "Error loading user preferences",
+			},
+		}
+	}
 
 	for _, categoryRule := range user_preferences.Instance().Data.CategoryRules {
 		matchRule := SettingsMatchRule{
@@ -32,17 +42,24 @@ func (hh *HomeHandler) getSettingsPageObject() *SettingsData {
 	}
 
 	pageObject = &SettingsData{
+		ErrorablePage: ErrorablePage{
+			HasError:    false,
+			ErrorString: "",
+		},
 		AppNameMatchRules:     appNameMatchRules,
 		AppTitleBarMatchRules: appTitleBarMatchRules,
 	}
 	return pageObject
 }
 
-func (hh *HomeHandler) deleteRule(ruleId int) {
+func (hh *HomeHandler) deleteRule(ruleId int) error {
+	if user_preferences.Instance() == nil {
+		return errors.New("error getting user preferences")
+	}
+
 	preferencesData := user_preferences.Instance().Data
 	if preferencesData == nil {
-		logger.LogError("no user preferences data loaded")
-		return
+		return errors.New("no user preferences data loaded")
 	}
 
 	indexInSlice := slice_utils.FindIndexInSlice(len(preferencesData.CategoryRules),
@@ -53,7 +70,7 @@ func (hh *HomeHandler) deleteRule(ruleId int) {
 	if indexInSlice < 0 {
 		logger.LogError("unable to find rule to delete" +
 			"|rule id to delete=" + strconv.Itoa(ruleId))
-		return
+		return errors.New("no such rule")
 	}
 
 	preferencesData.CategoryRules = append(preferencesData.CategoryRules[:indexInSlice],
@@ -64,16 +81,22 @@ func (hh *HomeHandler) deleteRule(ruleId int) {
 		logger.LogError("error saving user preferences changes while deleting rule" +
 			"|rule id to delete=" + strconv.Itoa(ruleId) +
 			"|error=" + err.Error())
+		return errors.New("unable to save user preferences")
 	}
+
+	return nil
 }
 
 func (hh *HomeHandler) addRule(matchType user_preferences.CategoryRuleMatchType_t,
-	matchExpression string, matchCase bool, category app_core.Category_t) {
+	matchExpression string, matchCase bool, category app_core.Category_t) error {
+
+	if user_preferences.Instance() == nil {
+		return errors.New("error getting user preferences")
+	}
 
 	preferencesData := user_preferences.Instance().Data
 	if preferencesData == nil {
-		logger.LogError("no user preferences data loaded")
-		return
+		return errors.New("no user preferences data loaded")
 	}
 
 	highestRuleId := 0
@@ -97,5 +120,8 @@ func (hh *HomeHandler) addRule(matchType user_preferences.CategoryRuleMatchType_
 	if err != nil {
 		logger.LogError("error saving user preferences changes while adding new rule" +
 			"|error=" + err.Error())
+		return errors.New("error saving user preferences")
 	}
+
+	return nil
 }
