@@ -160,6 +160,7 @@ func getWeekdayActivitiesAsBarGraph(wod *week_overview_parser.WeekOverviewData) 
 		ShowAxis:                  true,
 		ShowGridlines:             false,
 		ShowTicks:                 false,
+		YAxisSuggestedMax:         3600,
 	}
 }
 

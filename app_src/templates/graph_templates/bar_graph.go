@@ -11,4 +11,6 @@ type BarGraphTemplateObject struct {
 
 	BarDisplayPercentage      float32
 	CategoryDisplayPercentage float32
+
+	YAxisSuggestedMax int
 }

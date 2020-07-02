@@ -38,6 +38,8 @@
                     },
                     ticks: {
                         display: {{ if .ShowTicks }} true {{ else }} false {{ end }},
+                        suggestedMin: 0,
+                        suggestedMax: {{ .YAxisSuggestedMax }},
                     }
                 }],
                 xAxes: [{

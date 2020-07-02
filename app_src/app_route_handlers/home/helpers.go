@@ -273,6 +273,7 @@ func getActivityOverviewAsBarGraph(activityOverviewData *common.ActivityOverview
 		ShowAxis:                  false,
 		ShowGridlines:             false,
 		ShowTicks:                 false,
+		YAxisSuggestedMax:         3600,
 	}
 }
 
