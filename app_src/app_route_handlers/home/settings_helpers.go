@@ -2,7 +2,9 @@ package home
 
 import (
 	"errors"
+	"sort"
 	"strconv"
+	"strings"
 
 	"github.com/spacetimi/pfh_reader_server/app_src/app_core"
 	"github.com/spacetimi/pfh_reader_server/app_src/user_preferences"
@@ -40,6 +42,14 @@ func (hh *HomeHandler) getSettingsPageObject() *SettingsData {
 			appTitleBarMatchRules = append(appTitleBarMatchRules, matchRule)
 		}
 	}
+
+	sort.Slice(appNameMatchRules, func(i, j int) bool {
+		return strings.ToLower(appNameMatchRules[i].MatchExpression) < strings.ToLower(appNameMatchRules[j].MatchExpression)
+	})
+
+	sort.Slice(appTitleBarMatchRules, func(i, j int) bool {
+		return strings.ToLower(appTitleBarMatchRules[i].MatchExpression) < strings.ToLower(appTitleBarMatchRules[j].MatchExpression)
+	})
 
 	pageObject = &SettingsData{
 		ErrorablePage: ErrorablePage{
