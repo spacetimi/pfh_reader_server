@@ -15,20 +15,6 @@
       "Category": 2
     },
     {
-      "RuleId": 1,
-      "MatchExpression": "iTerm2",
-      "MatchType": 0,
-      "IgnoreCase": false,
-      "Category": 0
-    },
-    {
-      "RuleId": 2,
-      "MatchExpression": "goland",
-      "MatchType": 0,
-      "IgnoreCase": false,
-      "Category": 0
-    },
-    {
       "RuleId": 3,
       "MatchExpression": "Electron",
       "MatchType": 0,
@@ -43,11 +29,11 @@
       "Category": 1
     },
     {
-      "RuleId": 8,
-      "MatchExpression": "System Preferences",
+      "RuleId": 1,
+      "MatchExpression": "iTerm2",
       "MatchType": 0,
       "IgnoreCase": false,
-      "Category": 1
+      "Category": 0
     },
     {
       "RuleId": 10,
@@ -57,8 +43,8 @@
       "Category": 1
     },
     {
-      "RuleId": 4,
-      "MatchExpression": "MacVim",
+      "RuleId": 2,
+      "MatchExpression": "goland",
       "MatchType": 0,
       "IgnoreCase": false,
       "Category": 0
@@ -83,6 +69,48 @@
       "MatchType": 0,
       "IgnoreCase": false,
       "Category": 1
+    },
+    {
+      "RuleId": 13,
+      "MatchExpression": "Unity",
+      "MatchType": 0,
+      "IgnoreCase": false,
+      "Category": 0
+    },
+    {
+      "RuleId": 14,
+      "MatchExpression": "rubymine",
+      "MatchType": 0,
+      "IgnoreCase": false,
+      "Category": 0
+    },
+    {
+      "RuleId": 15,
+      "MatchExpression": "Microsoft Outlook",
+      "MatchType": 0,
+      "IgnoreCase": false,
+      "Category": 1
+    },
+    {
+      "RuleId": 4,
+      "MatchExpression": "MacVim",
+      "MatchType": 0,
+      "IgnoreCase": false,
+      "Category": 0
+    },
+    {
+      "RuleId": 8,
+      "MatchExpression": "System Preferences",
+      "MatchType": 0,
+      "IgnoreCase": false,
+      "Category": 1
+    },
+    {
+      "RuleId": 18,
+      "MatchExpression": "rider",
+      "MatchType": 0,
+      "IgnoreCase": false,
+      "Category": 0
     }
   ]
 }
