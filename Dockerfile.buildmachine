@@ -1,4 +1,4 @@
-FROM spacetimi/spacetimi-docker-parent
+FROM golang:1.14
 
 # Copy app source
 ADD . /go/src/github.com/spacetimi/pfh_reader_server

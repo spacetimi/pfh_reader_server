@@ -1,4 +1,4 @@
-FROM spacetimi/spacetimi-docker-parent
+FROM golang:1.14
 
 # NOTE: Build context is expected to be one level higher than your app's code folder. Please call docker build from there
 
